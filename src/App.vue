@@ -25,7 +25,7 @@ export default {
       axios.get('http://localhost:8000/api/user')
         .then((response) => {
           this.store.user = response.data;
-          console.log('Funziona');
+          // router.push('/home');
         })
     }
   },
@@ -42,9 +42,9 @@ export default {
     <AppError v-if="store.errors"/>
 
     <main>
-      <div class="container">
+      <!-- <div class="container"> -->
         <router-view @getUserEvent="getUser"></router-view>
-      </div>
+      <!-- </div> -->
     </main>
 
   </div> <!-- /wrapper-->
@@ -69,9 +69,5 @@ export default {
   main {
     flex-grow: 1;
   }
-}
-
-main {
-  border: 2px solid lightcoral;
 }
 </style>

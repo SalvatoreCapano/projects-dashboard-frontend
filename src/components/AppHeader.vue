@@ -37,7 +37,9 @@ export default {
         <li>
           <router-link :to="'login'">login</router-link>
         </li>
-        <router-link :to="'register'">register</router-link>
+        <li>
+          <router-link :to="'register'">register</router-link>
+        </li>
       </ul>
     </nav>
 

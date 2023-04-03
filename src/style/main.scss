@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700&display=swap');
 :root {
     font-size: 16px;
 }
 
 body {
     background-color: #141414;
+    font-family: 'Mukta', sans-serif;
 }
 
 .container {
@@ -11,7 +13,13 @@ body {
     margin: 0 auto;
     text-align: center;
 
-    padding: 1rem;
+    // padding: 1rem;
     border: 2px solid teal;
     color: white;
+}
+
+.mainTitle {
+    color: #141414;
+    font-weight: 700;
+    text-transform: capitalize;
 }
