@@ -35,7 +35,7 @@ export default {
                     console.log('Risposta Register', responseRegister);
                     // this.getUser();
                     this.$emit('getUserEvent');
-                    router.push('/home');
+                    router.push('/dashboard');
                 }
                 )
                 .catch((response) => {

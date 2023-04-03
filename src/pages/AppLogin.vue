@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true;
 
 import { store } from '../store';
 import { router } from '../router';
-
+// import { nextTick } from 'vue'
 
 export default {
     name: 'AppLogin',
@@ -36,10 +36,13 @@ export default {
                     console.log('Risposta Login', responseLogin);
                     // this.getUser();
                     this.$emit('getUserEvent');
-                    setTimeout(function(){
-                        
-                        router.push('/home');
-                    },1500)
+                    // setTimeout(function(){
+
+                        // nextTick(() => {
+                        // router.push('/dashboard');
+                        // console.log(show.value, content.value)
+                    // })
+                    // },1000)
                 }
                 )
                 .catch((response) => {
@@ -99,10 +102,10 @@ export default {
             </main>
 
             <!-- <div>
-                                    <h4>Dati:</h4>
-                                    <p>Email: {{ form.email }}</p>
-                                    <p>Password: {{ form.password }}</p>
-                                </div> -->
+                                        <h4>Dati:</h4>
+                                        <p>Email: {{ form.email }}</p>
+                                        <p>Password: {{ form.password }}</p>
+                                    </div> -->
         </div>
     </div>
 </template>
@@ -208,4 +211,5 @@ form {
             }
         }
     }
-}</style>
+}
+</style>

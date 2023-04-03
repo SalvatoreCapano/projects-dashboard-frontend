@@ -4,7 +4,7 @@ import { store } from './store';
 import AppLogin from './pages/AppLogin.vue';
 import AppRegister from './pages/AppRegister.vue';
 import AppWelcome from './pages/AppWelcome.vue';
-import AppHome from './pages/AppHome.vue';
+import AppDashboard from './pages/AppDashboard.vue';
 // import AppContacts from './pages/AppContacts.vue';
 // import AppRegister from './pages/AppRegister.vue';
 
@@ -22,9 +22,9 @@ const router = createRouter({
             component: AppLogin
         },
         {
-            path: '/home',
-            name: 'home',
-            component: AppHome
+            path: '/dashboard',
+            name: 'dashboard',
+            component: AppDashboard
         },
         // {
         //     path: '/contacts',
@@ -50,7 +50,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-    if (to.name == 'home' && !store.user && to.name !== 'welcome') {
+    if (to.name == 'dashboard' && !store.user && to.name !== 'welcome') {
         return { name: 'welcome' }
     }
 })

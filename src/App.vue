@@ -2,10 +2,12 @@
 // Components
 import AppHeader from './components/AppHeader.vue'
 import AppError from './components/AppError.vue'
+import AppOverlay from './components/AppOverlay.vue'
 
 // Utilities
 import axios from 'axios';
 import { store } from './store';
+import { router } from './router';
 
 axios.defaults.withCredentials = true;
 
@@ -13,7 +15,9 @@ export default {
   name: 'App',
   components: {
     AppHeader,
-    AppError
+    AppError,
+    AppOverlay,
+    router
   },
   data() {
     return {
@@ -25,7 +29,7 @@ export default {
       axios.get('http://localhost:8000/api/user')
         .then((response) => {
           this.store.user = response.data;
-          // router.push('/home');
+          router.push('/dashboard');
         })
     }
   },
@@ -46,6 +50,8 @@ export default {
         <router-view @getUserEvent="getUser"></router-view>
       <!-- </div> -->
     </main>
+
+    <AppOverlay v-if="store.overlayOpen"/>
 
   </div> <!-- /wrapper-->
 </template>

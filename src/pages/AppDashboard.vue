@@ -7,7 +7,7 @@ import { store } from '../store';
 import { router } from '../router';
 
 export default {
-    name: 'AppHome',
+    name: 'AppDashboard',
     data() {
         return {
             store,
@@ -27,13 +27,26 @@ export default {
 </script>
 
 <template>
+    <h1>Dashboard</h1>
 
-        <h1>HOME</h1>
-
-        <div>
-            <h4>Dati:</h4>
-        </div>
-
+    <main>
+        <aside>
+            <ul>
+                <li>
+                    <router-link :to="'dashboard/overview'">overview</router-link>
+                </li>
+                <li>
+                    <router-link :to="'dashboard/projects'">projects</router-link>
+                </li>
+                <li>
+                    <router-link :to="'dashboard/notifications'">notifications</router-link>
+                </li>
+                <li>
+                    <router-link :to="'dashboard/teams'">teams</router-link>
+                </li>
+            </ul>
+        </aside>
+    </main>
 </template>
 
 <style lang="scss" scoped>

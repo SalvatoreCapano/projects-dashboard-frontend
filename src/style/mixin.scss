@@ -1,0 +1,17 @@
+@mixin flexRowSpaceBtwn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flexRowGap ($gap) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $gap;
+}
+
+@mixin largeContainer {
+    max-width: 1560px;
+    margin: 0 auto;
+}
