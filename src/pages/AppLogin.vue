@@ -34,10 +34,15 @@ export default {
             })
                 .then((responseLogin) => {
                     console.log('Risposta Login', responseLogin);
-                    this.getUser();
+                    // this.getUser();
+                    this.$emit('getUserEvent');
                     router.push('/home');
                 }
                 )
+                .catch((response) => {
+                    console.log('Errore:', response.response.data);
+                    this.store.errors = response.response.data;
+                })
         },
         getUser() {
             axios.get('http://localhost:8000/api/user')
@@ -51,7 +56,7 @@ export default {
 </script>
 
 <template>
-    <div class="container">
+
         <h1>LOGIN</h1>
         <form @submit.prevent="handleLogin">
             <div>
@@ -72,17 +77,7 @@ export default {
             <p>Email: {{ form.email }}</p>
             <p>Password: {{ form.password }}</p>
         </div>
-    </div>
 </template>
 
 <style lang="scss" scoped>
-.container {
-    max-width: 1360px;
-    margin: 0 auto;
-    text-align: center;
-
-    padding: 1rem;
-    border: 2px solid teal;
-    color: white;
-}
 </style>

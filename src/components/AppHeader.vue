@@ -4,6 +4,7 @@
 // axios.defaults.withCredentials = true;
 import axios from 'axios';
 import {store} from '../store';
+import { router } from '../router';
 
 export default {
   name: 'AppHeader',
@@ -17,6 +18,7 @@ export default {
       console.log('Old USer', this.store.user.data);
       axios.post('http://localhost:8000/logout');
       this.store.user = null;
+      router.push('/');
     }
   }
 }
@@ -25,7 +27,9 @@ export default {
 <template>
   <header>
     <div class="logoContainer">
-      <img src="../../public/logo.png" alt="Logo">
+      <router-link :to="'/'">
+        <img src="../../public/logo.png" alt="Logo">
+      </router-link>
     </div>
 
     <nav v-if="!store.user">
@@ -33,7 +37,7 @@ export default {
         <li>
           <router-link :to="'login'">login</router-link>
         </li>
-        <li>register</li>
+        <router-link :to="'register'">register</router-link>
       </ul>
     </nav>
 
@@ -55,8 +59,9 @@ header {
 }
 .logoContainer {
   height: 36px;
+  cursor: pointer;
 
-  >img {
+  img {
     height: 100%;
   }
 }

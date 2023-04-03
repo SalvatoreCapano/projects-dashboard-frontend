@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AppWelcome from './components/AppWelcome.vue';
-import AppLogin from './components/AppLogin.vue';
+import { store } from './store'; 
+
+import AppLogin from './pages/AppLogin.vue';
+import AppRegister from './pages/AppRegister.vue';
+import AppWelcome from './pages/AppWelcome.vue';
 import AppHome from './pages/AppHome.vue';
 // import AppContacts from './pages/AppContacts.vue';
-// import AppLogin from './pages/AppLogin.vue';
 // import AppRegister from './pages/AppRegister.vue';
-// import ProjectShow from './pages/ProjectShow.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -35,11 +36,11 @@ const router = createRouter({
         //     name: 'login',
         //     component: AppLogin
         // },
-        // {
-        //     path: '/register',
-        //     name: 'register',
-        //     component: AppRegister
-        // },
+        {
+            path: '/register',
+            name: 'register',
+            component: AppRegister
+        },
         // {
         //     path: '/projects/:slug',
         //     name: 'projectShow',
@@ -47,4 +48,11 @@ const router = createRouter({
         // },
     ]
 });
+
+router.beforeEach(async (to, from) => {
+    if (to.name == 'home' && !store.user && to.name !== 'welcome') {
+        return { name: 'welcome' }
+    }
+})
+
 export { router };
