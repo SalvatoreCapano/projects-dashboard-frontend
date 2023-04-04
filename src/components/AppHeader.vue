@@ -33,6 +33,14 @@ export default {
       console.log('route', this.$route.name)
       // && (this.$route.name == 'welcome')
     }
+  },
+  computed: {
+    getRole() {
+      if (this.store.user.role == 'FE') return 'front end developer';
+      else if (this.store.user.role == 'BE') return 'back end developer';
+      else if (this.store.user.role == 'UID') return 'UI designer';
+      else if (this.store.user.role == 'UXD') return 'UX designer';
+    }
   }
 }
 </script>
@@ -57,17 +65,35 @@ export default {
 
       <div class="userControls" v-else @click="store.menuOpen = true, store.overlayOpen = true">
         <div class="info">
-          <span class="name">{{ store.user.name }}</span>
-          <span class="role">Designer</span>
+          <span class="name">{{ store.user.first_name }} {{ store.user.last_name }}</span>
+          <span class="role">{{ getRole }}</span>
         </div>
         <font-awesome-icon icon="fa-solid fa-chevron-down" />
         <div class="menu" v-if="store.menuOpen">
           <ul>
-            <li>
-              <button @click="router.push('/dashboard')" v-if="this.$route.name != 'dashboard'">dashboard</button>
+            <li v-if="this.$route.name != 'dashboard'">
+              <button @click="router.push('/dashboard')">
+                dashboard
+                <font-awesome-icon icon="fa-solid fa-chart-line" />
+              </button>
+            </li>
+            <li v-if="this.$route.name != 'welcome'">
+              <button @click="router.push('/')">
+                home
+                <font-awesome-icon icon="fa-solid fa-house" />
+              </button>
             </li>
             <li>
-              <button @click="handleLogout">logout</button>
+              <button>
+                settings
+                <font-awesome-icon icon="fa-solid fa-gear" />
+              </button>
+            </li>
+            <li>
+              <button @click="handleLogout">
+                logout
+                <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" />
+              </button>
             </li>
           </ul>
         </div> <!-- /menu-->
@@ -89,10 +115,12 @@ export default {
   > .info {
     .name {
       font-size: 1rem;
+      text-transform: capitalize;
     }
     
     .role {
       font-size: 0.8rem;
+      text-transform: capitalize;
       color: gray;
       display: block;
       margin: 0;
@@ -104,29 +132,29 @@ export default {
     top: 100%;
     right: 0;
     background-color: lightblue;
-    padding: 5px;
+    // padding: 5px;
     border-radius: 10px;
     z-index: 31;
+    overflow: hidden;
 
     ul {
       list-style: none;
       margin-bottom: 0;
+      padding: 6px 0;
       li {
         // background-color: green;
-        height: 36px;
-
+        
         button {
           display: inline-block;
           height: 100%;
           width: 100%;
           background: none;
           border: none;
-          padding: 4px;
-          border-radius: 5px;
-          display: inline-block;
+          padding: 10px 16px;
+          // border-radius: 5px;
           text-align: left;
           cursor: pointer;
-
+          text-transform: capitalize;
         }
 
         &:hover {

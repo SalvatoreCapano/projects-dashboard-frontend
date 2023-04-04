@@ -45,9 +45,6 @@ export default {
                     <router-link :to="'dashboard/admin/projects'">projects</router-link>
                 </li>
                 <li>
-                    <router-link :to="'dashboard/notifications'">notifications</router-link>
-                </li>
-                <li>
                     <router-link :to="'dashboard/teams'">teams</router-link>
                 </li>
             </ul>

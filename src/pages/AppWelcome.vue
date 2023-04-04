@@ -14,6 +14,13 @@ export default {
     }
   },
   methods: {
+    // reset() {
+    //   this.store.menuOpen = false;
+    //   this.store.overlayOpen = false;
+    // }
+  },
+  created() {
+    // this.reset();
   }
 }
 </script>

@@ -33,7 +33,7 @@ export default {
   width: 100%;
   z-index: 30;
 
-  border: 3px solid red;
-  background-color: #00000060;
+  border: 2px solid red;
+  background-color: #00000050;
 }
 </style>
