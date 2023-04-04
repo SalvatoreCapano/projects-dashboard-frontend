@@ -41,11 +41,6 @@ const router = createRouter({
             name: 'register',
             component: AppRegister
         },
-        // {
-        //     path: '/projects/:slug',
-        //     name: 'projectShow',
-        //     component: ProjectShow
-        // },
     ]
 });
 

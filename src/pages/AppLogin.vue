@@ -21,10 +21,13 @@ export default {
     },
     methods: {
         handleLogin() {
+            store.loadingPerc = 10;
             axios.get('http://localhost:8000/sanctum/csrf-cookie')
                 .then((responseCookie) => {
                     console.log('Cookie ', responseCookie);
                     this.postLoginData()
+                    store.loadingPerc = 30;
+
                 })
         },
         postLoginData() {
@@ -36,11 +39,13 @@ export default {
                     console.log('Risposta Login', responseLogin);
                     // this.getUser();
                     this.$emit('getUserEvent');
+                    store.loadingPerc = 80;
+
                     // setTimeout(function(){
 
-                        // nextTick(() => {
-                        // router.push('/dashboard');
-                        // console.log(show.value, content.value)
+                    // nextTick(() => {
+                    // router.push('/dashboard');
+                    // console.log(show.value, content.value)
                     // })
                     // },1000)
                 }
@@ -102,10 +107,10 @@ export default {
             </main>
 
             <!-- <div>
-                                        <h4>Dati:</h4>
-                                        <p>Email: {{ form.email }}</p>
-                                        <p>Password: {{ form.password }}</p>
-                                    </div> -->
+                                            <h4>Dati:</h4>
+                                            <p>Email: {{ form.email }}</p>
+                                            <p>Password: {{ form.password }}</p>
+                                        </div> -->
         </div>
     </div>
 </template>

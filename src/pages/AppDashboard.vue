@@ -21,7 +21,13 @@ export default {
                     this.store.user = responseUser.data;
                     console.log('User', responseUser.data);
                 })
+        }, 
+        setLoadingBar() {
+            this.store.loadingPerc = 100;
         }
+    },
+    created() {
+        this.setLoadingBar();
     }
 }
 </script>

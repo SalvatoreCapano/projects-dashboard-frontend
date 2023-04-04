@@ -16,12 +16,12 @@ export default {
   components: {
     AppHeader,
     AppError,
-    AppOverlay,
-    router
+    AppOverlay
   },
   data() {
     return {
       store,
+      router
     }
   },
   methods: {
@@ -29,6 +29,7 @@ export default {
       axios.get('http://localhost:8000/api/user')
         .then((response) => {
           this.store.user = response.data;
+
           router.push('/dashboard');
         })
     }
@@ -43,21 +44,22 @@ export default {
   <div class="wrapper">
     <AppHeader />
 
-    <AppError v-if="store.errors"/>
+    <AppError v-if="store.errors" />
 
     <main>
-      <!-- <div class="container"> -->
-        <router-view @getUserEvent="getUser"></router-view>
-      <!-- </div> -->
+      <router-view @getUserEvent="getUser"></router-view>
     </main>
 
-    <AppOverlay v-if="store.overlayOpen"/>
+    <transition name="fade">
+      <AppOverlay v-if="store.overlayOpen" />
+    </transition>
 
   </div> <!-- /wrapper-->
 </template>
 
 <style lang="scss">
 @use './style/main.scss' as *;
+@use './style/transitions.scss' as *;
 @use './style/reset.scss' as *;
 
 .wrapper {
