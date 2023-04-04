@@ -1,5 +1,9 @@
 <script>
 
+// Components
+import AppLogo from './AppLogo.vue';
+import NavbarAuth from './NavbarAuth.vue';
+
 // Utilities
 import { router } from '../router';
 import { store } from '../store';
@@ -8,20 +12,14 @@ axios.defaults.withCredentials = true;
 
 export default {
   name: 'AppHeader',
+  components: {
+    AppLogo,
+    NavbarAuth
+  },
   data() {
     return {
       store,
       router,
-      navLinks: [
-      {
-          label: 'login',
-          name: 'login',
-        },
-        {
-          label: 'register',
-          name: 'register',
-        }
-      ],
     }
   },
   methods: {
@@ -49,19 +47,9 @@ export default {
   <header>
     <div class="container">
 
-      <div class="logoContainer">
-        <router-link :to="'/'">
-          <img src="../../public/logo.png" alt="Logo">
-        </router-link>
-      </div>
+      <AppLogo />
 
-      <nav v-if="(!store.user)">
-        <ul>
-          <li v-for="item in navLinks">
-            <router-link :to="item.name">{{ item.label }}</router-link>
-          </li>
-        </ul>
-      </nav>
+      <NavbarAuth v-if="(!store.user)" />
 
       <div class="userControls" v-else @click="store.menuOpen = true, store.overlayOpen = true">
         <div class="info">
@@ -179,67 +167,6 @@ header {
   .container {
     @include flexRowSpaceBtwn;
     @include largeContainer;
-  }
-}
-
-
-
-.logoContainer {
-  height: 36px;
-  cursor: pointer;
-  position: relative;
-
-  img {
-    height: 100%;
-    isolation: isolate;
-    z-index: 1;
-  }
-
-}
-
-nav {
-  ul {
-    list-style: none;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-
-    // >li {
-    //   border: 1px solid lightgreen;
-    //   padding: 2px;
-    //   color: white;
-    //   cursor: pointer;
-
-    //   &:hover {
-    //     background-color: #303030;
-    //   }
-    // }
-    li {
-      // width: 100%;
-      padding: 8px 16px;
-      border-radius: 10px;
-      border: none;
-      background-color: #0c9ed7;
-      // margin-top: 2.5rem;
-
-      cursor: pointer;
-      transition: background-color 0.05s;
-
-      text-transform: capitalize;
-
-      >* {
-        font-weight: 600;
-        color: #0f0f0f;
-        text-decoration: none;
-      }
-
-      &:hover {
-        background-color: #3cc8ff;
-        color: white;
-      }
-    }
   }
 }
 </style>
