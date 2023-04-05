@@ -22,7 +22,7 @@ export default {
         },
         {
           label: 'projects',
-          name: '/dashboard/admin/projects',
+          name: '/admin/projects',
           icon: 'diagram-project',
         },
         {
@@ -38,50 +38,53 @@ export default {
       ],
       employeeLinks: [
         {
-          label: 'overview',
-          name: 'overview',
-          icon: 'overview',
+          label: 'dashboard',
+          link: '/dashboard',
+          icon: 'gauge',
         },
         {
           label: 'project',
-          name: 'overview',
-          icon: 'overview',
+          link: '/project',
+          icon: 'diagram-project',
         },
         {
           label: 'team',
-          name: 'overview',
-          icon: 'overview',
+          link: '/team',
+          icon: 'people-group',
         },
         {
           label: 'history',
-          name: 'overview',
-          icon: 'overview',
+          link: '/history',
+          icon: 'clock-rotate-left',
         },
       ]
+    }
+  },
+  computed: {
+    getList() {
+      if (this.store.user.level == 'AD') return this.adminLinks;
+      else if (this.store.user.level == 'EM') return this.employeeLinks;
     }
   }
 }
 </script>
 
 <template>
-  <aside>
-    <AppLogo />
-    <hr>
-    <nav>
-      <ul v-if="store.user.level == 'AD'">
-        <li v-for="item in adminLinks" :class="$route.name == item.name ? 'active' : ''">
-          <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon"/>
-          <router-link :to="item.name">{{ item.label }}</router-link>
-          <!-- <AppLinkButton :to="'/'" :label="item.label" :type="'solid'"/> -->
-        </li>
-      </ul>
+  <aside class="sidebar">
 
-      <ul v-if="store.user.level == 'EM'">
-        <li v-for="item in employeeLinks">
-          <router-link :to="'/'">{{ item.label }}</router-link>
+    <AppLogo />
+
+    <hr>
+
+    <nav>
+      <ul>
+        <li v-for="item in getList" :class="$route.fullPath == item.link ? 'active' : ''">
+          <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon" />
+          <router-link :to="item.link">{{ item.label }}</router-link>
         </li>
       </ul>
     </nav>
+
   </aside>
 </template>
 
@@ -89,54 +92,12 @@ export default {
 @use '../style/variables.scss' as *;
 @use '../style/mixin.scss' as *;
 
-nav {
-  ul {
-    list-style: none;
-    li {
-      // background-color: red;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 42px;
-      border-radius: 8px;
-      gap: 10px;
-      margin-bottom: 5px;
-      .icon {
-        font-size: 1.25rem;
-        width: 36px;
-        // background-color: green;
-        color: white;
-      }
-      a {
-        flex-grow: 1;
-        font-size: 1rem;
-        color: white;
-        text-decoration: none;
-        text-transform: capitalize;
-
-        // background-color: blue;
-      }
-
-      
-      &:hover {
-        background: linear-gradient(60deg, $color-one-dark 40%, $color-one-light);
-      }
-      
-      &.active {
-        
-        background: linear-gradient(45deg, $color-one-dark, $color-one-light);
-        }
-    }
-  }
-}
-
-aside {
-  background-color: lightgreen;
+.sidebar {
   height: 100%;
   width: 240px;
-  border-radius: 12px;
-  background: linear-gradient(45deg, $dark-color-one, $dark-color-two);
   padding: 1rem;
+  border-radius: $big-border-radius;
+  background: linear-gradient(45deg, $dark-color-one, $dark-color-three);
 }
 
 .logoContainer {
@@ -146,5 +107,42 @@ aside {
 
 hr {
   margin: 1rem 0;
+  border-bottom: none;
+  border-color: $light-color-two;
+}
+
+nav {
+  ul {
+    list-style: none;
+
+    li {
+      @include flexRowGap (10px);
+      height: 42px;
+      border-radius: $small-border-radius;
+      margin-bottom: 5px;
+      color: white;
+
+      .icon {
+        font-size: 1.25rem;
+        width: 36px;
+      }
+
+      a {
+        font-size: 1rem;
+        color: currentColor;
+        text-decoration: none;
+        text-transform: capitalize;
+        flex-grow: 1;
+      }
+
+      &:hover {
+        background: linear-gradient(60deg, $color-one-dark 40%, $color-one-light);
+      }
+
+      &.active {
+        background: linear-gradient(45deg, $color-one-dark, $color-one-light);
+      }
+    }
+  }
 }
 </style>

@@ -33,6 +33,12 @@ export default {
         })
     }
   },
+  computed: { 
+    calcMainColor() {
+      if (this.$route.fullPath != '/') return 'light';
+      else return 'dark';
+    }
+  },
   mounted() {
     this.getUser();
   }
@@ -44,7 +50,7 @@ export default {
 
     <AppError v-if="store.errors" />
 
-    <main>
+    <main :class="calcMainColor">
       <router-view @getUserEvent="getUser"></router-view>
     </main>
 
@@ -58,12 +64,19 @@ export default {
 <style lang="scss">
 @use './style/main.scss' as *;
 @use './style/transitions.scss' as *;
+@use './style/variables.scss' as *;
 @use './style/reset.scss' as *;
 
 .wrapper {
   > main {
     height: 100vh;
     padding: 1rem;
+    &.light {
+      background-color: $light-color-two;
+    }
+    &.dark {
+      background-color: $dark-color-two;
+    }
   }
 }
 </style>

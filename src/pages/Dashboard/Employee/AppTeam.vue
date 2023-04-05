@@ -1,16 +1,16 @@
 <script>
 
 // Components
-import AppSidebar from '../components/AppSidebar.vue';
+import AppSidebar from '../../../components/AppSidebar.vue';
 
 // Utilities
-import { store } from '../store';
-import { router } from '../router';
+import { store } from '../../../store';
+import { router } from '../../../router';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export default {
-    name: 'AppDashboard',
+    name: 'AppTeam',
     components: {
         AppSidebar,
     },
@@ -35,14 +35,14 @@ export default {
         <AppSidebar />
 
         <main>
-            dashboard main
+            TEAM
         </main>
     </div>
 </template>
 
 <style lang="scss" scoped>
-@use '../style/variables.scss' as *;
-@use '../style/mixin.scss' as *;
+@use '../../../style/variables.scss' as *;
+@use '../../../style/mixin.scss' as *;
 
 .container {
     height: 100%;

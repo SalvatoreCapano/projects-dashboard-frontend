@@ -4,8 +4,15 @@ import { store } from './store';
 import AppLogin from './pages/Authentication/AppLogin.vue';
 import AppRegister from './pages/Authentication/AppRegister.vue';
 import AppRecoverPassword from './pages/Authentication/AppRecoverPassword.vue';
+
 import AppWelcome from './pages/AppWelcome.vue';
 import AppDashboard from './pages/AppDashboard.vue';
+
+import AppProject from './pages/Dashboard/Employee/AppProject.vue';
+import AppTeam from './pages/Dashboard/Employee/AppTeam.vue';
+import AppHistory from './pages/Dashboard/Employee/AppHistory.vue';
+
+
 import AppProjectsIndex from './pages/Dashboard/Admin/AppProjectsIndex.vue';
 // import AppContacts from './pages/AppContacts.vue';
 
@@ -17,8 +24,6 @@ const router = createRouter({
             name: 'welcome',
             component: AppWelcome
         },
-
-
         {
             path: '/login',
             name: 'login',
@@ -40,7 +45,24 @@ const router = createRouter({
             component: AppDashboard
         },
         {
-            path: '/dashboard/admin/projects',
+            path: '/project',
+            name: 'project',
+            component: AppProject
+        },
+        {
+            path: '/team',
+            name: 'team',
+            component: AppTeam
+        },
+        {
+            path: '/history',
+            name: 'history',
+            component: AppHistory
+        },
+
+
+        {
+            path: '/admin/projects',
             name: 'projects',
             component: AppProjectsIndex
         },
