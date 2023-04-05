@@ -24,21 +24,6 @@ const router = createRouter({
             component: AppLogin
         },
         {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: AppDashboard
-        },
-        {
-            path: '/dashboard/admin/projects',
-            name: 'projects',
-            component: AppProjectsIndex
-        },
-        // {
-        //     path: '/login',
-        //     name: 'login',
-        //     component: AppLogin
-        // },
-        {
             path: '/register',
             name: 'register',
             component: AppRegister
@@ -47,6 +32,16 @@ const router = createRouter({
             path: '/recover-password',
             name: 'recover-password',
             component: AppRecoverPassword
+        },
+        {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: AppDashboard
+        },
+        {
+            path: '/dashboard/admin/projects',
+            name: 'projects',
+            component: AppProjectsIndex
         },
     ]
 });

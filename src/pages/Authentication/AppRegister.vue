@@ -89,16 +89,16 @@ export default {
                         placeholder="Confirm your Password" v-model="form.password_confirmation">
                 </div>
 
-                <div class="group row">
-                    <div class="group small inline">
+                <!-- <div class="group row"> -->
+                    <div class="group inline">
                         <label for="remember_me">remember me</label>
                         <input type="checkbox" id="remember_me" name="remember_me">
                     </div>
 
-                    <div class="group small">
+                    <!-- <div class="group small">
                         <router-link class="customLink" :to="'recover-password'">forgot password?</router-link>
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div> -->
 
                 <div class="group large">
                     <button class="solid">register</button>
