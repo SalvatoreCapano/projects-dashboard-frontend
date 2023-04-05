@@ -7,3 +7,6 @@ TODOLIST
 - Favicon
 - Barra di caricamento
 - Caricamento iniziale
+- Protezione Rotte
+- Validazione Front end
+- Validazione Backend

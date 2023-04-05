@@ -1,6 +1,10 @@
 <script>
 
+// Components
 import AppLinkButton from './AppLinkButton.vue';
+
+// Utilities
+import { router } from '../router';
 
 export default {
   name: 'NavbarAuth',
@@ -9,6 +13,7 @@ export default {
   },
   data() {
     return {
+      router,
       navLinks: [
         {
           label: 'login',
@@ -29,7 +34,7 @@ export default {
 <template>
   <nav>
     <ul>
-      <li v-for="item in navLinks">
+      <li v-for="item in navLinks" v-show="$route.name != item.name">
         <AppLinkButton :to="item.name" :label="item.label" :type="item.type"/>
       </li>
     </ul>

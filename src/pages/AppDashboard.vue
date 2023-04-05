@@ -28,6 +28,7 @@ export default {
     },
     created() {
         this.setLoadingBar();
+        this.store.errors = null;
     }
 }
 </script>

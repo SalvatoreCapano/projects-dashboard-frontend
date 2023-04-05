@@ -14,15 +14,22 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use '../style/mixin.scss' as *;
 .logoContainer {
   height: 36px;
   cursor: pointer;
   position: relative;
 
-  img {
+  a {
+    display: inline-block;
     height: 100%;
-    isolation: isolate;
-    z-index: 1;
+    @include myOutline;
+    
+    img {
+      height: 100%;
+      isolation: isolate;
+      z-index: 1;
+    }
   }
 }
 </style>

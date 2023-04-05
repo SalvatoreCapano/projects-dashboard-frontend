@@ -62,159 +62,58 @@ export default {
                     console.log('User', responseUser.data);
                 })
         }
+    },
+    created() {
+        this.store.errors = null;
     }
 }
 </script>
 
 <template>
-    <div class="fullPage">
-        <div class="box">
-            <!-- only for background image -->
-        </div>
+    <div class="container">
+        <div class="formContainer">
+            <h1 class="mainTitle">login</h1>
 
-        <div class="box">
-
-            <header>
-                <div class="row">
-                    <div class="logoContainer">
-                        <img src="../../public/logo.png" alt="Logo">
-                    </div>
-
-                    <button>
-                        <router-link :to="'register'">register</router-link>
-                    </button>
+            <form @submit.prevent="handleLogin">
+                <div class="group">
+                    <label for="email">email</label>
+                    <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email">
                 </div>
-            </header>
 
-            <main>
-                <h1 class="mainTitle">login</h1>
+                <div class="group">
+                    <label for="password">password</label>
+                    <input type="password" id="password" name="password" placeholder="Your Password"
+                        v-model="form.password">
+                </div>
 
-                <form @submit.prevent="handleLogin">
-                    <div class="group">
-                        <label for="email">email</label>
-                        <input type="email" name="email" placeholder="test@example.com" v-model="form.email">
+                <div class="group row">
+                    <div class="group small inline">
+                        <label for="remember_me">remember me</label>
+                        <input type="checkbox" id="remember_me" name="remember_me">
                     </div>
 
-                    <div class="group">
-                        <label for="password">password</label>
-                        <input type="password" name="password" placeholder="Your Password" v-model="form.password">
+                    <div class="group small">
+                        <router-link class="customLink" :to="'/'">forgot password?</router-link>
                     </div>
+                </div>
 
-                    <div class="group">
-                        <button>login</button>
-                    </div>
-                </form>
-            </main>
-
-            <!-- <div>
-                                            <h4>Dati:</h4>
-                                            <p>Email: {{ form.email }}</p>
-                                            <p>Password: {{ form.password }}</p>
-                                        </div> -->
-        </div>
-    </div>
+                <div class="group large">
+                    <button class="solid">login</button>
+                </div>
+            </form>
+        </div> <!-- /formContainer-->
+    </div> <!-- /container-->
 </template>
 
 <style lang="scss" scoped>
-.fullPage {
-    display: flex;
-    height: 100%;
+@use '../style/form.scss' as *;
+@use '../style/mixin.scss' as *;
 
-    >.box:first-child {
-        background: url('../../public/gradient01.jpg');
-
-        flex-basis: 60%;
-        border-right: 3px solid white;
-    }
-
-    >.box:last-child {
-        background-color: #d5dae7;
-        flex-basis: 40%;
-        padding: 3rem 3.5rem;
-    }
+.container {
+    @include largeContainer;
 }
 
-header {
-    margin-bottom: 2rem;
-
-    .row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        // background-color: red;
-
-        .logoContainer {
-            height: 24px;
-
-            img {
-                height: 100%;
-                display: block;
-            }
-        }
-
-        button {
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: none;
-            background-color: #ffffff;
-            cursor: pointer;
-            transition: background-color 0.05s;
-
-            >* {
-                text-transform: capitalize;
-                text-decoration: none;
-                color: #0f0f0f;
-                font-weight: 600;
-            }
-
-            &:hover {
-                background-color: #3cc8ff;
-
-                >* {
-                    color: white;
-                }
-            }
-        }
-    }
-}
-
-form {
-    .group {
-        margin-bottom: 2rem;
-
-        label {
-            display: block;
-            text-transform: capitalize;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            background-color: #0c9ed7;
-            margin-top: 2.5rem;
-
-            cursor: pointer;
-            transition: background-color 0.05s;
-
-            text-transform: capitalize;
-            text-decoration: none;
-            color: #0f0f0f;
-            font-weight: 600;
-
-            &:hover {
-                background-color: #3cc8ff;
-                color: white;
-            }
-        }
-    }
+.group.row {
+    @include flexRowSpaceBtwn;
 }
 </style>

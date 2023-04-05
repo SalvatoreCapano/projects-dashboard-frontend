@@ -130,7 +130,6 @@ export default {
       margin-bottom: 0;
       padding: 6px 0;
       li {
-        // background-color: green;
         
         button {
           display: inline-block;
@@ -139,7 +138,6 @@ export default {
           background: none;
           border: none;
           padding: 10px 16px;
-          // border-radius: 5px;
           text-align: left;
           cursor: pointer;
           text-transform: capitalize;
@@ -161,6 +159,7 @@ export default {
 
 header {
   padding: 1rem 2rem;
+  // margin-bottom: 1.5rem;
   border-bottom: 2px solid $dark-color-one;
   background-color: $light-color-one;
 

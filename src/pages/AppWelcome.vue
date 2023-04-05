@@ -3,7 +3,7 @@ import AppHeader from '../components/AppHeader.vue'
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-import {store} from '../store';
+import { store } from '../store';
 
 export default {
   name: 'AppWelcome',
@@ -20,13 +20,13 @@ export default {
     // }
   },
   created() {
-    // this.reset();
+    this.store.errors = null;
   }
 }
 </script>
 
 <template>
-    <!-- <AppHeader /> -->
+  <!-- <AppHeader /> -->
 
   <div class="container">
     <h1 class="mainTitle">welcome</h1>
@@ -46,5 +46,4 @@ export default {
 .mainTitle {
   font-size: 4rem;
 }
-
 </style>
