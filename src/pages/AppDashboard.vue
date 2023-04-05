@@ -1,13 +1,21 @@
 <script>
 
+// Components
+import EmployeeSidebar from '../components/EmployeeSidebar.vue';
+import AdminSidebar from '../components/AdminSidebar.vue';
+
+// Utilities
+import { store } from '../store';
+import { router } from '../router';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-import { store } from '../store';
-import { router } from '../router';
-
 export default {
     name: 'AppDashboard',
+    components: {
+        EmployeeSidebar,
+        AdminSidebar
+    },
     data() {
         return {
             store,
@@ -22,19 +30,22 @@ export default {
                     console.log('User', responseUser.data);
                 })
         }, 
-        setLoadingBar() {
-            this.store.loadingPerc = 100;
-        }
+        // setLoadingBar() {
+        //     this.store.loadingPerc = 100;
+        // }
     },
     created() {
-        this.setLoadingBar();
+        // this.setLoadingBar();
         this.store.errors = null;
     }
 }
 </script>
 
 <template>
-    <h1>Dashboard</h1>
+    <EmployeeSidebar v-if="store.user.level == 'EM'"/>
+    <AdminSidebar v-if="store.user.level == 'AD'"/>
+    <!-- <h1>Dashboard</h1>
+    <p>{{ store.user.level }}</p>
 
     <main>
         <aside>
@@ -50,7 +61,7 @@ export default {
                 </li>
             </ul>
         </aside>
-    </main>
+    </main> -->
 </template>
 
 <style lang="scss" scoped>

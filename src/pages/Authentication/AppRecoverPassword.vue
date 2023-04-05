@@ -38,7 +38,7 @@ export default {
                 })
         },
         handleRedirect() {
-            setTimeout(function(){
+            setTimeout(function () {
                 router.push('/login');
             }, 3000)
         }
@@ -57,7 +57,8 @@ export default {
             <form @submit.prevent="handlePswdRecovery">
                 <div class="group large">
                     <label for="email">email</label>
-                    <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email" :disabled="this.emailSent">
+                    <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email"
+                        :disabled="this.emailSent">
                 </div>
 
                 <div class="group large" v-if="!emailSent">
