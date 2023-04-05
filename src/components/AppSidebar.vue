@@ -78,9 +78,17 @@ export default {
 
     <nav>
       <ul>
-        <li v-for="item in getList" :class="$route.fullPath == item.link ? 'active' : ''">
-          <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon" />
-          <router-link :to="item.link">{{ item.label }}</router-link>
+        <li v-for="item in getList">
+          <!--
+                     <button :class="$route.fullPath == item.link ? 'active' : ''">
+                    <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon" />
+                    <router-link :to="item.link">{{ item.label }}</router-link>
+                  </button> 
+                -->
+          <router-link :to="item.link" :class="$route.fullPath == item.link ? 'active' : ''">
+            <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon" />
+            <span class="label">{{ item.label }}</span>
+          </router-link>
         </li>
       </ul>
     </nav>
@@ -116,31 +124,39 @@ nav {
     list-style: none;
 
     li {
-      @include flexRowGap (10px);
-      height: 42px;
-      border-radius: $small-border-radius;
       margin-bottom: 5px;
-      color: white;
 
-      .icon {
-        font-size: 1.25rem;
-        width: 36px;
-      }
+      >a {
+        display: inline-block;
+        width: 100%;
+        height: 42px;
+        @include flexRowGap (10px);
 
-      a {
+        color: white;
         font-size: 1rem;
-        color: currentColor;
         text-decoration: none;
         text-transform: capitalize;
-        flex-grow: 1;
-      }
+        text-align: left;
+        
+        border-radius: $small-border-radius;
+        @include myOutline;
 
-      &:hover {
-        background: linear-gradient(60deg, $color-one-dark 40%, $color-one-light);
-      }
+        >.label {
+          flex-grow: 1;
+        }
 
-      &.active {
-        background: linear-gradient(45deg, $color-one-dark, $color-one-light);
+        >.icon {
+          font-size: 1.25rem;
+          width: 36px;
+        }
+
+        &:hover {
+          background: linear-gradient(60deg, $color-one-dark 40%, $color-one-light);
+        }
+
+        &.active {
+          background: linear-gradient(45deg, $color-one-dark, $color-one-light);
+        }
       }
     }
   }

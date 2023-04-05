@@ -20,7 +20,7 @@ export default {
     <ul>
       <li v-for="item in this.data" @click="item.onClick">
         <button>
-          <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon"/>
+          <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" />
           <span class="text">{{ item.label }}</span>
         </button>
       </li>
@@ -37,7 +37,7 @@ export default {
   top: 100%;
   right: 0;
   padding: 5px;
-  background-color: $light-color-two;
+  background-color: $light-color-one;
   border-radius: $big-border-radius;
   z-index: 31;
 
@@ -46,7 +46,7 @@ export default {
 
     li {
       min-width: 120px;
-      
+
       button {
         display: inline-block;
         height: 100%;
@@ -56,6 +56,7 @@ export default {
         background: none;
         border: none;
         cursor: pointer;
+        border-radius: $small-border-radius;
         transition: background-color 0.05s;
 
         font-size: 1rem;
@@ -63,32 +64,20 @@ export default {
         text-transform: capitalize;
         @include flexRowGap (6px);
 
-
-        > .icon {
+        >.icon {
           width: 24px;
         }
-        > .text {
+
+        >.text {
           flex-grow: 1;
         }
-      }
 
-      &:hover {
-        button {
-          background-color: $light-color-one;
+        &:hover {
+          background-color: $light-color-two;
         }
-      }
 
-      &:first-child {
-        button {
-          border-top-right-radius: $small-border-radius;
-          border-top-left-radius: $small-border-radius;
-        }
-      }
-
-      &:last-child {
-        button {
-          border-bottom-right-radius: $small-border-radius;
-          border-bottom-left-radius: $small-border-radius;
+        &:focus-visible {
+          @include myOutline;
         }
       }
     }

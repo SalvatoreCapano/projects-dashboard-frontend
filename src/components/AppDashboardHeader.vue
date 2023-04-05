@@ -91,7 +91,6 @@ header {
 
   .container {
     @include flexRowSpaceBtwn;
-    border: 1px solid green;
   }
 }
 
