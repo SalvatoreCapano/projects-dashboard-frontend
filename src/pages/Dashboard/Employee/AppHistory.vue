@@ -2,6 +2,7 @@
 
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
+import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -13,6 +14,7 @@ export default {
     name: 'AppHistory',
     components: {
         AppSidebar,
+        AppDashboardHeader
     },
     data() {
         return {
@@ -35,6 +37,7 @@ export default {
         <AppSidebar />
 
         <main>
+            <AppDashboardHeader />
             history
         </main>
     </div>

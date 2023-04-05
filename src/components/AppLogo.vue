@@ -16,7 +16,7 @@ export default {
 <style lang="scss" scoped>
 @use '../style/mixin.scss' as *;
 .logoContainer {
-  height: 36px;
+  height: 48px;
   cursor: pointer;
   position: relative;
 
