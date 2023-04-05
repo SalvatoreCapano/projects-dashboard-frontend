@@ -8,7 +8,6 @@ import AppWelcome from './pages/AppWelcome.vue';
 import AppDashboard from './pages/AppDashboard.vue';
 import AppProjectsIndex from './pages/Dashboard/Admin/AppProjectsIndex.vue';
 // import AppContacts from './pages/AppContacts.vue';
-// import AppRegister from './pages/AppRegister.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -18,6 +17,8 @@ const router = createRouter({
             name: 'welcome',
             component: AppWelcome
         },
+
+
         {
             path: '/login',
             name: 'login',

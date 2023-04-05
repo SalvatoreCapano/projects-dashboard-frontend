@@ -1,6 +1,6 @@
 <script>
+
 // Components
-import AppHeader from './components/AppHeader.vue'
 import AppError from './components/AppError.vue'
 import AppOverlay from './components/AppOverlay.vue'
 
@@ -14,7 +14,6 @@ axios.defaults.withCredentials = true;
 export default {
   name: 'App',
   components: {
-    AppHeader,
     AppError,
     AppOverlay
   },
@@ -42,7 +41,6 @@ export default {
 
 <template>
   <div class="wrapper">
-    <!-- <AppHeader /> -->
 
     <AppError v-if="store.errors" />
 
@@ -63,20 +61,9 @@ export default {
 @use './style/reset.scss' as *;
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  height: 100vh;
-
-  >* {
-    width: 100%;
-  }
-
-  main {
-    flex-grow: 1;
-    // padding: 0.75rem;
+  > main {
+    height: 100vh;
+    padding: 1rem;
   }
 }
 </style>

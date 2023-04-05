@@ -34,7 +34,7 @@ export default {
 @use '../style/mixin.scss' as *;
 
 main {
-  flex-grow: 1;
+  // flex-grow: 1;
   background-color: lightskyblue;
   border-radius: 12px;
 

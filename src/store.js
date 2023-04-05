@@ -10,6 +10,5 @@ export const store = reactive({
     this.errors = null;
     this.menuOpen = false;
     this.overlayOpen = false;
-    this.test = false;
   }
 })

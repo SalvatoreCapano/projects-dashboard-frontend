@@ -53,68 +53,60 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <div class="formContainer">
-            <h1 class="mainTitle">register</h1>
+    <div class="formContainer">
+        <h1 class="mainTitle">register</h1>
 
-            <form @submit.prevent="handleRegister">
-                <div class="group large">
-                    <div class="group small">
-                        <label for="first_name">first name</label>
-                        <input type="text" id="first_name" name="first_name" placeholder="Your first Name"
-                            v-model="form.first_name">
-                    </div>
-
-                    <div class="group small">
-                        <label for="last_name">last name</label>
-                        <input type="text" id="last_name" name="last_name" placeholder="Your last Name"
-                            v-model="form.last_name">
-                    </div>
+        <form @submit.prevent="handleRegister">
+            <div class="group large">
+                <div class="group small">
+                    <label for="first_name">first name</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Your first Name"
+                        v-model="form.first_name">
                 </div>
 
-                <div class="group large">
-                    <label for="email">email</label>
-                    <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email">
+                <div class="group small">
+                    <label for="last_name">last name</label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Your last Name"
+                        v-model="form.last_name">
                 </div>
+            </div>
 
-                <div class="group large">
-                    <label for="password">password</label>
-                    <input type="password" id="password" name="password" placeholder="Your Password"
-                        v-model="form.password">
-                </div>
+            <div class="group large">
+                <label for="email">email</label>
+                <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email">
+            </div>
 
-                <div class="group large">
-                    <label for="password_confirmation">password confirmation</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation"
-                        placeholder="Confirm your Password" v-model="form.password_confirmation">
-                </div>
+            <div class="group large">
+                <label for="password">password</label>
+                <input type="password" id="password" name="password" placeholder="Your Password" v-model="form.password">
+            </div>
 
-                <!-- <div class="group row"> -->
-                    <div class="group inline">
-                        <label for="remember_me">remember me</label>
-                        <input type="checkbox" id="remember_me" name="remember_me">
-                    </div>
+            <div class="group large">
+                <label for="password_confirmation">password confirmation</label>
+                <input type="password" id="password_confirmation" name="password_confirmation"
+                    placeholder="Confirm your Password" v-model="form.password_confirmation">
+            </div>
 
-                    <!-- <div class="group small">
-                        <router-link class="customLink" :to="'recover-password'">forgot password?</router-link>
-                    </div> -->
-                <!-- </div> -->
+            <div class="group inline">
+                <label for="remember_me">remember me</label>
+                <input type="checkbox" id="remember_me" name="remember_me">
+            </div>
 
-                <div class="group large">
-                    <button class="solid">register</button>
-                </div>
-            </form>
-        </div> <!-- /formContainer-->
-    </div> <!-- /container-->
+            <div class="group large">
+                <button class="solid">register</button>
+            </div>
+
+        </form>
+
+        <div class="group">
+            <router-link class="customLink" :to="'/login'">already have an account? sign in</router-link>
+        </div>
+    </div> <!-- /formContainer-->
 </template>
 
 <style lang="scss" scoped>
 @use '../../style/form.scss' as *;
 @use '../../style/mixin.scss' as *;
-
-.container {
-    @include largeContainer;
-}
 
 .group.large:first-child {
     @include flexRowGap (1.5rem);
