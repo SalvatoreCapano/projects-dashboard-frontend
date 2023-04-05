@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { store } from './store'; 
 
-import AppLogin from './pages/AppLogin.vue';
-import AppRegister from './pages/AppRegister.vue';
+import AppLogin from './pages/Authentication/AppLogin.vue';
+import AppRegister from './pages/Authentication/AppRegister.vue';
+import AppRecoverPassword from './pages/Authentication/AppRecoverPassword.vue';
 import AppWelcome from './pages/AppWelcome.vue';
 import AppDashboard from './pages/AppDashboard.vue';
 import AppProjectsIndex from './pages/Dashboard/Admin/AppProjectsIndex.vue';
@@ -41,6 +42,11 @@ const router = createRouter({
             path: '/register',
             name: 'register',
             component: AppRegister
+        },
+        {
+            path: '/recover-password',
+            name: 'recover-password',
+            component: AppRecoverPassword
         },
     ]
 });

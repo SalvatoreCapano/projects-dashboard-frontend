@@ -3,8 +3,8 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
-import { store } from '../store';
-import { router } from '../router';
+import { store } from '../../store';
+import { router } from '../../router';
 
 export default {
     name: 'AppRegister',
@@ -96,7 +96,7 @@ export default {
                     </div>
 
                     <div class="group small">
-                        <router-link class="customLink" :to="'/'">forgot password?</router-link>
+                        <router-link class="customLink" :to="'recover-password'">forgot password?</router-link>
                     </div>
                 </div>
 
@@ -109,8 +109,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '../style/form.scss' as *;
-@use '../style/mixin.scss' as *;
+@use '../../style/form.scss' as *;
+@use '../../style/mixin.scss' as *;
 
 .container {
     @include largeContainer;
