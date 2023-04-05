@@ -5,5 +5,11 @@ export const store = reactive({
   errors: null,
   menuOpen: false,
   overlayOpen: false,
-  // loadingPerc: 0
+  clear() {
+    console.log('Clearing..');
+    this.errors = null;
+    this.menuOpen = false;
+    this.overlayOpen = false;
+    this.test = false;
+  }
 })

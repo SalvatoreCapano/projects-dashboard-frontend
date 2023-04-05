@@ -42,7 +42,7 @@ export default {
 
 <template>
   <div class="wrapper">
-    <AppHeader />
+    <!-- <AppHeader /> -->
 
     <AppError v-if="store.errors" />
 
@@ -76,6 +76,7 @@ export default {
 
   main {
     flex-grow: 1;
+    // padding: 0.75rem;
   }
 }
 </style>

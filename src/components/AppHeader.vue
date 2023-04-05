@@ -56,7 +56,7 @@ export default {
           <span class="name">{{ store.user.first_name }} {{ store.user.last_name }}</span>
           <span class="role">{{ getRole }}</span>
         </div>
-        <font-awesome-icon icon="fa-solid fa-chevron-down" />
+        <font-awesome-icon icon="fa-solid fa-chevron-down" class="icon" :class="store.menuOpen ? 'rotated' : ''"/>
         <div class="menu" v-if="store.menuOpen">
           <ul>
             <li v-if="this.$route.name != 'dashboard'">
@@ -95,6 +95,9 @@ export default {
 @use '../style/variables.scss' as *;
 @use '../style/mixin.scss' as *;
 
+.icon {
+  transition: all 0.1s
+}
 .userControls {
   @include flexRowGap (1rem);
   cursor: pointer;
@@ -122,7 +125,7 @@ export default {
     background-color: lightblue;
     // padding: 5px;
     border-radius: 10px;
-    z-index: 31;
+    z-index: 32;
     overflow: hidden;
 
     ul {
@@ -159,9 +162,13 @@ export default {
 
 header {
   padding: 1rem 2rem;
-  // margin-bottom: 1.5rem;
   border-bottom: 2px solid $dark-color-one;
   background-color: $light-color-one;
+
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 31;
 
   .container {
     @include flexRowSpaceBtwn;

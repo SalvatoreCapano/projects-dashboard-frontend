@@ -26,9 +26,17 @@ export default {
     @include myOutline;
     
     img {
+      display: block;
       height: 100%;
       isolation: isolate;
       z-index: 1;
+      transition: transform 0.1s;
+    }
+  }
+
+  &:hover {
+    img {
+      transform: rotate(-2deg);
     }
   }
 }

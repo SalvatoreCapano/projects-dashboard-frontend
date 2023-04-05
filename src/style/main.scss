@@ -28,3 +28,7 @@ button {
     color: $color-one-dark;
     @include myOutline;
 }
+
+.rotated {
+    transform: rotate(180deg);
+}

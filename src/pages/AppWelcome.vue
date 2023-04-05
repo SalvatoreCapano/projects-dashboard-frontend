@@ -7,26 +7,24 @@ import { store } from '../store';
 
 export default {
   name: 'AppWelcome',
+  components: {
+    AppHeader
+  },
   data() {
     return {
       store,
-      AppHeader
     }
   },
-  methods: {
-    // reset() {
-    //   this.store.menuOpen = false;
-    //   this.store.overlayOpen = false;
-    // }
-  },
-  created() {
-    this.store.errors = null;
+  mounted() {
+    setTimeout(function () {
+      store.clear();
+    }, 2)
   }
 }
 </script>
 
 <template>
-  <!-- <AppHeader /> -->
+  <AppHeader />
 
   <div class="container">
     <h1 class="mainTitle">welcome</h1>

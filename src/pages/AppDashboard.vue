@@ -1,8 +1,8 @@
 <script>
 
 // Components
-import EmployeeSidebar from '../components/EmployeeSidebar.vue';
-import AdminSidebar from '../components/AdminSidebar.vue';
+import AppSidebar from '../components/AppSidebar.vue';
+import AppDashboardContent from '../components/AppDashboardContent.vue';
 
 // Utilities
 import { store } from '../store';
@@ -13,8 +13,8 @@ axios.defaults.withCredentials = true;
 export default {
     name: 'AppDashboard',
     components: {
-        EmployeeSidebar,
-        AdminSidebar
+        AppSidebar,
+        AppDashboardContent
     },
     data() {
         return {
@@ -29,49 +29,52 @@ export default {
                     this.store.user = responseUser.data;
                     console.log('User', responseUser.data);
                 })
-        }, 
-        // setLoadingBar() {
-        //     this.store.loadingPerc = 100;
-        // }
+        },
     },
-    created() {
-        // this.setLoadingBar();
-        this.store.errors = null;
+    mounted() {
+        setTimeout(function () {
+            store.clear();
+        }, 2)
     }
 }
 </script>
 
 <template>
-    <EmployeeSidebar v-if="store.user.level == 'EM'"/>
-    <AdminSidebar v-if="store.user.level == 'AD'"/>
-    <!-- <h1>Dashboard</h1>
-    <p>{{ store.user.level }}</p>
+    <div class="container">
+        <AppSidebar v-if="store.user"/>
 
-    <main>
-        <aside>
-            <ul>
-                <li>
-                    <router-link :to="'dashboard/overview'">overview</router-link>
-                </li>
-                <li>
-                    <router-link :to="'dashboard/admin/projects'">projects</router-link>
-                </li>
-                <li>
-                    <router-link :to="'dashboard/teams'">teams</router-link>
-                </li>
-            </ul>
-        </aside>
-    </main> -->
+        <AppDashboardContent v-if="store.user"/>
+    </div>
+    <!--
+
+                        <main>
+                            <aside>
+                                <ul>
+                                    <li>
+                                        <router-link :to="'dashboard/overview'">overview</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link :to="'dashboard/admin/projects'">projects</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link :to="'dashboard/teams'">teams</router-link>
+                                    </li>
+                                </ul>
+                            </aside>
+                        </main> -->
 </template>
 
 <style lang="scss" scoped>
-.container {
-    max-width: 1360px;
-    margin: 0 auto;
-    text-align: center;
+@use '../style/variables.scss' as *;
 
+.container {
     padding: 1rem;
-    border: 2px solid teal;
-    color: white;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    background-color: $light-color-one;
 }
 </style>
