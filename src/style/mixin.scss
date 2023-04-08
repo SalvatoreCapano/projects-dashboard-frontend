@@ -62,3 +62,13 @@
         }
     }
 }
+
+@mixin mainContent {
+    flex-grow: 1;
+    height: 100%;
+    border-radius: $big-border-radius;
+    background-color: $light-color-one;
+    overflow-y: auto;
+    position: relative;
+    padding: 0 1rem;
+}

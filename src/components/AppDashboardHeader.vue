@@ -54,6 +54,9 @@ export default {
       else if (this.store.user.role == 'BE') return 'back end developer';
       else if (this.store.user.role == 'UID') return 'UI designer';
       else if (this.store.user.role == 'UXD') return 'UX designer';
+    },
+    getPage() {
+      return this.$route.name;
     }
   }
 }
@@ -63,8 +66,15 @@ export default {
   <header>
     <div class="container">
 
-      <div>
+      <div class="breadcumb">
         pages / Dashboard
+      </div>
+
+      <div class="searchbar">
+        <input type="text" :placeholder="`Search in ${getPage}`">
+        <button>
+          <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+        </button>
       </div>
 
       <div class="userControls" @click="store.menuOpen = true, store.overlayOpen = true">
@@ -86,11 +96,65 @@ export default {
 
 header {
   height: calc(2rem + 48px);
-  padding: 1rem;
+  padding: 1rem 0;
   border-bottom: 1px solid red;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: $light-color-one;
+  margin-bottom: 1rem;
+  z-index: 31;
 
   .container {
     @include flexRowSpaceBtwn;
+    height: 100%;
+  }
+}
+
+.breadcumb {
+  // background-color: aquamarine
+}
+
+.searchbar {
+  width: 400px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+
+  border: 1px solid $dark-color-three;
+  border-radius: $small-border-radius;
+
+  input {
+    flex-basis: 90%;
+    padding: 6px 8px;
+    border: none;
+    background: none;
+
+    border-top-left-radius: $small-border-radius;
+    border-bottom-left-radius: $small-border-radius;
+
+    &:focus {
+      @include myOutline;
+    }
+  }
+
+  button {
+    height: 100%;
+    flex-grow: 1;
+    display: inline-block;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: white;
+    background-color: $dark-color-three;
+
+    border-top-right-radius: $small-border-radius;
+    border-bottom-right-radius: $small-border-radius;
+
+    &:focus {
+      @include myOutline;
+    }
   }
 }
 
@@ -117,5 +181,4 @@ header {
   .icon {
     transition: all 0.1s;
   }
-}
-</style>
+}</style>

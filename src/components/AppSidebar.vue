@@ -103,6 +103,7 @@ export default {
 .sidebar {
   height: 100%;
   width: 240px;
+  flex-shrink: 0;
   padding: 1rem;
   border-radius: $big-border-radius;
   background: linear-gradient(45deg, $dark-color-one, $dark-color-three);

@@ -41,6 +41,10 @@ export default {
   border-radius: $big-border-radius;
   z-index: 31;
 
+  border: 1px solid $dark-color-three;
+  box-shadow: 0px 8px 10px 1px #00000030;
+
+
   ul {
     list-style: none;
 
@@ -78,6 +82,12 @@ export default {
 
         &:focus-visible {
           @include myOutline;
+        }
+      }
+
+      &:last-child {
+        button {
+          color: $danger-color;
         }
       }
     }

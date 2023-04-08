@@ -2,6 +2,7 @@
 
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
+import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -13,6 +14,7 @@ export default {
     name: 'AppTeam',
     components: {
         AppSidebar,
+        AppDashboardHeader
     },
     data() {
         return {
@@ -35,6 +37,7 @@ export default {
         <AppSidebar />
 
         <main>
+            <AppDashboardHeader />
             TEAM
         </main>
     </div>
@@ -50,10 +53,7 @@ export default {
     @include flexRowGap (1rem);
     
     main {
-        flex-grow: 1;
-        background-color: $light-color-one;
-        height: 100%;
-        border-radius: $big-border-radius;
+        @include mainContent;
     }
 }
 </style>
