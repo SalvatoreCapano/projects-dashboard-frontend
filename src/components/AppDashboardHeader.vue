@@ -97,7 +97,7 @@ export default {
 header {
   height: calc(2rem + 48px);
   padding: 1rem 0;
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid $dark-color-three;
   position: sticky;
   top: 0;
   left: 0;

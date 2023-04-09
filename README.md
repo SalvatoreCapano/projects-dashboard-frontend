@@ -11,3 +11,4 @@ TODOLIST
 - Validazione Front end
 - Validazione Backend
 - Pagina cambio password
+- On click outside menu

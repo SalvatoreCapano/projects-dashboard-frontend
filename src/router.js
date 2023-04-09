@@ -14,6 +14,7 @@ import AppHistory from './pages/Dashboard/Employee/AppHistory.vue';
 
 
 import AppProjectsIndex from './pages/Dashboard/Admin/AppProjectsIndex.vue';
+import AppProjectCreate from './pages/Dashboard/Admin/AppProjectCreate.vue';
 // import AppContacts from './pages/AppContacts.vue';
 
 const router = createRouter({
@@ -65,6 +66,11 @@ const router = createRouter({
             path: '/admin/projects',
             name: 'projects',
             component: AppProjectsIndex
+        },
+        {
+            path: '/admin/projects/create',
+            name: 'projects/create',
+            component: AppProjectCreate
         },
     ]
 });

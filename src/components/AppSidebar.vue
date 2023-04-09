@@ -16,23 +16,28 @@ export default {
       store,
       adminLinks: [
         {
+          label: 'dashboard',
+          link: '/dashboard',
+          icon: 'gauge',
+        },
+        {
           label: 'requests',
-          name: 'request',
+          link: '/requests',
           icon: 'table-columns',
         },
         {
           label: 'projects',
-          name: '/admin/projects',
+          link: '/admin/projects',
           icon: 'diagram-project',
         },
         {
           label: 'employees',
-          name: 'overview',
+          link: '/employees',
           icon: 'address-card',
         },
         {
           label: 'team',
-          name: 'overview',
+          link: '/team',
           icon: 'people-group',
         },
       ],
@@ -79,13 +84,7 @@ export default {
     <nav>
       <ul>
         <li v-for="item in getList">
-          <!--
-                     <button :class="$route.fullPath == item.link ? 'active' : ''">
-                    <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon" />
-                    <router-link :to="item.link">{{ item.label }}</router-link>
-                  </button> 
-                -->
-          <router-link :to="item.link" :class="$route.fullPath == item.link ? 'active' : ''">
+          <router-link :to="item.link" :class="$route.fullPath.includes(item.link) ? 'active' : ''">
             <font-awesome-icon :icon="`fa-solid fa-${item.icon}`" class="icon" v-if="item.icon" />
             <span class="label">{{ item.label }}</span>
           </router-link>
@@ -138,7 +137,7 @@ nav {
         text-decoration: none;
         text-transform: capitalize;
         text-align: left;
-        
+
         border-radius: $small-border-radius;
         @include myOutline;
 

@@ -9,6 +9,7 @@ export default {
   props: {
     to: String,
     label: String,
+    icon: String,
     type: {
       type: String,
       default: 'solid'
@@ -18,7 +19,13 @@ export default {
 </script>
 
 <template>
-  <router-link :to="this.to" :class="this.type">{{ this.label }}</router-link>
+  <router-link :to="this.to" 
+  :class="[
+    this.type,
+    ]">
+    <font-awesome-icon :icon="`fa-solid fa-${this.icon}`" v-if="this.icon"/>
+    <span v-if="this.label">{{ this.label }}</span>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
@@ -26,6 +33,7 @@ export default {
 @use '../style/mixin.scss' as *;
 
 a {
-  @include customButton;
+    @include customButton;
+  @include flexRowGap (0.5rem);
 }
 </style>

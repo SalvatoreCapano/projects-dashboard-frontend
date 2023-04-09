@@ -25,7 +25,7 @@
     }
 }
 
-@mixin customButton {
+@mixin customButton ($colorA: $light-color-one, $colorB: $color-one-dark, $colorC: $color-one-light){
     @include myOutline;
     font-size: 1rem;
     font-weight: 600;
@@ -42,29 +42,34 @@
     user-select: none;
     transition: all 0.05s;
 
+    // @if .danger {
+    //     $colorB: #dc3545;
+    //     $colorC: #f56372;
+    // }
+
     &.solid {
-        color: $light-color-one;
-        background: linear-gradient(45deg, $color-one-dark, $color-one-light);
+        color: $colorA;
+        background: linear-gradient(45deg, $colorB, $colorC);
 
         &:hover {
-            background: linear-gradient(60deg, $color-one-dark 40%, $color-one-light);
+            background: linear-gradient(60deg, $colorB 40%, $colorC);
         }
     }
 
     &.line {
-        color: $color-one-dark;
-        box-shadow: inset 0px 0px 0px 2px $color-one-dark;
+        color: $colorB;
+        box-shadow: inset 0px 0px 0px 2px $colorB;
 
         &:hover {
-            background: linear-gradient(45deg, $color-one-dark, $color-one-light);
-            color: $light-color-one;
-            // opacity: 0.75;
+            background: linear-gradient(45deg, $colorB, $colorC);
+            color: $colorA;
         }
     }
 }
 
 @mixin mainContent {
     flex-grow: 1;
+    flex-shrink: 0;
     height: 100%;
     border-radius: $big-border-radius;
     background-color: $light-color-one;
