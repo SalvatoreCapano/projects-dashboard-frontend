@@ -72,7 +72,7 @@ export default {
                                 <td v-else>-</td>
                                 <td v-if="project.title">{{ project.title }}</td>
                                 <td v-else>-</td>
-                                <td v-if="project.description">{{ project.description }}</td>
+                                <td v-if="project.description" class="description">{{ project.description }}</td>
                                 <td v-else>-</td>
                                 <td>
                                     <div class="row">
@@ -104,8 +104,17 @@ export default {
     }
 }
 
+.description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 200px;
+    height: 1.2em;
+    white-space: nowrap;
+}
+
 .card {
     border: 1px solid black;
+
     .cardHeader {
         display: flex;
         justify-content: space-between;
@@ -121,12 +130,13 @@ export default {
 
     .cardBody {
         border: 5px solid lightblue;
+
         .row {
             @include flexRowGap (0.5rem);
 
             >* {
                 height: 36px;
-                width: 36px;   
+                width: 36px;
             }
         }
     }

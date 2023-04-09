@@ -25,45 +25,53 @@ export default {
             // projects: null
             form: {
                 title: null,
-                description: null
-            }
+                description: null,
+                deadline: null,
+                typeId: null
+            },
+            types: null,
+            teams: null
         }
     },
     methods: {
-        addProject() {
+        handleCreateProject() {
 
             axios.get('http://localhost:8000/sanctum/csrf-cookie')
                 .then((response) => {
                     console.log('Cookie CSRF', response);
 
-                    axios.post('http://localhost:8000/api/projects', {
-                        title: this.form.title,
-                        description: this.form.description,
-                    })
-                        .then((response) => {
-                            // this.projects = response.data.projects;
-                            console.log('Added Project', response.data);
-                        })
-
-
+                    this.postData();
                 })
                 .catch((response) => {
                     console.log('Errore ottenimento Cookie', response);
                     this.store.errors = response.data;
                 })
-
-
-            // axios.post('http://localhost:8000/api/projects', {
-            //     title: this.form.title,
-            //     description: this.form.description,
-            // })
-            //     .then((response) => {
-            //         // this.projects = response.data.projects;
-            //         console.log('Added Project', response.data);
-            //     })
+        },
+        postData() {
+            axios.post('http://localhost:8000/api/projects', {
+                title: this.form.title,
+                description: this.form.description,
+                deadline: this.form.deadline,
+                type_id: this.form.typeId,
+                team_id: this.form.teamId
+            })
+                .then((response) => {
+                    console.log('Added Project', response.data);
+                })
+        },
+        getFormData() {
+            axios.get('http://localhost:8000/api/projects/create')
+                .then((response) => {
+                    console.log('Form data', response.data);
+                    this.types = response.data.types;
+                    this.teams = response.data.teams;
+                })
         },
     },
     mounted() {
+
+        this.getFormData();
+
         setTimeout(function () {
             store.clear();
         }, 2);
@@ -77,12 +85,37 @@ export default {
 
         <main>
             <AppDashboardHeader />
-            <form @submit.prevent="addProject()">
-                <label for="title">title</label>
-                <input type="text" name="title" placeholder="title" v-model="form.title" id="title">
+            <form @submit.prevent="handleCreateProject()">
+                <div>
+                    <label for="title">title</label>
+                    <input type="text" name="title" placeholder="title" v-model="form.title" id="title">
+                </div>
 
-                <label for="description">description</label>
-                <input type="text" name="description" placeholder="description" v-model="form.description" id="description">
+                <div>
+                    <label for="description">description</label>
+                    <input type="text" name="description" placeholder="description" v-model="form.description"
+                        id="description">
+                </div>
+
+                <div>
+                    <label for="deadline">deadline</label>
+                    <input type="date" name="deadline" id="deadline" v-model="form.deadline">
+                </div>
+
+                <div>
+                    <label for="type"></label>
+                    <select name="type_id" id="type" v-model="form.typeId">
+                        <option :value="item.id" v-for="item in this.types">{{ item.name }}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="team"></label>
+                    <select name="team_id" id="team" v-model="form.teamId">
+                        <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
+                    </select>
+                </div>
+
                 <button type="submit">Add</button>
             </form>
         </main>
@@ -92,6 +125,11 @@ export default {
 <style lang="scss" scoped>
 @use '../../../style/variables.scss' as *;
 @use '../../../style/mixin.scss' as *;
+
+// select {
+//     text-transform: capitalize;
+//     background-color: red;
+// }
 
 .container {
     height: 100%;
