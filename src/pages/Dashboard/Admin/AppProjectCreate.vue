@@ -27,7 +27,8 @@ export default {
                 title: null,
                 description: null,
                 deadline: null,
-                typeId: null
+                typeId: null,
+                teamId: null,
             },
             types: null,
             teams: null

@@ -33,6 +33,20 @@ export default {
                     console.log('Projects', response.data.projects);
                 })
         },
+        cleanString(string) {
+            string = string.replace('_', ' ');
+            string = string.replace('.', '');
+            return string;
+        },
+        cleanDate(string) {
+            string = string.substring(0, 10);
+            return string;
+        },
+        showProject(slug) {
+            router.push(`/admin/projects/${slug}`, {
+                slug: slug
+            })
+        }
     },
     mounted() {
         setTimeout(function () {
@@ -48,7 +62,6 @@ export default {
     <div class="container" v-if="store.user">
         <AppSidebar />
 
-
         <main>
             <AppDashboardHeader />
             <div class="card">
@@ -61,19 +74,34 @@ export default {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Actions</th>
+                                <th>title</th>
+                                <th>status</th>
+                                <th>type</th>
+                                <th>team</th>
+                                <th>created at</th>
+                                <th>actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="project in projects">
-                                <td v-if="project.id">{{ project.id }}</td>
+                            <tr v-for="project in projects" @click="showProject(project.slug)">
+                                <td v-if="project.id"><strong>{{ project.id }}</strong></td>
                                 <td v-else>-</td>
-                                <td v-if="project.title">{{ project.title }}</td>
+
+                                <td v-if="project.title">{{ cleanString(project.title) }}</td>
                                 <td v-else>-</td>
-                                <td v-if="project.description" class="description">{{ project.description }}</td>
+
+                                <td v-if="project.status">{{ cleanString(project.status) }}</td>
                                 <td v-else>-</td>
+
+                                <td v-if="project.type">{{ cleanString(project.type.name) }}</td>
+                                <td v-else>-</td>
+
+                                <td v-if="project.team_id">{{ project.team_id }}</td>
+                                <td v-else>-</td>
+
+                                <td v-if="project.created_at">{{ cleanDate(project.created_at) }}</td>
+                                <td v-else>-</td>
+
                                 <td>
                                     <div class="row">
                                         <!-- <AppLinkButton :to="'/projects/show'" :type="'solid'" :icon="'eye'"/> -->
@@ -104,33 +132,47 @@ export default {
     }
 }
 
-.description {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 200px;
-    height: 1.2em;
-    white-space: nowrap;
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead {
+    th {
+        text-align: left;
+        text-transform: capitalize;
+    }
+}
+
+tbody {
+    tr {
+
+        td {
+            padding: 5px 0;
+            text-transform: capitalize;
+        }
+
+        &:hover {
+            background-color: $light-color-two;
+            cursor: pointer;
+        }
+    }
 }
 
 .card {
-    border: 1px solid black;
 
     .cardHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid $dark-color-three;
-
-        background-color: $light-color-two;
+        @include flexRowSpaceBtwn;
+        margin-bottom: 0.5rem;
+        // border-bottom: 1px solid $dark-color-three;
 
         .cardTitle {
             color: $dark-color-one;
+            font-size: 1.75rem;
+            user-select: none;
         }
     }
-
     .cardBody {
-        border: 5px solid lightblue;
-
         .row {
             @include flexRowGap (0.5rem);
 
