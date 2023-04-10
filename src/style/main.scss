@@ -26,7 +26,14 @@ button, input, textarea {
 .customLink {
     text-transform: capitalize;
     color: $color-one-dark;
+    width: fit-content;
     @include myOutline;
+    
+    @include flexRowGap(0.25rem);
+    
+    &:hover {
+        color: $color-one-light;
+    }
 }
 
 .rotated {

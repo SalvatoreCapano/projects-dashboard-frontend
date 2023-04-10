@@ -38,6 +38,11 @@ export default {
           link: '/team',
           icon: 'people-group',
         },
+        {
+          label: 'types',
+          link: '/admin/types',
+          icon: 'file-powerpoint',
+        },
       ],
       employeeLinks: [
         {

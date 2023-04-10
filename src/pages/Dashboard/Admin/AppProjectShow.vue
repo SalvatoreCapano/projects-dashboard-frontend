@@ -55,7 +55,7 @@ export default {
             axios.delete(`http://localhost:8000/api/projects/${this.project.id}`)
                 .then((response) => {
                     console.log('Project Deleted');
-                    
+                    this.$router.push('/admin/projects');
                 })
         }
     },
@@ -78,48 +78,56 @@ export default {
         <main>
             <AppDashboardHeader />
 
-            <div v-if="project">
-                <h1 class="mainTitle">{{ (project.title) ?? 'Loading Failed'}}</h1>
+            <div>
+                <router-link :to="'/admin/projects'" class="customLink">
+                    <font-awesome-icon :icon="'fa-solid fa-chevron-left'" class="icon"/>
+                    Back
+                </router-link>
+            </div>
+
+            <div class="projectData" v-if="project">
+                <h1 class="mainTitle">{{ (project.title) ?? 'Loading Failed' }}</h1>
                 <p>
                     <strong>Slug: </strong>
-                    {{ (project.slug) ?? 'Loading Failed'}}
+                    {{ (project.slug) ?? 'Loading Failed' }}
                 </p>
                 <p>
-                    <strong>Description: </strong> 
-                    {{ (project.description) ?? 'Loading Failed'}}
+                    <strong>Description: </strong>
+                    {{ (project.description) ?? 'Loading Failed' }}
                 </p>
                 <p class="capitalize">
                     <strong>Status: </strong>
-                    {{ (cleanString(project.status)) ?? 'Loading Failed'}}
+                    {{ (cleanString(project.status)) ?? 'Loading Failed' }}
                 </p>
                 <p>
                     <strong>Deadline: </strong>
-                    {{ (project.deadline) ?? 'Loading Failed'}}
+                    {{ (project.deadline) ?? 'Loading Failed' }}
                 </p>
-                <p  class="capitalize">
+                <p class="capitalize">
                     <strong>Type: </strong>
-                    {{ (cleanString(project.type.name)) ?? 'Loading Failed'}}
+                    {{ (cleanString(project.type.name)) ?? 'Loading Failed' }}
                 </p>
                 <p>
                     <strong>Team ID: </strong>
-                    {{ (project.team_id) ?? 'Loading Failed'}}
+                    {{ (project.team_id) ?? 'Loading Failed' }}
                 </p>
                 <p>
                     <strong>Created At: </strong>
-                    {{ (cleanDate(project.created_at)) ?? 'Loading Failed'}}
+                    {{ (cleanDate(project.created_at)) ?? 'Loading Failed' }}
                 </p>
             </div>
 
             <div class="actions">
-                <AppButton :action="openModal" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'"/>
-                <AppButton :action="openModal" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'"/>
+                <AppButton :action="openModal" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'" />
+                <AppButton :action="openModal" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'" />
             </div>
 
         </main>
     </div>
 
-    <AppModal v-if="isModalOpen" :title="'Deleting project...'" :message="`Are you sure you want to delete ${project.title}?`" @closeModalEvent="closeModal" :action="deleteProject"/>
-    <!-- <AppModal v-if="isModalOpen" :title="'Deleting project...'" :message="`Are you sure you want to delete ${project.title}?`"/> -->
+    <AppModal v-if="isModalOpen" :title="'Deleting project...'"
+        :message="`Are you sure you want to delete ${project.title}?`" @closeModalEvent="closeModal"
+        :action="deleteProject" />
 </template>
 
 <style lang="scss" scoped>
@@ -134,6 +142,14 @@ export default {
     main {
         @include mainContent;
     }
+}
+
+.customLink {
+    justify-content: flex-start;
+}
+
+.projectData {
+    margin-bottom: 1.5rem;
 }
 
 .description {
@@ -151,6 +167,7 @@ export default {
 
 table {
     border-collapse: collapse;
+
     tbody {
         tr {
             &:hover {
@@ -159,5 +176,4 @@ table {
         }
     }
 }
-
 </style>

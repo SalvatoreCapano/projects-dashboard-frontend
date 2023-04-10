@@ -5,9 +5,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faChevronDown, faArrowRightFromBracket, faChartLine, faHouse, faGear, faTableColumns, faDiagramProject, faAddressCard, faPeopleGroup, faGauge, faClockRotateLeft, faMagnifyingGlass, faPlus, faEye, faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faArrowRightFromBracket, faChartLine, faHouse, faGear, faTableColumns, faDiagramProject, faAddressCard, faPeopleGroup, faGauge, faClockRotateLeft, faMagnifyingGlass, faPlus, faEye, faPen, faTrashCan, faChevronLeft, faFilePowerpoint } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faChevronDown, faArrowRightFromBracket, faChartLine, faHouse, faGear, faTableColumns, faDiagramProject, faAddressCard, faPeopleGroup, faGauge, faClockRotateLeft, faMagnifyingGlass, faPlus, faEye, faPen, faTrashCan)
+library.add(faChevronDown, faArrowRightFromBracket, faChartLine, faHouse, faGear, faTableColumns, faDiagramProject, faAddressCard, faPeopleGroup, faGauge, faClockRotateLeft, faMagnifyingGlass, faPlus, faEye, faPen, faTrashCan, faChevronLeft, faFilePowerpoint)
 
 import App from './App.vue'
 
