@@ -3,7 +3,7 @@
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
-import AppLinkButton from '../../../components/AppLinkButton.vue';
+import AppButton from '../../../components/AppButton.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,7 +16,7 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        AppLinkButton
+        AppButton
     },
     data() {
         return {
@@ -69,7 +69,7 @@ export default {
             <div class="card">
                 <div class="cardHeader">
                     <h1 class="mainTitle">Projects</h1>
-                    <AppLinkButton :to="'/admin/projects/create'" :label="'add a project'" :type="'solid'" :icon="'plus'" />
+                    <AppButton :to="'/admin/projects/create'" :label="'add a project'" :type="'solid'" :palette="'primary'" :icon="'plus'"/>
                 </div>
                 <div class="cardBody">
                     <table v-if="projects">
@@ -82,7 +82,6 @@ export default {
                                 <th>team</th>
                                 <th>deadline</th>
                                 <th>created at</th>
-                                <th>actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -107,14 +106,6 @@ export default {
 
                                 <td v-if="project.created_at">{{ cleanDate(project.created_at) }}</td>
                                 <td v-else>-</td>
-
-                                <td>
-                                    <div class="row">
-                                        <!-- <AppLinkButton :to="'/projects/show'" :type="'solid'" :icon="'eye'"/> -->
-                                        <!-- <AppLinkButton :to="'/projects/edit'" :type="'solid'" :icon="'pen'" /> -->
-                                        <!-- <AppLinkButton :to="'/projects/delete'" :type="'solid'" :icon="'trash-can'" /> -->
-                                    </div>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -178,6 +169,7 @@ tbody {
             user-select: none;
         }
     }
+
     .cardBody {
         .row {
             @include flexRowGap (0.5rem);

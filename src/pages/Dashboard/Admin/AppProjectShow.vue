@@ -3,7 +3,7 @@
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
-import AppLinkButton from '../../../components/AppLinkButton.vue';
+import AppButton from '../../../components/AppButton.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,7 +16,7 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        AppLinkButton
+        AppButton
     },
     data() {
         return {
@@ -33,6 +33,18 @@ export default {
                     console.log('Project', response.data);
                 })
         },
+        cleanString(string) {
+            string = string.replace('_', ' ');
+            string = string.replace('.', '');
+            return string;
+        },
+        cleanDate(string) {
+            string = string.substring(0, 10);
+            return string;
+        },
+        testFn() {
+            console.log ('test');
+        }
     },
     mounted() {
         document.title = 'Projects | Show';
@@ -50,19 +62,45 @@ export default {
     <div class="container" v-if="store.user">
         <AppSidebar />
 
-
         <main>
             <AppDashboardHeader />
 
             <div v-if="project">
-                <h1>Title: {{ project.title }}</h1>
-                <h2>Slug: {{ project.slug }}</h2>
-                <p>Description: {{ project.description }}</p>
-                <p>Status: {{ project.status }}</p>
-                <p>Deadline: {{ project.deadline }}</p>
-                <p>Type: {{ project.type.name }}</p>
-                <p>Team ID: {{ project.team_id }}</p>
-                <p>Created At: {{ project.created_at }}</p>
+                <h1 class="mainTitle">{{ (project.title) ?? 'Loading Failed'}}</h1>
+                <p>
+                    <strong>Slug: </strong>
+                    {{ (project.slug) ?? 'Loading Failed'}}
+                </p>
+                <p>
+                    <strong>Description: </strong> 
+                    {{ (project.description) ?? 'Loading Failed'}}
+                </p>
+                <p class="capitalize">
+                    <strong>Status: </strong>
+                    {{ (cleanString(project.status)) ?? 'Loading Failed'}}
+                </p>
+                <p>
+                    <strong>Deadline: </strong>
+                    {{ (project.deadline) ?? 'Loading Failed'}}
+                </p>
+                <p  class="capitalize">
+                    <strong>Type: </strong>
+                    {{ (cleanString(project.type.name)) ?? 'Loading Failed'}}
+                </p>
+                <p>
+                    <strong>Team ID: </strong>
+                    {{ (project.team_id) ?? 'Loading Failed'}}
+                </p>
+                <p>
+                    <strong>Created At: </strong>
+                    {{ (cleanDate(project.created_at)) ?? 'Loading Failed'}}
+                </p>
+            </div>
+
+            <div class="actions">
+                <AppButton :action="testFn" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'"/>
+                <AppButton :action="testFn" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'"/>
+
             </div>
 
         </main>
@@ -91,45 +129,20 @@ export default {
     white-space: nowrap;
 }
 
+.actions {
+    @include flexRowGap(1rem);
+    justify-content: flex-start;
+}
+
 table {
     border-collapse: collapse;
-}
-
-tbody {
-    tr {
-        &:hover {
-            background-color: $light-color-two;
-        }
-    }
-}
-
-.card {
-    border: 1px solid black;
-
-    .cardHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid $dark-color-three;
-
-        background-color: $light-color-two;
-
-        .cardTitle {
-            color: $dark-color-one;
-        }
-    }
-
-    .cardBody {
-        border: 5px solid lightblue;
-
-        .row {
-            @include flexRowGap (0.5rem);
-
-            >* {
-                height: 36px;
-                width: 36px;
+    tbody {
+        tr {
+            &:hover {
+                background-color: $light-color-two;
             }
         }
     }
 }
+
 </style>

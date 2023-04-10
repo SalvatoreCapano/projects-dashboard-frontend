@@ -1,7 +1,6 @@
 <script>
 // Components
 import AppLogo from './AppLogo.vue';
-// import AppLinkButton from './AppLinkButton.vue';
 
 import { store } from '../store';
 
@@ -9,7 +8,6 @@ export default {
   name: 'AppSidebar',
   components: {
     AppLogo,
-    // AppLinkButton
   },
   data() {
     return {

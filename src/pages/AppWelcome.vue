@@ -1,8 +1,7 @@
 <script>
 
 // Components
-import AppLinkButton from '../components/AppLinkButton.vue';
-import AppActionButton from '../components/AppActionButton.vue';
+import AppButton from '../components/AppButton.vue';
 
 // Utilities
 import { router } from '../router';
@@ -13,8 +12,7 @@ axios.defaults.withCredentials = true;
 export default {
   name: 'AppWelcome',
   components: {
-    AppLinkButton,
-    AppActionButton
+    AppButton
   },
   data() {
     return {
@@ -48,12 +46,12 @@ export default {
     </div> <!-- /row-->
 
     <div class="row" v-if="!store.user">
-      <AppLinkButton :to="'/login'" :label="'go to login'" :type="'solid'" />
+      <AppButton :to="'/login'" :label="'go to login'" :type="'solid'" :palette="'primary'" />
     </div> <!-- /row-->
 
     <div class="row" v-else>
-      <AppLinkButton :to="'/dashboard'" :label="'go to dashboard'" :type="'solid'" />
-      <AppActionButton :action="handleLogout" :label="'logout'" :type="'line'" />
+      <AppButton :to="'/dashboard'" :label="'go to dashboard'" :type="'solid'" :palette="'primary'" />
+      <AppButton :action="handleLogout" :label="'logout'" :type="'line'" :palette="'danger'" />
     </div> <!-- /row-->
   </div>
 </template>
@@ -67,7 +65,6 @@ export default {
   border-radius: $big-border-radius;
   background-color: #fafafa;
 
-  // Temp
   display: flex;
   flex-direction: column;
   justify-content: center;

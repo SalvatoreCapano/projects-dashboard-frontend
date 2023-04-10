@@ -1,7 +1,7 @@
 <script>
 
 // Components
-import AppLinkButton from '../../components/AppLinkButton.vue';
+import AppButton from '../../components/AppButton.vue';
 
 // Utilities
 import { store } from '../../store';
@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true;
 export default {
     name: 'AppRecoverPassword',
     components: {
-        AppLinkButton
+        AppButton
     },
     data() {
         return {
@@ -79,14 +79,14 @@ export default {
         </form>
 
         <div class="group row inline-center">
-            <AppLinkButton :to="'/login'" :label="'go to login'" :type="'line'" />
-            <AppLinkButton :to="'/register'" :label="'go to register'" :type="'line'" />
+            <AppButton :to="'/login'" :label="'go to login'" :type="'line'" :palette="'primary'" />
+            <AppButton :to="'/register'" :label="'go to register'" :type="'line'" :palette="'primary'" />
         </div>
 
         <div class="success" v-if="emailSent">
             We sent you an email with a reset link!
             <!-- <br>
-                <span>You will be redirected to login page in a few seconds</span> -->
+                    <span>You will be redirected to login page in a few seconds</span> -->
         </div>
     </div> <!-- /formContainer-->
 </template>
@@ -95,14 +95,6 @@ export default {
 @use '../../style/form.scss' as *;
 @use '../../style/variables.scss' as *;
 @use '../../style/mixin.scss' as *;
-
-// .group.row {
-//     @include flexRowGap(1rem);
-
-//     >* {
-//         margin-right: 1rem;
-//     }
-// }
 
 .success {
     text-align: center;

@@ -3,7 +3,7 @@
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
-import AppLinkButton from '../../../components/AppLinkButton.vue';
+import AppButton from '../../../components/AppButton.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,7 +16,7 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        AppLinkButton
+        AppButton
     },
     data() {
         return {
@@ -69,7 +69,7 @@ export default {
             <div class="card">
                 <div class="cardHeader">
                     <h1 class="mainTitle">Users</h1>
-                    <AppLinkButton :to="'/admin/projects/create'" :label="'add a user'" :type="'solid'" :icon="'plus'" />
+                    <AppButton :to="'/admin/projects/create'" :label="'add a user'" :type="'solid'" :palette="'primary'" :icon="'plus'"/>
                 </div>
                 <div class="cardBody">
                     <table v-if="users">
@@ -157,9 +157,6 @@ tbody {
 
         td {
             padding: 5px 0;
-            &.capitalize {
-                text-transform: capitalize;
-            }
         }
 
         &:hover {
