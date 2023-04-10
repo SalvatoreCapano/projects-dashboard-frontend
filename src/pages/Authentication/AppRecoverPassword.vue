@@ -89,8 +89,11 @@ export default {
 <style lang="scss" scoped>
 @use '../../style/form.scss' as *;
 @use '../../style/variables.scss' as *;
+@use '../../style/mixin.scss' as *;
 
 .group.row {
+    @include flexRowGap(1rem);
+
     >* {
         margin-right: 1rem;
     }

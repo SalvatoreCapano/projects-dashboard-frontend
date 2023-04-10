@@ -32,7 +32,7 @@ export default {
         },
         {
           label: 'employees',
-          link: '/employees',
+          link: '/admin/employees',
           icon: 'address-card',
         },
         {

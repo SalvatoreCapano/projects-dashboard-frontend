@@ -20,6 +20,88 @@ export default {
     },
     methods: {
         handleLogin() {
+            // Front End Validation
+            console.log('Validating Login data...');
+            let dataIsCorrect = false;
+
+            this.validateData();
+
+            // let dataIsCorrect = this.validateData();
+            // if (dataIsCorrect) this.getCookie();
+
+
+            // if (dataIsCorrect) this.getCookie() = async () => {
+            //     dataIsCorrect = this.validateData();
+            // }
+
+            // const secondFunction = async () => {
+            //     const result = await firstFunction()
+            // }
+        },
+        validateData() {
+            let emailInput = document.getElementById('email');
+            let passwordInput = document.getElementById('password');
+
+            // Reset Form Validation
+            this.store.errors = [];
+            emailInput.classList.remove('invalid');
+            passwordInput.classList.remove('invalid');
+
+            // Email Validation
+            if (!emailInput.value.toLowerCase().match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )) {
+                this.store.errors.push({
+                    message: 'your email is not valid'
+                });
+                emailInput.classList.add('invalid');
+            }
+
+            // Email Lenght
+            if (emailInput.value.length == 0) {
+                this.store.errors.push({
+                    message: 'email field must be filled'
+                });
+                emailInput.classList.add('invalid');
+            }
+            else if (emailInput.value.length < 10) {
+                this.store.errors.push({
+                    message: 'email must be at least 10 characters'
+                });
+                emailInput.classList.add('invalid');
+            }
+            else if (emailInput.value.length > 64) {
+                this.store.errors.push({
+                    message: 'email cannot be longer than 64 characters'
+                });
+                emailInput.classList.add('invalid');
+            }
+
+            // Password Lenght
+            if (passwordInput.value.length == 0) {
+                this.store.errors.push({
+                    message: 'password field must be filled'
+                });
+                passwordInput.classList.add('invalid');
+            }
+            else if (passwordInput.value.length < 10) {
+                this.store.errors.push({
+                    message: 'password must be at least 8 characters'
+                });
+                passwordInput.classList.add('invalid');
+            }
+            else if (passwordInput.value.length > 64) {
+                this.store.errors.push({
+                    message: 'password cannot be longer than 64 characters'
+                });
+                passwordInput.classList.add('invalid');
+            }
+
+            if (this.store.errors.length == 0) this.getCookie();
+            else console.log('Login Failed');
+        },
+        getCookie() {
+
             // Richiesta Cookie CSRF
             axios.get('http://localhost:8000/sanctum/csrf-cookie')
                 .then((response) => {
@@ -50,7 +132,7 @@ export default {
     mounted() {
         setTimeout(function () {
             store.clear();
-        }, 2)
+        }, 2);
     }
 }
 </script>
@@ -62,12 +144,14 @@ export default {
         <form @submit.prevent="handleLogin">
             <div class="group">
                 <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email">
+                <input type="text" id="email" name="email" placeholder="test@example.com" v-model="form.email"
+                    maxlength="64">
             </div>
 
             <div class="group">
                 <label for="password">password</label>
-                <input type="password" id="password" name="password" placeholder="Your Password" v-model="form.password">
+                <input type="password" id="password" name="password" placeholder="Your Password" v-model="form.password"
+                    maxlength="64">
             </div>
 
             <div class="group row">
@@ -86,7 +170,7 @@ export default {
             </div>
 
         </form>
-        
+
         <div class="group">
             <router-link class="customLink" :to="'/register'">don't have an account? sign up</router-link>
         </div>

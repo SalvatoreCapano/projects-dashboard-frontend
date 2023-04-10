@@ -35,7 +35,9 @@ export default {
   },
   computed: { 
     calcMainColor() {
-      if (this.$route.fullPath != '/') return 'light';
+      if ((this.$route.fullPath != '/') && (this.$route.fullPath != '/login') && (this.$route.fullPath != '/register') && (this.$route.fullPath != '/recover-password')) {
+        return 'light';
+      }
       else return 'dark';
     }
   },

@@ -25,6 +25,11 @@ form {
             border-radius: 10px;
             border: none;
             @include myOutline;
+            border: 1px solid transparent;
+
+            &.invalid {
+                border: 1px solid $danger-color     ;
+            }
         }
 
         &:not(.small) {
