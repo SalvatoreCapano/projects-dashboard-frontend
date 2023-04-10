@@ -66,7 +66,7 @@ export default {
             <AppDashboardHeader />
             <div class="card">
                 <div class="cardHeader">
-                    <h1 class="cardTitle">Users</h1>
+                    <h1 class="mainTitle">Users</h1>
                     <AppLinkButton :to="'/admin/projects/create'" :label="'add a user'" :type="'solid'" :icon="'plus'" />
                 </div>
                 <div class="cardBody">
@@ -89,10 +89,10 @@ export default {
                                 <td v-if="user.id"><strong>{{ user.id }}</strong></td>
                                 <td v-else>-</td>
 
-                                <td v-if="user.first_name">{{ user.first_name }}</td>
+                                <td v-if="user.first_name" class="capitalize">{{ user.first_name }}</td>
                                 <td v-else>-</td>
 
-                                <td v-if="user.last_name">{{ user.last_name }}</td>
+                                <td v-if="user.last_name" class="capitalize">{{ user.last_name }}</td>
                                 <td v-else>-</td>
 
                                 <td v-if="user.role">{{ user.role }}</td>
@@ -155,7 +155,9 @@ tbody {
 
         td {
             padding: 5px 0;
-            text-transform: capitalize;
+            &.capitalize {
+                text-transform: capitalize;
+            }
         }
 
         &:hover {

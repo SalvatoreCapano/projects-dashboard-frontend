@@ -235,7 +235,7 @@ export default {
                     <div class="group">
                         <label for="description">description</label>
                         <textarea name="description" id="description" cols="30" rows="10"
-                            placeholder="Add a short description..."></textarea>
+                            placeholder="Add a short description..." v-model="form.description"></textarea>
                     </div>
                 </div>
 

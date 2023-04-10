@@ -78,6 +78,7 @@ export default {
                                 <th>status</th>
                                 <th>type</th>
                                 <th>team</th>
+                                <th>deadline</th>
                                 <th>created at</th>
                                 <th>actions</th>
                             </tr>
@@ -97,6 +98,9 @@ export default {
                                 <td v-else>-</td>
 
                                 <td v-if="project.team_id">{{ project.team_id }}</td>
+                                <td v-else>-</td>
+
+                                <td v-if="project.deadline">{{ cleanDate(project.deadline) }}</td>
                                 <td v-else>-</td>
 
                                 <td v-if="project.created_at">{{ cleanDate(project.created_at) }}</td>
