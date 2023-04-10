@@ -113,7 +113,7 @@ export default {
                     return true;
                 }
             })
-            
+
             if (typeError) {
                 typeInput.classList.add('invalid');
                 this.store.errors.push({
@@ -133,7 +133,7 @@ export default {
                     return true;
                 }
             })
-            
+
             if (teamError) {
                 teamInput.classList.add('invalid');
                 this.store.errors.push({
@@ -185,6 +185,8 @@ export default {
         },
     },
     mounted() {
+
+        document.title = 'Projects | Create';
 
         this.getFormData();
 

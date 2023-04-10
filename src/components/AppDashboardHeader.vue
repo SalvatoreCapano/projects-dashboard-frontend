@@ -55,8 +55,20 @@ export default {
       else if (this.store.user.role == 'UID') return 'UI designer';
       else if (this.store.user.role == 'UXD') return 'UX designer';
     },
-    getPage() {
+    getCurrentPage() {
       return this.$route.name;
+    },
+    getCurrentPath() {
+      let path = this.$route.fullPath;
+
+      if (path.charAt(0) == '/') path = path.slice(1);
+
+      // if (path.includes('/')) path = path.replace('/', ' ');
+
+      path = path.split('/');
+      console.log ('Path', path);
+
+      return path;
     }
   }
 }
@@ -67,11 +79,17 @@ export default {
     <div class="container">
 
       <div class="breadcumb">
-        pages / Dashboard
+        <span v-for="item in getCurrentPath">
+          {{ item }}
+        </span>
       </div>
 
+      <!-- <div class="breadcumb">
+        {{ getCurrentPath }}
+      </div> -->
+
       <div class="searchbar">
-        <input type="text" :placeholder="`Search in ${getPage}`">
+        <input type="text" :placeholder="`Search in ${getCurrentPage}`">
         <button>
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         </button>
@@ -109,14 +127,29 @@ header {
   .container {
     @include flexRowSpaceBtwn;
     height: 100%;
+    position: relative;
   }
 }
 
 .breadcumb {
-  // background-color: aquamarine
+  user-select: none;
+  span {
+    text-transform: capitalize;
+    
+    &:not(:last-child) {
+      color: gray;
+      &:after {
+        content: ' / ';
+      }
+    }
+  }
 }
 
 .searchbar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
   height: 36px;
   display: flex;

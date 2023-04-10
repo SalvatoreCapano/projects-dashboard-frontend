@@ -116,6 +116,8 @@ export default {
         }
     },
     mounted() {
+        document.title = 'Login';
+
         setTimeout(function () {
             store.clear();
         }, 2);

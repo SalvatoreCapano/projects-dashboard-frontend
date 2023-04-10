@@ -49,6 +49,8 @@ export default {
         }
     },
     mounted() {
+        document.title = 'Projects';
+
         setTimeout(function () {
             store.clear();
         }, 2);

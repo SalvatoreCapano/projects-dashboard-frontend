@@ -31,6 +31,8 @@ export default {
     }
   },
   mounted() {
+    document.title = 'Home';
+
     setTimeout(function () {
       store.clear();
     }, 2)

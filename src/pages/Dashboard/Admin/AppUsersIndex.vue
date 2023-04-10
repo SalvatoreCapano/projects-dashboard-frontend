@@ -49,6 +49,8 @@ export default {
         // }
     },
     mounted() {
+        document.title = 'Employees';
+
         setTimeout(function () {
             store.clear();
         }, 2);

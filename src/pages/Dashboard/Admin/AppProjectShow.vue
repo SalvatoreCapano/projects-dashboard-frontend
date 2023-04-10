@@ -35,6 +35,8 @@ export default {
         },
     },
     mounted() {
+        document.title = 'Projects | Show';
+
         setTimeout(function () {
             store.clear();
         }, 2);

@@ -50,6 +50,8 @@ export default {
         }
     },
     mounted() {
+        document.title = 'Recover Password';
+
         setTimeout(function () {
             store.clear();
         }, 2)

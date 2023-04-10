@@ -46,8 +46,12 @@ export default {
                 })
         },
     },
-    created() {
-        this.store.errors = null;
+    mounted() {
+        document.title = 'Register';
+
+        setTimeout(function () {
+            store.clear();
+        }, 2);
     }
 }
 </script>

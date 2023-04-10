@@ -25,6 +25,8 @@ export default {
     methods: {
     },
     mounted() {
+        document.title = 'Dashboard';
+
         setTimeout(function () {
             store.clear();
         }, 2)
