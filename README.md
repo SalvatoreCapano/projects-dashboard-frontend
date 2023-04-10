@@ -12,3 +12,4 @@ TODOLIST
 - Validazione Backend
 - Pagina cambio password
 - On click outside menu
+- Far comparire i componenti al caricamneto dei dati

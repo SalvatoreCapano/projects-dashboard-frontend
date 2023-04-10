@@ -100,6 +100,49 @@ export default {
                     deadlineInput.classList.add('invalid');
                 }
             }
+
+            // Type Validation
+            let typeError = false;
+            this.types.every(type => {
+                if (type.id == typeInput.value) {
+                    typeError = false;
+                    return false;
+                }
+                else {
+                    typeError = true;
+                    return true;
+                }
+            })
+            
+            if (typeError) {
+                typeInput.classList.add('invalid');
+                this.store.errors.push({
+                    message: 'invalid type value'
+                });
+            }
+
+            // Team Validation
+            let teamError = false;
+            this.teams.every(team => {
+                if (team.id == teamInput.value) {
+                    teamError = false;
+                    return false;
+                }
+                else {
+                    teamError = true;
+                    return true;
+                }
+            })
+            
+            if (teamError) {
+                teamInput.classList.add('invalid');
+                this.store.errors.push({
+                    message: 'invalid team value'
+                });
+            }
+
+            if (this.store.errors.length == 0) this.getCookie();
+            else console.log('Project Creation Failed');
         },
         getCookie() {
             axios.get('http://localhost:8000/sanctum/csrf-cookie')
@@ -128,9 +171,11 @@ export default {
         getFormData() {
             axios.get('http://localhost:8000/api/projects/create')
                 .then((response) => {
-                    console.log('Form data', response.data);
+                    // console.log('Form data', response.data);
                     this.types = response.data.types;
                     this.teams = response.data.teams;
+                    console.log('Form Types', this.types);
+                    console.log('Form Teams', this.teams);
                 })
         },
         cleanString(string) {
