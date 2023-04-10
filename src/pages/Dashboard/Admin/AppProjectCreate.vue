@@ -3,7 +3,6 @@
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
-// import AppLinkButton from '../../../components/AppLinkButton.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,19 +15,17 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        // AppLinkButton
     },
     data() {
         return {
             store,
             router,
-            // projects: null
             form: {
                 title: null,
                 description: null,
                 deadline: null,
-                typeId: null,
-                teamId: null,
+                typeId: '',
+                teamId: '',
             },
             types: null,
             teams: null
@@ -36,7 +33,75 @@ export default {
     },
     methods: {
         handleCreateProject() {
+            // Front End Validation
+            console.log('Validating Create Project data...');
+            this.validateData();
+        },
+        validateData() {
+            let titleInput = document.getElementById('title');
+            let deadlineInput = document.getElementById('deadline');
+            let typeInput = document.getElementById('type');
+            let teamInput = document.getElementById('team');
 
+            // Reset Form Validation
+            this.store.errors = [];
+            titleInput.classList.remove('invalid');
+            deadlineInput.classList.remove('invalid');
+            typeInput.classList.remove('invalid');
+            teamInput.classList.remove('invalid');
+
+            // Title Length
+            if (titleInput.value.length == 0) {
+                this.store.errors.push({
+                    message: 'title field must be filled'
+                });
+                titleInput.classList.add('invalid');
+            }
+            else if (titleInput.value.length < 5) {
+                this.store.errors.push({
+                    message: 'title field must be longer than 5 characters'
+                });
+                titleInput.classList.add('invalid');
+            }
+
+            // Deadline Validation
+            const [year, month, day] = deadlineInput.value.split('-');
+            const now = new Date();
+
+            if (deadlineInput.value == '' || deadlineInput.value == null) {
+                this.store.errors.push({
+                    message: 'you have to set a deadline'
+                });
+                deadlineInput.classList.add('invalid');
+            }
+            else {
+                if (year < now.getFullYear()) {
+                    this.store.errors.push({
+                        message: 'you cannot set a past year as a deadline'
+                    });
+                    deadlineInput.classList.add('invalid');
+                }
+                if (month < 1 || month > 12) {
+                    this.store.errors.push({
+                        message: 'months must be between 1 and 12'
+                    });
+                    deadlineInput.classList.add('invalid');
+                }
+                if (day < 1 || day > 31) {
+                    this.store.errors.push({
+                        message: 'days must be between 1 and 31'
+                    });
+                    deadlineInput.classList.add('invalid');
+                }
+                if ((year <= now.getFullYear()) && (month <= (now.getMonth() + 1)) && (day <= now.getDate())) {
+                    this.store.errors.push({
+                        message: 'you cannot set a deadline today or in the past'
+                    });
+                    deadlineInput.classList.add('invalid');
+                }
+            }
+        },
+        getCookie() {
             axios.get('http://localhost:8000/sanctum/csrf-cookie')
                 .then((response) => {
                     console.log('Cookie CSRF', response);
@@ -68,6 +133,11 @@ export default {
                     this.teams = response.data.teams;
                 })
         },
+        cleanString(string) {
+            string = string.replace('_', ' ');
+            string = string.replace('.', '');
+            return string;
+        },
     },
     mounted() {
 
@@ -76,6 +146,21 @@ export default {
         setTimeout(function () {
             store.clear();
         }, 2);
+    },
+    computed: {
+        calcSlug() {
+            let slug = this.form.title;
+
+            if (slug != null) {
+                slug = slug
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^\w\s-]/g, '')
+                    .replace(/[\s_-]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                return slug;
+            }
+        }
     }
 }
 </script>
@@ -86,38 +171,61 @@ export default {
 
         <main>
             <AppDashboardHeader />
+            <h1 class="mainTitle">Add Project</h1>
             <form @submit.prevent="handleCreateProject()">
-                <div>
-                    <label for="title">title</label>
-                    <input type="text" name="title" placeholder="title" v-model="form.title" id="title">
+                <div class="row inline-center">
+                    <div class="group small">
+                        <label for="title">title</label>
+                        <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
+                    </div>
+
+                    <div class="group small">
+                        <label>slug</label>
+                        <p v-if="form.title">{{ calcSlug }}</p>
+                        <p v-else>Type a title to see a slug preview</p>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="description">description</label>
-                    <input type="text" name="description" placeholder="description" v-model="form.description"
-                        id="description">
+                <div class="row">
+                    <div class="group">
+                        <label for="description">description</label>
+                        <textarea name="description" id="description" cols="30" rows="10"
+                            placeholder="Add a short description..."></textarea>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="deadline">deadline</label>
-                    <input type="date" name="deadline" id="deadline" v-model="form.deadline">
+                <div class="row inline-center triple">
+                    <div class="group small">
+                        <label for="deadline">deadline</label>
+                        <input type="date" name="deadline" id="deadline" v-model="form.deadline">
+                    </div>
+
+                    <div class="group small">
+                        <label for="type">type</label>
+                        <select name="type_id" id="type" v-model="form.typeId">
+                            <option value="" selected>Select a type</option>
+                            <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
+                        </select>
+                    </div>
+
+                    <div class="group small">
+                        <label for="team">team</label>
+                        <select name="team_id" id="team" v-model="form.teamId">
+                            <option value="" selected>Select a team</option>
+                            <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="type"></label>
-                    <select name="type_id" id="type" v-model="form.typeId">
-                        <option :value="item.id" v-for="item in this.types">{{ item.name }}</option>
-                    </select>
+                <div class="row">
+                    <div class="group large">
+                        <button class="solid">
+                            <font-awesome-icon icon="fa-solid fa-plus" />
+                            add project
+                        </button>
+                    </div>
                 </div>
 
-                <div>
-                    <label for="team"></label>
-                    <select name="team_id" id="team" v-model="form.teamId">
-                        <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
-                    </select>
-                </div>
-
-                <button type="submit">Add</button>
             </form>
         </main>
     </div>
@@ -126,11 +234,50 @@ export default {
 <style lang="scss" scoped>
 @use '../../../style/variables.scss' as *;
 @use '../../../style/mixin.scss' as *;
+@use '../../../style/form.scss' as *;
+
+.row.inline-center:not(.triple) {
+    gap: 2rem;
+
+    .group.small {
+        flex-basis: calc(50% - 1rem);
+        flex-shrink: 0;
+        flex-grow: 1;
+
+        p {
+            font-size: 0.95rem;
+            line-height: 1.25em;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: $light-color-three;
+            color: gray;
+        }
+    }
+}
+
+.row.inline-center.triple {
+    justify-content: flex-start;
+    gap: 2rem;
+
+    .group {
+        flex-basis: 15%;
+    }
+}
+
+// .group.large {
+//     @include flexRowGap (1.5rem);
+
+//     >.group.small {
+//         flex-grow: 1;
+//     }
+// }
 
 // select {
 //     text-transform: capitalize;
 //     background-color: red;
 // }
+
+
 
 .container {
     height: 100%;
@@ -139,36 +286,6 @@ export default {
 
     main {
         @include mainContent;
-    }
-}
-
-.card {
-    border: 1px solid black;
-
-    .cardHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid $dark-color-three;
-
-        background-color: $light-color-two;
-
-        .cardTitle {
-            color: $dark-color-one;
-        }
-    }
-
-    .cardBody {
-        border: 5px solid lightblue;
-
-        .row {
-            @include flexRowGap (0.5rem);
-
-            >* {
-                height: 36px;
-                width: 36px;
-            }
-        }
     }
 }
 </style>

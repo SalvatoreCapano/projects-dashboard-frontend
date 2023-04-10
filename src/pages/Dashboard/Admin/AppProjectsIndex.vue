@@ -66,7 +66,7 @@ export default {
             <AppDashboardHeader />
             <div class="card">
                 <div class="cardHeader">
-                    <h1 class="cardTitle">Projects</h1>
+                    <h1 class="mainTitle">Projects</h1>
                     <AppLinkButton :to="'/admin/projects/create'" :label="'add a project'" :type="'solid'" :icon="'plus'" />
                 </div>
                 <div class="cardBody">

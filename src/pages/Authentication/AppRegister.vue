@@ -57,7 +57,7 @@ export default {
         <h1 class="mainTitle">register</h1>
 
         <form @submit.prevent="handleRegister">
-            <div class="group large">
+            <div class="row inline-center">
                 <div class="group small">
                     <label for="first_name">first name</label>
                     <input type="text" id="first_name" name="first_name" placeholder="Your first Name"
@@ -71,28 +71,37 @@ export default {
                 </div>
             </div>
 
-            <div class="group large">
-                <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email">
+            <div class="row">
+                <div class="group large">
+                    <label for="email">email</label>
+                    <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email">
+                </div>
             </div>
 
-            <div class="group large">
-                <label for="password">password</label>
-                <input type="password" id="password" name="password" placeholder="Your Password" v-model="form.password">
+            <div class="row">
+                <div class="group large">
+                    <label for="password">password</label>
+                    <input type="password" id="password" name="password" placeholder="Your Password"
+                        v-model="form.password">
+                </div>
             </div>
 
-            <div class="group large">
-                <label for="password_confirmation">password confirmation</label>
-                <input type="password" id="password_confirmation" name="password_confirmation"
-                    placeholder="Confirm your Password" v-model="form.password_confirmation">
+            <div class="row">
+                <div class="group large">
+                    <label for="password_confirmation">password confirmation</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation"
+                        placeholder="Confirm your Password" v-model="form.password_confirmation">
+                </div>
             </div>
 
-            <div class="group inline">
-                <label for="remember_me">remember me</label>
-                <input type="checkbox" id="remember_me" name="remember_me">
+            <div class="row">
+                <div class="group inline-center">
+                    <label for="remember_me">remember me</label>
+                    <input type="checkbox" id="remember_me" name="remember_me">
+                </div>
             </div>
 
-            <div class="group large">
+            <div class="row">
                 <button class="solid">register</button>
             </div>
 
@@ -108,15 +117,29 @@ export default {
 @use '../../style/form.scss' as *;
 @use '../../style/mixin.scss' as *;
 
-.group.large:first-child {
-    @include flexRowGap (1.5rem);
-
-    >.group.small {
+// FirstName - LastName Inputs
+.row.inline-center {
+    .group {
         flex-grow: 1;
     }
 }
 
-.group.row {
-    @include flexRowSpaceBtwn;
+// Remember Me Checkbox
+.row {
+    .group.inline-center {
+        justify-content: flex-start;
+    }
 }
+
+// .group.large:first-child {
+//     @include flexRowGap (1.5rem);
+
+//     >.group.small {
+//         flex-grow: 1;
+//     }
+// }
+
+// .group.row {
+//     @include flexRowSpaceBtwn;
+// }
 </style>

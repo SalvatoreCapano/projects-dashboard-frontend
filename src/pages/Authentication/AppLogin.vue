@@ -22,21 +22,7 @@ export default {
         handleLogin() {
             // Front End Validation
             console.log('Validating Login data...');
-            let dataIsCorrect = false;
-
             this.validateData();
-
-            // let dataIsCorrect = this.validateData();
-            // if (dataIsCorrect) this.getCookie();
-
-
-            // if (dataIsCorrect) this.getCookie() = async () => {
-            //     dataIsCorrect = this.validateData();
-            // }
-
-            // const secondFunction = async () => {
-            //     const result = await firstFunction()
-            // }
         },
         validateData() {
             let emailInput = document.getElementById('email');
@@ -142,30 +128,34 @@ export default {
         <h1 class="mainTitle">login</h1>
 
         <form @submit.prevent="handleLogin">
-            <div class="group">
-                <label for="email">email</label>
-                <input type="text" id="email" name="email" placeholder="test@example.com" v-model="form.email"
-                    maxlength="64">
+            <div class="row">
+                <div class="group large">
+                    <label for="email">email</label>
+                    <input type="text" id="email" name="email" placeholder="test@example.com" v-model="form.email"
+                        maxlength="64">
+                </div>
             </div>
 
-            <div class="group">
-                <label for="password">password</label>
-                <input type="password" id="password" name="password" placeholder="Your Password" v-model="form.password"
-                    maxlength="64">
+            <div class="row">
+                <div class="group large">
+                    <label for="password">password</label>
+                    <input type="password" id="password" name="password" placeholder="Your Password" v-model="form.password"
+                        maxlength="64">
+                </div>
             </div>
 
-            <div class="group row">
-                <div class="group small inline">
+            <div class="row inline-spaced">
+                <div class="group inline-center">
                     <label for="remember_me">remember me</label>
                     <input type="checkbox" id="remember_me" name="remember_me">
                 </div>
 
-                <div class="group small">
+                <div class="group">
                     <router-link class="customLink" :to="'recover-password'">forgot password?</router-link>
                 </div>
             </div>
 
-            <div class="group large">
+            <div class="row">
                 <button class="solid">login</button>
             </div>
 
@@ -181,7 +171,7 @@ export default {
 @use '../../style/form.scss' as *;
 @use '../../style/mixin.scss' as *;
 
-.group.row {
-    @include flexRowSpaceBtwn;
-}
+// .group.row {
+//     @include flexRowSpaceBtwn;
+// }
 </style>

@@ -11,44 +11,66 @@
     box-shadow: 0px 8px 10px 1px black;
 }
 
-form {
-    .group {
-        label {
-            text-transform: capitalize;
-            margin-right: 1rem;
-            display: block;
+form .row {
+    margin-bottom: 2rem;
+}
+
+    .row {
+
+        &.inline-spaced {
+            @include flexRowSpaceBtwn;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            @include myOutline;
-            border: 1px solid transparent;
+        &.inline-center {
+            @include flexRowGap(0.5rem);
+        }
 
-            &.invalid {
-                border: 1px solid $danger-color     ;
+        .group {
+
+            &.inline-center {
+                @include flexRowGap(0.25rem);
+                input {
+                    width: fit-content;
+                }
             }
-        }
 
-        &:not(.small) {
-            margin-bottom: 2rem;
-        }
-
-        &.inline {
             label {
-                display: inline;
+                text-transform: capitalize;
+                margin-right: 1rem;
+                display: block;
+                white-space: nowrap;
             }
 
-            input {
-                width: fit-content;
+            input, textarea, select {
+                font-size: 0.95rem;
+                width: 100%;
+                padding: 10px;
+                border-radius: 10px;
+                border: none;
+                @include myHover;
+                @include myOutline;
+                border: 1px solid transparent;
+
+                background: $light-color-three;
+
+                &.invalid {
+                    border: 1px solid $danger-color ;
+                }
             }
+
+            select:focus {
+                option:first-child {
+                    display: none;
+                }
+            }
+
+            option {
+                text-transform: capitalize
+            }
+
         }
-
         button {
             @include customButton;
             width: 100%;
         }
     }
-}

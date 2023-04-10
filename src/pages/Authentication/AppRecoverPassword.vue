@@ -62,18 +62,21 @@ export default {
         <h1 class="mainTitle">recover password</h1>
 
         <form @submit.prevent="handlePswdRecovery">
-            <div class="group large">
-                <label for="email">email</label>
-                <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email"
-                    :disabled="this.emailSent">
+            <div class="row">
+                <div class="group large">
+                    <label for="email">email</label>
+                    <input type="email" id="email" name="email" placeholder="test@example.com" v-model="form.email"
+                        :disabled="this.emailSent">
+                </div>
             </div>
 
-            <div class="group large" v-if="!emailSent">
-                <button class="solid">send recovery link</button>
+            <div class="row">
+                <button class="solid" v-if="!emailSent">send recovery link</button>
             </div>
+
         </form>
 
-        <div class="group row">
+        <div class="group row inline-center">
             <AppLinkButton :to="'/login'" :label="'go to login'" :type="'line'" />
             <AppLinkButton :to="'/register'" :label="'go to register'" :type="'line'" />
         </div>
@@ -81,7 +84,7 @@ export default {
         <div class="success" v-if="emailSent">
             We sent you an email with a reset link!
             <!-- <br>
-            <span>You will be redirected to login page in a few seconds</span> -->
+                <span>You will be redirected to login page in a few seconds</span> -->
         </div>
     </div> <!-- /formContainer-->
 </template>
@@ -91,13 +94,13 @@ export default {
 @use '../../style/variables.scss' as *;
 @use '../../style/mixin.scss' as *;
 
-.group.row {
-    @include flexRowGap(1rem);
+// .group.row {
+//     @include flexRowGap(1rem);
 
-    >* {
-        margin-right: 1rem;
-    }
-}
+//     >* {
+//         margin-right: 1rem;
+//     }
+// }
 
 .success {
     text-align: center;
