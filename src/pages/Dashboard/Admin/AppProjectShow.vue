@@ -4,6 +4,7 @@
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 import AppButton from '../../../components/AppButton.vue';
+import AppModal from '../../../components/AppModal.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,13 +17,15 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        AppButton
+        AppButton,
+        AppModal
     },
     data() {
         return {
             store,
             router,
-            project: null
+            project: null,
+            isModalOpen: false
         }
     },
     methods: {
@@ -42,8 +45,18 @@ export default {
             string = string.substring(0, 10);
             return string;
         },
-        testFn() {
-            console.log ('test');
+        openModal() {
+            this.isModalOpen = true;
+        },
+        closeModal() {
+            this.isModalOpen = false;
+        },
+        deleteProject() {
+            axios.delete(`http://localhost:8000/api/projects/${this.project.id}`)
+                .then((response) => {
+                    console.log('Project Deleted');
+                    
+                })
         }
     },
     mounted() {
@@ -98,13 +111,15 @@ export default {
             </div>
 
             <div class="actions">
-                <AppButton :action="testFn" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'"/>
-                <AppButton :action="testFn" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'"/>
-
+                <AppButton :action="openModal" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'"/>
+                <AppButton :action="openModal" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'"/>
             </div>
 
         </main>
     </div>
+
+    <AppModal v-if="isModalOpen" :title="'Deleting project...'" :message="`Are you sure you want to delete ${project.title}?`" @closeModalEvent="closeModal" :action="deleteProject"/>
+    <!-- <AppModal v-if="isModalOpen" :title="'Deleting project...'" :message="`Are you sure you want to delete ${project.title}?`"/> -->
 </template>
 
 <style lang="scss" scoped>
