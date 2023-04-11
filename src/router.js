@@ -16,6 +16,7 @@ import AppHistory from './pages/Dashboard/Employee/AppHistory.vue';
 import AppProjectsIndex from './pages/Dashboard/Admin/AppProjectsIndex.vue';
 import AppProjectCreate from './pages/Dashboard/Admin/AppProjectCreate.vue';
 import AppProjectShow from './pages/Dashboard/Admin/AppProjectShow.vue';
+import AppProjectEdit from './pages/Dashboard/Admin/AppProjectEdit.vue';
 // import AppContacts from './pages/AppContacts.vue';
 
 import AppUsersIndex from './pages/Dashboard/Admin/AppUsersIndex.vue';
@@ -78,6 +79,13 @@ const router = createRouter({
             name: 'projects/show',
             component: AppProjectShow
         },
+        {
+            path: '/admin/project/edit/:slug',
+            name: 'project/edit',
+            component: AppProjectEdit
+        },
+
+
 
         {
             path: '/admin/employees',

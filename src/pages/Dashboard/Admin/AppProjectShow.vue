@@ -78,7 +78,7 @@ export default {
         <main>
             <AppDashboardHeader />
 
-            <div>
+            <div class="pageBack">
                 <router-link :to="'/admin/projects'" class="customLink">
                     <font-awesome-icon :icon="'fa-solid fa-chevron-left'" class="icon"/>
                     Back
@@ -117,8 +117,8 @@ export default {
                 </p>
             </div>
 
-            <div class="actions">
-                <AppButton :action="openModal" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'" />
+            <div class="actions" v-if="project">
+                <AppButton :to="`/admin/project/edit/${project.slug}`" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'" />
                 <AppButton :action="openModal" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'" />
             </div>
 
@@ -142,10 +142,6 @@ export default {
     main {
         @include mainContent;
     }
-}
-
-.customLink {
-    justify-content: flex-start;
 }
 
 .projectData {

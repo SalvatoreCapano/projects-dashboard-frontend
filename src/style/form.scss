@@ -58,7 +58,7 @@ form .row {
                 }
             }
 
-            select:focus {
+            select:not(.showAll):focus {
                 option:first-child {
                     display: none;
                 }

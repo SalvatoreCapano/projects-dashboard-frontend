@@ -11,7 +11,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export default {
-    name: 'AppProjectCreate',
+    name: 'AppProjectEdit',
     components: {
         AppSidebar,
         AppDashboardHeader,
@@ -28,13 +28,28 @@ export default {
                 teamId: '',
             },
             types: null,
-            teams: null
+            teams: null,
+            project: null
         }
     },
     methods: {
-        handleCreateProject() {
+        getProject() {
+            axios.get(`http://localhost:8000/api/projects/${this.$route.params.slug}`)
+                .then((response) => {
+                    console.log('Project to Edit', response.data.project);
+                    this.project = response.data.project;
+
+                    this.form.title = this.project.title;
+                    this.form.description = this.project.description;
+                    this.form.deadline = this.project.deadline;
+                    this.form.typeId = this.project.type_id;
+                    this.form.teamId = this.project.team_id;
+                })
+        },
+
+        handleEditProject() {
             // Front End Validation
-            console.log('Validating Create Project data...');
+            console.log('Validating Edit Project data...');
             this.validateData();
         },
         validateData() {
@@ -149,15 +164,15 @@ export default {
                 .then((response) => {
                     console.log('Cookie CSRF', response);
 
-                    this.postData();
+                    this.putData();
                 })
                 .catch((response) => {
                     console.log('Errore ottenimento Cookie', response);
                     this.store.errors = response.data;
                 })
         },
-        postData() {
-            axios.post('http://localhost:8000/api/projects', {
+        putData() {
+            axios.put(`http://localhost:8000/api/projects/${this.project.id}`, {
                 title: this.form.title,
                 description: this.form.description,
                 deadline: this.form.deadline,
@@ -186,9 +201,10 @@ export default {
     },
     mounted() {
 
-        document.title = 'Projects | Create';
+        document.title = 'Projects | Edit';
 
         this.getFormData();
+        this.getProject();
 
         setTimeout(function () {
             store.clear();
@@ -226,8 +242,8 @@ export default {
                 </router-link>
             </div>
 
-            <h1 class="mainTitle">Add Project</h1>
-            <form @submit.prevent="handleCreateProject()">
+            <h1 class="mainTitle">edit project</h1>
+            <form @submit.prevent="handleEditProject()" v-if="project">
                 <div class="row inline-center">
                     <div class="group small">
                         <label for="title">title</label>
@@ -257,16 +273,14 @@ export default {
 
                     <div class="group small">
                         <label for="type">type</label>
-                        <select name="type_id" id="type" v-model="form.typeId">
-                            <option value="" selected>Select a type</option>
+                        <select name="type_id" id="type" class="showAll" v-model="form.typeId">
                             <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
                         </select>
                     </div>
 
                     <div class="group small">
                         <label for="team">team</label>
-                        <select name="team_id" id="team" v-model="form.teamId">
-                            <option value="" selected>Select a team</option>
+                        <select name="team_id" id="team" class="showAll" v-model="form.teamId">
                             <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
                         </select>
                     </div>
@@ -275,8 +289,8 @@ export default {
                 <div class="row">
                     <div class="group large">
                         <button class="solid">
-                            <font-awesome-icon icon="fa-solid fa-plus" />
-                            add project
+                            <font-awesome-icon icon="fa-solid fa-pen" />
+                            save changes
                         </button>
                     </div>
                 </div>
