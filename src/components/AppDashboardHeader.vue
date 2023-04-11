@@ -89,7 +89,7 @@ export default {
       </div> -->
 
       <div class="searchbar">
-        <input type="text" :placeholder="`Search in ${getCurrentPage}`">
+        <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery" @keyup="$emit('searchEvent')">
         <button>
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         </button>

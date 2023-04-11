@@ -115,6 +115,10 @@ export default {
                     <strong>Created At: </strong>
                     {{ (cleanDate(project.created_at)) ?? 'Loading Failed' }}
                 </p>
+                <p>
+                    <strong>Updated At: </strong>
+                    {{ (cleanDate(project.updated_at)) ?? 'Loading Failed' }}
+                </p>
             </div>
 
             <div class="actions" v-if="project">

@@ -9,35 +9,59 @@ export default {
     return {
       store,
     }
-  },
-  computed: {
-    setWidth() {
-      if (this.store.loadingPerc == 100) {
-        setTimeout(function () {
-          this.store.loadingPerc = 0
-        }, 100)
-      }
-      return `--loadingPerc: ${this.store.loadingPerc}%`;
-    }
   }
 }
 </script>
 
 <template>
-  <div class="loading" :style="setWidth"></div>
+  <div class="container">
+    <div class="loading">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 @use '../style/variables.scss' as *;
 @use '../style/mixin.scss' as *;
 
-.loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: var(--loadingPerc);
-  background-color: $color-one-dark;
-  transition: width 0.1s;
+.container {
+  height: 100%;
+  min-height: 150px;
+
+  @include flexRowGap(0);
 }
+
+.loading {
+  @include flexRowGap(0.5rem);
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: $dark-color-three;
+
+  &:nth-last-child(1) {
+    animation: pulse 0.6s 0.1s ease-in infinite;
+  }
+  &:nth-last-child(2) {
+    animation: pulse 0.6s 0.2s ease-in infinite;
+  }
+  &:nth-last-child(3) {
+    animation: pulse 0.6s 0.3s ease-in infinite;
+  }
+}
+
+@keyframes pulse {
+  from, to {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+}
+
 </style>

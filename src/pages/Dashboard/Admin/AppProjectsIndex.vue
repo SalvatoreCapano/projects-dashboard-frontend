@@ -4,6 +4,7 @@
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 import AppButton from '../../../components/AppButton.vue';
+import AppLoading from '../../../components/AppLoading.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,13 +17,15 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        AppButton
+        AppButton,
+        AppLoading
     },
     data() {
         return {
             store,
             router,
-            projects: null
+            projects: null,
+            visibleProjects: []
         }
     },
     methods: {
@@ -30,7 +33,8 @@ export default {
             axios.get('http://localhost:8000/api/projects')
                 .then((response) => {
                     this.projects = response.data.projects;
-                    console.log('Projects', response.data.projects);
+                    this.visibleProjects = response.data.projects;
+                    // console.log('Projects', response.data.projects);
                 })
         },
         cleanString(string) {
@@ -46,6 +50,16 @@ export default {
             router.push(`/admin/projects/${slug}`, {
                 slug: slug
             })
+        },
+        filterSearch() {
+            this.visibleProjects = [];
+            console.log('Search');
+            this.projects.forEach(project => {
+                const title = project.title.toLowerCase();
+                if (title.includes(store.searchQuery.toLowerCase())) {
+                    this.visibleProjects.push(project);
+                }
+            });
         }
     },
     mounted() {
@@ -65,14 +79,14 @@ export default {
         <AppSidebar />
 
         <main>
-            <AppDashboardHeader />
+            <AppDashboardHeader @searchEvent="filterSearch"/>
             <div class="card">
                 <div class="cardHeader">
-                    <h1 class="mainTitle">Projects</h1>
+                    <h1 class="mainTitle">projects</h1>
                     <AppButton :to="'/admin/projects/create'" :label="'add a project'" :type="'solid'" :palette="'primary'" :icon="'plus'"/>
                 </div>
                 <div class="cardBody">
-                    <table v-if="projects">
+                    <table v-if="projects != null">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -85,7 +99,7 @@ export default {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="project in projects" @click="showProject(project.slug)">
+                            <tr v-for="project in visibleProjects" @click="showProject(project.slug)">
                                 <td v-if="project.id"><strong>{{ project.id }}</strong></td>
                                 <td v-else>-</td>
 
@@ -109,6 +123,9 @@ export default {
                             </tr>
                         </tbody>
                     </table>
+
+                    <AppLoading v-else/>
+
                 </div>
             </div>
         </main>
@@ -161,7 +178,6 @@ tbody {
     .cardHeader {
         @include flexRowSpaceBtwn;
         margin-bottom: 0.5rem;
-        // border-bottom: 1px solid $dark-color-three;
 
         .cardTitle {
             color: $dark-color-one;
@@ -171,6 +187,7 @@ tbody {
     }
 
     .cardBody {
+        min-height: 150px;
         .row {
             @include flexRowGap (0.5rem);
 

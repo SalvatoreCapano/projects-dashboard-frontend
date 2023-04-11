@@ -5,10 +5,12 @@ export const store = reactive({
   errors: [],
   menuOpen: false,
   overlayOpen: false,
+  searchQuery: '',
   clear() {
     console.log('Clearing..');
     this.errors = [];
     this.menuOpen = false;
     this.overlayOpen = false;
+    this.searchQuery = '';
   }
 })
