@@ -3,6 +3,7 @@
 // Components
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
+import AppNotificationPopup from '../../../components/AppNotificationPopup.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -15,6 +16,7 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
+        AppNotificationPopup
     },
     data() {
         return {
@@ -29,7 +31,13 @@ export default {
             },
             types: null,
             teams: null,
-            project: null
+            project: null,
+            popup: {
+                title: '',
+                text: '',
+                icon: '',
+                theme: '',
+            }
         }
     },
     methods: {
@@ -46,7 +54,6 @@ export default {
                     this.form.teamId = this.project.team_id;
                 })
         },
-
         handleEditProject() {
             // Front End Validation
             console.log('Validating Edit Project data...');
@@ -180,7 +187,14 @@ export default {
                 team_id: this.form.teamId
             })
                 .then((response) => {
-                    console.log('Added Project', response.data);
+                    // console.log('Updated Project', response.data);
+                    this.popup = {title:'Project updated successfully!', text:'Your project has been updated successfully.', icon:'check', theme:'success'};
+                    this.store.popupOpen = true;
+                })
+                .catch((response) => {
+                    // Console.log('Error in project updating', response.data);
+                    this.popup = {title:'Oops there was an error !', text:'An error occurred while updating your project. Please try again.', icon:'xmark', theme:'danger'};
+                    this.store.popupOpen = true;
                 })
         },
         getFormData() {
@@ -189,8 +203,8 @@ export default {
                     // console.log('Form data', response.data);
                     this.types = response.data.types;
                     this.teams = response.data.teams;
-                    console.log('Form Types', this.types);
-                    console.log('Form Teams', this.teams);
+                    // console.log('Form Types', this.types);
+                    // console.log('Form Teams', this.teams);
                 })
         },
         cleanString(string) {
@@ -237,7 +251,7 @@ export default {
 
             <div class="pageBack">
                 <router-link :to="'/admin/projects'" class="customLink">
-                    <font-awesome-icon :icon="'fa-solid fa-chevron-left'" class="icon"/>
+                    <font-awesome-icon :icon="'fa-solid fa-chevron-left'" class="icon" />
                     Back
                 </router-link>
             </div>
@@ -298,6 +312,8 @@ export default {
             </form>
         </main>
     </div>
+
+    <AppNotificationPopup v-if="store.popupOpen" :text="popup.text" :icon="popup.icon" :theme="popup.theme" :title="popup.title"/>
 </template>
 
 <style lang="scss" scoped>

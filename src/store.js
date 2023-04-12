@@ -5,6 +5,7 @@ export const store = reactive({
   errors: [],
   menuOpen: false,
   overlayOpen: false,
+  popupOpen: false,
   searchQuery: '',
   clear() {
     console.log('Clearing..');

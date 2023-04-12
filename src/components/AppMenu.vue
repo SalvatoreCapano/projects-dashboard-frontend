@@ -87,7 +87,7 @@ export default {
 
       &:last-child {
         button {
-          color: $danger-color;
+          color: $danger-color-dark;
         }
       }
     }

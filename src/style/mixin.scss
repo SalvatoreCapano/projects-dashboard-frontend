@@ -57,12 +57,12 @@
         $colorC: $color-one-light;
     }
     @else if $palette == danger {
-        $colorB: #dc3545;
-        $colorC: #f56372;
+        $colorB: $danger-color-dark;
+        $colorC: $danger-color-light;
     }
     @else if $palette == warning {
-        $colorB: #e6b00a;
-        $colorC: #f5d679;
+        $colorB: $warning-color-dark;
+        $colorC: $warning-color-light;
     }
 
     &.solid {
