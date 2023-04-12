@@ -51,37 +51,37 @@ const router = createRouter({
         },
         {
             path: '/project',
-            name: 'project',
+            name: 'project-index-em',
             component: AppProject
         },
         {
             path: '/team',
-            name: 'team',
+            name: 'team-index-em',
             component: AppTeam
         },
         {
             path: '/history',
-            name: 'history',
+            name: 'history-index-em',
             component: AppHistory
         },
         {
             path: '/admin/projects',
-            name: 'projects',
+            name: 'projects-index-ad',
             component: AppProjectsIndex
         },
         {
             path: '/admin/projects/create',
-            name: 'projects/create',
+            name: 'projects-create-ad',
             component: AppProjectCreate
         },
         {
             path: '/admin/projects/:slug',
-            name: 'projects/show',
+            name: 'projects-show-ad',
             component: AppProjectShow
         },
         {
             path: '/admin/project/edit/:slug',
-            name: 'project/edit',
+            name: 'project-edit-ad',
             component: AppProjectEdit
         },
 
@@ -89,7 +89,7 @@ const router = createRouter({
 
         {
             path: '/admin/employees',
-            name: 'employees',
+            name: 'employees-index-ad',
             component: AppUsersIndex
         },
     ]

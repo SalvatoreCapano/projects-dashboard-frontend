@@ -34,6 +34,9 @@ export default {
           onClick: this.handleLogout,
           icon: 'arrow-right-from-bracket'
         }
+      ],
+      searchbarRoutes: [
+        'projects-index-ad', 'employees-index-ad'
       ]
     }
   },
@@ -84,11 +87,7 @@ export default {
         </span>
       </div>
 
-      <!-- <div class="breadcumb">
-        {{ getCurrentPath }}
-      </div> -->
-
-      <div class="searchbar">
+      <div class="searchbar" v-if="searchbarRoutes.includes($route.name)">
         <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery" @keyup="$emit('searchEvent')">
         <button>
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
