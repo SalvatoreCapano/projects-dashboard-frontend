@@ -5,6 +5,7 @@ import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 import AppButton from '../../../components/AppButton.vue';
 import AppModal from '../../../components/AppModal.vue';
+import AppLoading from '../../../components/AppLoading.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -18,7 +19,8 @@ export default {
         AppSidebar,
         AppDashboardHeader,
         AppButton,
-        AppModal
+        AppModal,
+        AppLoading
     },
     data() {
         return {
@@ -85,46 +87,51 @@ export default {
                 </router-link>
             </div>
 
-            <div class="projectData" v-if="project">
-                <h1 class="mainTitle">{{ (project.title) ?? 'Loading Failed' }}</h1>
-                <p>
-                    <strong>Slug: </strong>
-                    {{ (project.slug) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Description: </strong>
-                    {{ (project.description) ?? 'Loading Failed' }}
-                </p>
-                <p class="capitalize">
-                    <strong>Status: </strong>
-                    {{ (cleanString(project.status)) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Deadline: </strong>
-                    {{ (project.deadline) ?? 'Loading Failed' }}
-                </p>
-                <p class="capitalize">
-                    <strong>Type: </strong>
-                    {{ (cleanString(project.type.name)) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Team ID: </strong>
-                    {{ (project.team_id) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Created At: </strong>
-                    {{ (cleanDate(project.created_at)) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Updated At: </strong>
-                    {{ (cleanDate(project.updated_at)) ?? 'Loading Failed' }}
-                </p>
+            <div v-if="project">
+                <div class="projectData">
+                    <h1 class="mainTitle">{{ (project.title) ?? 'Loading Failed' }}</h1>
+                    <p>
+                        <strong>Slug: </strong>
+                        {{ (project.slug) ?? 'Loading Failed' }}
+                    </p>
+                    <p>
+                        <strong>Description: </strong>
+                        {{ (project.description) ?? 'Loading Failed' }}
+                    </p>
+                    <p class="capitalize">
+                        <strong>Status: </strong>
+                        {{ (cleanString(project.status)) ?? 'Loading Failed' }}
+                    </p>
+                    <p>
+                        <strong>Deadline: </strong>
+                        {{ (project.deadline) ?? 'Loading Failed' }}
+                    </p>
+                    <p class="capitalize">
+                        <strong>Type: </strong>
+                        {{ (cleanString(project.type.name)) ?? 'Loading Failed' }}
+                    </p>
+                    <p>
+                        <strong>Team ID: </strong>
+                        {{ (project.team_id) ?? 'Loading Failed' }}
+                    </p>
+                    <p>
+                        <strong>Created At: </strong>
+                        {{ (cleanDate(project.created_at)) ?? 'Loading Failed' }}
+                    </p>
+                    <p>
+                        <strong>Updated At: </strong>
+                        {{ (cleanDate(project.updated_at)) ?? 'Loading Failed' }}
+                    </p>
+                </div>
+    
+                <div class="actions">
+                    <AppButton :to="`/admin/project/edit/${project.slug}`" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'" />
+                    <AppButton :action="openModal" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'" />
+                </div>
             </div>
 
-            <div class="actions" v-if="project">
-                <AppButton :to="`/admin/project/edit/${project.slug}`" :label="'edit'" :type="'solid'" :icon="'pen'" :palette="'warning'" />
-                <AppButton :action="openModal" :label="'delete'" :type="'solid'" :icon="'trash-can'" :palette="'danger'" />
-            </div>
+            <AppLoading v-else/>
+
 
         </main>
     </div>

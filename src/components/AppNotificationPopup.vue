@@ -60,16 +60,10 @@ export default {
   z-index: 40;
 
   width: 400px;
-  box-shadow: 0px 10px 20px 1px #00000080;
-  border-radius: $big-border-radius;
 
-  border: 1px solid $dark-color-three;
-  background-color: $light-color-one;
-
+  @include card (1rem, thick);
   transform: translateX(-50%);
   transition: all 0.5s;
-
-  padding: 1rem;
 
   .body {
     @include flexRowSpaceBtwn;

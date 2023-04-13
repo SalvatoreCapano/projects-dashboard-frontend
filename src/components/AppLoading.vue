@@ -28,8 +28,7 @@ export default {
 @use '../style/mixin.scss' as *;
 
 .container {
-  height: 100%;
-  min-height: 150px;
+  height: 150px;
 
   @include flexRowGap(0);
 }

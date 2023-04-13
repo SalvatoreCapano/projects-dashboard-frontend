@@ -4,6 +4,7 @@
 import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 import AppNotificationPopup from '../../../components/AppNotificationPopup.vue';
+import AppLoading from '../../../components/AppLoading.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -16,7 +17,8 @@ export default {
     components: {
         AppSidebar,
         AppDashboardHeader,
-        AppNotificationPopup
+        AppNotificationPopup,
+        AppLoading
     },
     data() {
         return {
@@ -188,12 +190,12 @@ export default {
             })
                 .then((response) => {
                     // console.log('Updated Project', response.data);
-                    this.popup = {title:'Project updated successfully!', text:'Your project has been updated successfully.', icon:'check', theme:'success'};
+                    this.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
                     this.store.popupOpen = true;
                 })
                 .catch((response) => {
                     // Console.log('Error in project updating', response.data);
-                    this.popup = {title:'Oops there was an error !', text:'An error occurred while updating your project. Please try again.', icon:'xmark', theme:'danger'};
+                    this.popup = { title: 'Oops there was an error !', text: 'An error occurred while updating your project. Please try again.', icon: 'xmark', theme: 'danger' };
                     this.store.popupOpen = true;
                 })
         },
@@ -257,63 +259,69 @@ export default {
             </div>
 
             <h1 class="mainTitle">edit project</h1>
-            <form @submit.prevent="handleEditProject()" v-if="project">
-                <div class="row inline-center">
-                    <div class="group small">
-                        <label for="title">title</label>
-                        <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
+            <div class="form" v-if="project">
+                <form @submit.prevent="handleEditProject()">
+                    <div class="row inline-center">
+                        <div class="group small">
+                            <label for="title">title</label>
+                            <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
+                        </div>
+
+                        <div class="group small">
+                            <label>slug</label>
+                            <p v-if="form.title">{{ calcSlug }}</p>
+                            <p v-else>Type a title to see a slug preview</p>
+                        </div>
                     </div>
 
-                    <div class="group small">
-                        <label>slug</label>
-                        <p v-if="form.title">{{ calcSlug }}</p>
-                        <p v-else>Type a title to see a slug preview</p>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="group">
-                        <label for="description">description</label>
-                        <textarea name="description" id="description" cols="30" rows="10"
-                            placeholder="Add a short description..." v-model="form.description"></textarea>
-                    </div>
-                </div>
-
-                <div class="row inline-center triple">
-                    <div class="group small">
-                        <label for="deadline">deadline</label>
-                        <input type="date" name="deadline" id="deadline" v-model="form.deadline">
+                    <div class="row">
+                        <div class="group">
+                            <label for="description">description</label>
+                            <textarea name="description" id="description" cols="30" rows="10"
+                                placeholder="Add a short description..." v-model="form.description"></textarea>
+                        </div>
                     </div>
 
-                    <div class="group small">
-                        <label for="type">type</label>
-                        <select name="type_id" id="type" class="showAll" v-model="form.typeId">
-                            <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
-                        </select>
+                    <div class="row inline-center triple">
+                        <div class="group small">
+                            <label for="deadline">deadline</label>
+                            <input type="date" name="deadline" id="deadline" v-model="form.deadline">
+                        </div>
+
+                        <div class="group small">
+                            <label for="type">type</label>
+                            <select name="type_id" id="type" class="showAll" v-model="form.typeId">
+                                <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
+                            </select>
+                        </div>
+
+                        <div class="group small">
+                            <label for="team">team</label>
+                            <select name="team_id" id="team" class="showAll" v-model="form.teamId">
+                                <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="group small">
-                        <label for="team">team</label>
-                        <select name="team_id" id="team" class="showAll" v-model="form.teamId">
-                            <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
-                        </select>
+                    <div class="row">
+                        <div class="group large">
+                            <button class="solid">
+                                <font-awesome-icon icon="fa-solid fa-pen" />
+                                save changes
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="group large">
-                        <button class="solid">
-                            <font-awesome-icon icon="fa-solid fa-pen" />
-                            save changes
-                        </button>
-                    </div>
-                </div>
+                </form>
+            </div>
 
-            </form>
+            <AppLoading v-else />
+
         </main>
     </div>
 
-    <AppNotificationPopup v-if="store.popupOpen" :text="popup.text" :icon="popup.icon" :theme="popup.theme" :title="popup.title"/>
+    <AppNotificationPopup v-if="store.popupOpen" :text="popup.text" :icon="popup.icon" :theme="popup.theme"
+        :title="popup.title" />
 </template>
 
 <style lang="scss" scoped>

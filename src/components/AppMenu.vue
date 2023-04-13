@@ -36,15 +36,10 @@ export default {
   position: absolute;
   top: 100%;
   right: 0;
-  padding: 5px;
-  background-color: $light-color-one;
-  border-radius: $big-border-radius;
   z-index: 31;
-
-  border: 1px solid $dark-color-three;
-  box-shadow: 0px 8px 10px 1px #00000030;
-
-
+  
+ @include card (5px, light);
+ 
   ul {
     list-style: none;
 

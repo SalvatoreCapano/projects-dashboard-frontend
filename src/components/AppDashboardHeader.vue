@@ -49,6 +49,10 @@ export default {
     },
     redirectHome() {
       router.push('/');
+    },
+    toggleMenu() {
+      store.menuOpen = !store.menuOpen;
+      store.overlayOpen = !store.overlayOpen;
     }
   },
   computed: {
@@ -94,7 +98,7 @@ export default {
         </button>
       </div>
 
-      <div class="userControls" @click="store.menuOpen = true, store.overlayOpen = true">
+      <div class="userControls" @click="toggleMenu()">
         <div class="info">
           <span class="name">{{ store.user.first_name }} {{ store.user.last_name }}</span>
           <span class="role">{{ getRole }}</span>
