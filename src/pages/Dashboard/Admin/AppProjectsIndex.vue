@@ -27,7 +27,8 @@ export default {
             store,
             router,
             projects: null,
-            visibleProjects: []
+            visibleProjects: [],
+            titleSort: false
         }
     },
     methods: {
@@ -55,14 +56,33 @@ export default {
         },
         filterSearch() {
             this.visibleProjects = [];
-            console.log('Search...');
             this.projects.forEach(project => {
                 const title = project.title.toLowerCase();
                 if (title.includes(store.searchQuery.toLowerCase())) {
                     this.visibleProjects.push(project);
                 }
             });
-        }
+        },
+        // toggleTitleSort() {
+        //     if (this.titleSort == true) {
+        //         this.visibleProjects = null;
+        //         // this.visibleProjects = this.projects;
+        //         this.visibleProjects = this.projects;
+        //         console.log('Not sorted', this.visibleProjects);
+        //         console.log('Not sorted', this.projects);
+        //         this.titleSort = false;
+        //     }
+        //     else {
+        //         this.visibleProjects.sort(function (a, b) {
+        //             const titleA = a.title.toLowerCase();
+        //             const titleB = b.title.toLowerCase();
+        //             if (titleA < titleB) return -1;
+        //             if (titleA > titleB) return 1;
+        //             return 0;
+        //         });
+        //         this.titleSort = true;
+        //     }
+        // }
     },
     mounted() {
         document.title = 'Projects';
@@ -84,7 +104,7 @@ export default {
                     :icon="'plus'" />
             </div>
             <div class="cardBody">
-                <table v-if="visibleProjects != null">
+                <table v-if="visibleProjects.length > 0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -122,9 +142,9 @@ export default {
                     </tbody>
                 </table>
 
-                <AppLoading v-else-if="visibleProjects == [] && projects == null" />
+                <AppLoading v-else-if="visibleProjects.length == 0 && projects == null" />
 
-                <div class="message" v-else-if="!visibleProjects">
+                <div class="pageMessage" v-else>
                     No project found
                 </div>
 
@@ -136,35 +156,68 @@ export default {
 <style lang="scss" scoped>
 @use '../../../style/variables.scss' as *;
 @use '../../../style/mixin.scss' as *;
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
 
-thead {
-    th {
+table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
         text-align: left;
         text-transform: capitalize;
+        padding: 5px 3px;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &:first-child,
+        &:nth-child(5) {
+            width: 72px !important;
+        }
+
+        &:not(:nth-child(2)) {
+            width: 12%;
+        }
     }
-}
 
-tbody {
-    tr {
-
+    tbody tr {
         td {
-            padding: 5px 0;
-            text-transform: capitalize;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: -1;
+            }
+
+            &:first-child {
+                border-top-left-radius: $small-border-radius;
+                border-bottom-left-radius: $small-border-radius;
+            }
+
+            &:last-child {
+                border-top-right-radius: $small-border-radius;
+                border-bottom-right-radius: $small-border-radius;
+            }
         }
 
         &:hover {
-            background-color: $light-color-two;
-            cursor: pointer;
+            td::before {
+                background-color: $light-color-two;
+                cursor: pointer;
+            }
         }
     }
 }
 
 .card {
-
     .cardHeader {
         @include flexRowSpaceBtwn;
         margin-bottom: 0.5rem;
@@ -172,15 +225,6 @@ tbody {
 
     .cardBody {
         min-height: 150px;
-
-        .row {
-            @include flexRowGap (0.5rem);
-
-            >* {
-                height: 36px;
-                width: 36px;
-            }
-        }
     }
 }
 </style>

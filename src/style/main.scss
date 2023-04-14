@@ -16,12 +16,21 @@ button, input, textarea {
 }
 
 .mainTitle {
-    display: inline-block;
-    color: #141414;
+    color: $dark-color-two;
     font-weight: 700;
     text-transform: capitalize;
-    // margin-right: auto;
     margin-bottom: 1.5rem;
+    user-select: none;
+}
+
+.pageMessage {
+    height: 25vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $dark-color-two;
+    font-size: 1.75rem;
+    font-weight: 700;
     user-select: none;
 }
 

@@ -37,9 +37,9 @@ export default {
   top: 100%;
   right: 0;
   z-index: 31;
-  
- @include card (5px, light);
- 
+
+  @include card (5px, light);
+
   ul {
     list-style: none;
 

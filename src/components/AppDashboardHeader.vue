@@ -92,7 +92,8 @@ export default {
       </div>
 
       <div class="searchbar" v-if="searchbarRoutes.includes($route.name)">
-        <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery" @keyup="$emit('searchEvent')">
+        <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery">
+        <!-- <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery" @keyup="$emit('searchEvent')"> -->
         <button>
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
         </button>
@@ -104,7 +105,9 @@ export default {
           <span class="role">{{ getRole }}</span>
         </div>
         <font-awesome-icon icon="fa-solid fa-chevron-down" class="icon" :class="store.menuOpen ? 'rotated' : ''" />
-        <AppMenu v-if="store.menuOpen" :data="this.menuData" />
+        <transition name="slide-fade">
+          <AppMenu v-if="store.menuOpen" :data="this.menuData" />
+        </transition>
       </div> <!-- /userControls-->
 
     </div> <!-- /container-->
