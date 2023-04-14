@@ -52,20 +52,26 @@
     user-select: none;
     transition: all 0.05s;
 
-    @if $palette ==primary {
+    @if $palette == primary {
         $colorB: $color-one-dark;
         $colorC: $color-one-light;
     }
 
-    @else if $palette ==danger {
+    @else if $palette == success {
+        $colorB: $success-color-dark;
+        $colorC: $success-color-light;
+    }
+    
+    @else if $palette == warning {
+        $colorB: $warning-color-dark;
+        $colorC: $warning-color-light;
+    }
+    
+    @else if $palette == danger {
         $colorB: $danger-color-dark;
         $colorC: $danger-color-light;
     }
 
-    @else if $palette ==warning {
-        $colorB: $warning-color-dark;
-        $colorC: $warning-color-light;
-    }
 
     &.solid {
         color: $colorA;

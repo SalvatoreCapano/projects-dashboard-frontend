@@ -16,9 +16,11 @@ button, input, textarea {
 }
 
 .mainTitle {
+    display: inline-block;
     color: #141414;
     font-weight: 700;
     text-transform: capitalize;
+    // margin-right: auto;
     margin-bottom: 1.5rem;
     user-select: none;
 }
@@ -46,4 +48,14 @@ button, input, textarea {
 
 .capitalize {
     text-transform: capitalize;
+}
+
+.container.dashboard {
+    height: 100%;
+
+    @include flexRowGap (1rem);
+
+    main {
+        @include mainContent;
+    }
 }

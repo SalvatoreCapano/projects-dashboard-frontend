@@ -1,25 +1,21 @@
 <script>
 
 // Components
-import AppSidebar from '../../../components/AppSidebar.vue';
-import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
+import AppDashboardLayout from '../AppDashboardLayout.vue';
 
 // Utilities
 import { store } from '../../../store';
-import { router } from '../../../router';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export default {
     name: 'AppProjectCreate',
     components: {
-        AppSidebar,
-        AppDashboardHeader,
+        AppDashboardLayout
     },
     data() {
         return {
             store,
-            router,
             form: {
                 title: null,
                 description: null,
@@ -32,9 +28,19 @@ export default {
         }
     },
     methods: {
+        getFormData() {
+            axios.get('http://localhost:8000/api/projects/create')
+                .then((response) => {
+                    // console.log('Form data', response.data);
+                    this.types = response.data.types;
+                    this.teams = response.data.teams;
+                    // console.log('Form Types', this.types);
+                    // console.log('Form Teams', this.teams);
+                })
+        },
         handleCreateProject() {
             // Front End Validation
-            console.log('Validating Create Project data...');
+            // console.log('Validating Create Project data...');
             this.validateData();
         },
         validateData() {
@@ -141,20 +147,8 @@ export default {
                 });
             }
 
-            if (this.store.errors.length == 0) this.getCookie();
-            else console.log('Project Creation Failed');
-        },
-        getCookie() {
-            axios.get('http://localhost:8000/sanctum/csrf-cookie')
-                .then((response) => {
-                    console.log('Cookie CSRF', response);
-
-                    this.postData();
-                })
-                .catch((response) => {
-                    console.log('Errore ottenimento Cookie', response);
-                    this.store.errors = response.data;
-                })
+            if (this.store.errors.length == 0) this.postData();
+            // else console.log('Project Creation Failed');
         },
         postData() {
             axios.post('http://localhost:8000/api/projects', {
@@ -165,17 +159,14 @@ export default {
                 team_id: this.form.teamId
             })
                 .then((response) => {
-                    console.log('Added Project', response.data);
+                    // console.log('Added Project', response.data);
+                    this.store.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
+                    this.store.popupOpen = true;
                 })
-        },
-        getFormData() {
-            axios.get('http://localhost:8000/api/projects/create')
-                .then((response) => {
-                    // console.log('Form data', response.data);
-                    this.types = response.data.types;
-                    this.teams = response.data.teams;
-                    console.log('Form Types', this.types);
-                    console.log('Form Teams', this.teams);
+                .catch((response) => {
+                    // Console.log('Error in adding project', response.data);
+                    this.store.popup = { title: 'Oops there was an error !', text: 'An error occurred while adding your project. Please try again.', icon: 'xmark', theme: 'danger' };
+                    this.store.popupOpen = true;
                 })
         },
         cleanString(string) {
@@ -183,16 +174,6 @@ export default {
             string = string.replace('.', '');
             return string;
         },
-    },
-    mounted() {
-
-        document.title = 'Projects | Create';
-
-        this.getFormData();
-
-        setTimeout(function () {
-            store.clear();
-        }, 2);
     },
     computed: {
         calcSlug() {
@@ -208,87 +189,80 @@ export default {
                 return slug;
             }
         }
+    },
+    mounted() {
+        document.title = 'Projects | Create';
+
+        this.getFormData();
+
+        setTimeout(function () {
+            store.clear();
+        }, 2);
     }
 }
 </script>
 
 <template>
-    <div class="container" v-if="store.user">
-        <AppSidebar />
+    <AppDashboardLayout :title="'add project'" :back-to="'/admin/projects'">
+        <form @submit.prevent="handleCreateProject()">
+            <div class="row inline-center">
+                <div class="group small">
+                    <label for="title">title</label>
+                    <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
+                </div>
 
-        <main>
-            <AppDashboardHeader />
-
-            <div class="pageBack">
-                <router-link :to="'/admin/projects'" class="customLink">
-                    <font-awesome-icon :icon="'fa-solid fa-chevron-left'" class="icon"/>
-                    Back
-                </router-link>
+                <div class="group small">
+                    <label>slug</label>
+                    <p v-if="form.title">{{ calcSlug }}</p>
+                    <p v-else>Type a title to see a slug preview</p>
+                </div>
             </div>
 
-            <h1 class="mainTitle">Add Project</h1>
-            <form @submit.prevent="handleCreateProject()">
-                <div class="row inline-center">
-                    <div class="group small">
-                        <label for="title">title</label>
-                        <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
-                    </div>
+            <div class="row">
+                <div class="group">
+                    <label for="description">description</label>
+                    <textarea name="description" id="description" cols="30" rows="10"
+                        placeholder="Add a short description..." v-model="form.description"></textarea>
+                </div>
+            </div>
 
-                    <div class="group small">
-                        <label>slug</label>
-                        <p v-if="form.title">{{ calcSlug }}</p>
-                        <p v-else>Type a title to see a slug preview</p>
-                    </div>
+            <div class="row inline-center triple">
+                <div class="group small">
+                    <label for="deadline">deadline</label>
+                    <input type="date" name="deadline" id="deadline" v-model="form.deadline">
                 </div>
 
-                <div class="row">
-                    <div class="group">
-                        <label for="description">description</label>
-                        <textarea name="description" id="description" cols="30" rows="10"
-                            placeholder="Add a short description..." v-model="form.description"></textarea>
-                    </div>
+                <div class="group small">
+                    <label for="type">type</label>
+                    <select name="type_id" id="type" v-model="form.typeId">
+                        <option value="" selected>Select a type</option>
+                        <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
+                    </select>
                 </div>
 
-                <div class="row inline-center triple">
-                    <div class="group small">
-                        <label for="deadline">deadline</label>
-                        <input type="date" name="deadline" id="deadline" v-model="form.deadline">
-                    </div>
-
-                    <div class="group small">
-                        <label for="type">type</label>
-                        <select name="type_id" id="type" v-model="form.typeId">
-                            <option value="" selected>Select a type</option>
-                            <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
-                        </select>
-                    </div>
-
-                    <div class="group small">
-                        <label for="team">team</label>
-                        <select name="team_id" id="team" v-model="form.teamId">
-                            <option value="" selected>Select a team</option>
-                            <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
-                        </select>
-                    </div>
+                <div class="group small">
+                    <label for="team">team</label>
+                    <select name="team_id" id="team" v-model="form.teamId">
+                        <option value="" selected>Select a team</option>
+                        <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="group large">
-                        <button class="solid">
-                            <font-awesome-icon icon="fa-solid fa-plus" />
-                            add project
-                        </button>
-                    </div>
+            <div class="row">
+                <div class="group large">
+                    <button class="solid">
+                        <font-awesome-icon icon="fa-solid fa-plus" />
+                        add project
+                    </button>
                 </div>
-
-            </form>
-        </main>
-    </div>
+            </div>
+        </form>
+    </AppDashboardLayout>
 </template>
 
 <style lang="scss" scoped>
 @use '../../../style/variables.scss' as *;
-@use '../../../style/mixin.scss' as *;
 @use '../../../style/form.scss' as *;
 
 .row.inline-center:not(.triple) {
@@ -316,31 +290,6 @@ export default {
 
     .group {
         flex-basis: 15%;
-    }
-}
-
-// .group.large {
-//     @include flexRowGap (1.5rem);
-
-//     >.group.small {
-//         flex-grow: 1;
-//     }
-// }
-
-// select {
-//     text-transform: capitalize;
-//     background-color: red;
-// }
-
-
-
-.container {
-    height: 100%;
-
-    @include flexRowGap (1rem);
-
-    main {
-        @include mainContent;
     }
 }
 </style>

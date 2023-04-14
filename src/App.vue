@@ -53,7 +53,10 @@ export default {
     <AppError v-if="store.errors" />
 
     <main :class="calcMainColor">
-      <router-view @getUserEvent="getUser"></router-view>
+      <!-- <router-view @getUserEvent="getUser"></router-view> -->
+      <router-view 
+        @getUserEvent="($route.name == 'login' || $route.name == 'register') ? getUser() : ''"
+      ></router-view>
     </main>
 
     <transition name="fade">

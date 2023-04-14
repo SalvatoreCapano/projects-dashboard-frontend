@@ -49,6 +49,10 @@ button {
     @include customButton (primary);
   }
 
+  &[palette=success] {
+    @include customButton (success);
+  }
+
   &[palette=danger] {
     @include customButton (danger);
   }

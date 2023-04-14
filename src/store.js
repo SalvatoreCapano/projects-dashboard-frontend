@@ -7,11 +7,23 @@ export const store = reactive({
   overlayOpen: false,
   popupOpen: false,
   searchQuery: '',
+  popup: {
+    title: '',
+    text: '',
+    icon: '',
+    theme: '',
+  },
   clear() {
     console.log('Clearing..');
     this.errors = [];
     this.menuOpen = false;
     this.overlayOpen = false;
     this.searchQuery = '';
+    this.popup = {
+      title: '',
+      text: '',
+      icon: '',
+      theme: '',
+    };
   }
 })

@@ -5,6 +5,7 @@ import AppSidebar from '../../../components/AppSidebar.vue';
 import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 import AppButton from '../../../components/AppButton.vue';
 import AppLoading from '../../../components/AppLoading.vue';
+import AppDashboardLayout from '../AppDashboardLayout.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -15,6 +16,7 @@ axios.defaults.withCredentials = true;
 export default {
     name: 'AppProjectsIndex',
     components: {
+        AppDashboardLayout,
         AppSidebar,
         AppDashboardHeader,
         AppButton,
@@ -53,7 +55,7 @@ export default {
         },
         filterSearch() {
             this.visibleProjects = [];
-            console.log('Search');
+            console.log('Search...');
             this.projects.forEach(project => {
                 const title = project.title.toLowerCase();
                 if (title.includes(store.searchQuery.toLowerCase())) {
@@ -64,88 +66,76 @@ export default {
     },
     mounted() {
         document.title = 'Projects';
+        this.getProjects();
 
         setTimeout(function () {
             store.clear();
         }, 2);
-
-        this.getProjects();
     }
 }
 </script>
 
 <template>
-    <div class="container" v-if="store.user">
-        <AppSidebar />
-
-        <main>
-            <AppDashboardHeader @searchEvent="filterSearch"/>
-            <div class="card">
-                <div class="cardHeader">
-                    <h1 class="mainTitle">projects</h1>
-                    <AppButton :to="'/admin/projects/create'" :label="'add a project'" :type="'solid'" :palette="'primary'" :icon="'plus'"/>
-                </div>
-                <div class="cardBody">
-                    <table v-if="projects != null">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>title</th>
-                                <th>status</th>
-                                <th>type</th>
-                                <th>team</th>
-                                <th>deadline</th>
-                                <th>created at</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="project in visibleProjects" @click="showProject(project.slug)">
-                                <td v-if="project.id"><strong>{{ project.id }}</strong></td>
-                                <td v-else>-</td>
-
-                                <td v-if="project.title">{{ cleanString(project.title) }}</td>
-                                <td v-else>-</td>
-
-                                <td v-if="project.status">{{ cleanString(project.status) }}</td>
-                                <td v-else>-</td>
-
-                                <td v-if="project.type">{{ cleanString(project.type.name) }}</td>
-                                <td v-else>-</td>
-
-                                <td v-if="project.team_id">{{ project.team_id }}</td>
-                                <td v-else>-</td>
-
-                                <td v-if="project.deadline">{{ cleanDate(project.deadline) }}</td>
-                                <td v-else>-</td>
-
-                                <td v-if="project.created_at">{{ cleanDate(project.created_at) }}</td>
-                                <td v-else>-</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <AppLoading v-else/>
-
-                </div>
+    <AppDashboardLayout :hasSearch="true" @searchEvent="filterSearch">
+        <div class="card">
+            <div class="cardHeader">
+                <h1 class="mainTitle">projects</h1>
+                <AppButton :to="'/admin/projects/create'" :label="'add a project'" :type="'solid'" :palette="'primary'"
+                    :icon="'plus'" />
             </div>
-        </main>
-    </div>
+            <div class="cardBody">
+                <table v-if="visibleProjects != null">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>title</th>
+                            <th>status</th>
+                            <th>type</th>
+                            <th>team</th>
+                            <th>deadline</th>
+                            <th>created at</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="project in visibleProjects" @click="showProject(project.slug)">
+                            <td v-if="project.id"><strong>{{ project.id }}</strong></td>
+                            <td v-else>-</td>
+
+                            <td v-if="project.title">{{ cleanString(project.title) }}</td>
+                            <td v-else>-</td>
+
+                            <td v-if="project.status">{{ cleanString(project.status) }}</td>
+                            <td v-else>-</td>
+
+                            <td v-if="project.type">{{ cleanString(project.type.name) }}</td>
+                            <td v-else>-</td>
+
+                            <td v-if="project.team_id">{{ project.team_id }}</td>
+                            <td v-else>-</td>
+
+                            <td v-if="project.deadline">{{ cleanDate(project.deadline) }}</td>
+                            <td v-else>-</td>
+
+                            <td v-if="project.created_at">{{ cleanDate(project.created_at) }}</td>
+                            <td v-else>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <AppLoading v-else-if="visibleProjects == [] && projects == null" />
+
+                <div class="message" v-else-if="!visibleProjects">
+                    No project found
+                </div>
+
+            </div>
+        </div>
+    </AppDashboardLayout>
 </template>
 
 <style lang="scss" scoped>
 @use '../../../style/variables.scss' as *;
 @use '../../../style/mixin.scss' as *;
-
-.container {
-    height: 100%;
-
-    @include flexRowGap (1rem);
-
-    main {
-        @include mainContent;
-    }
-}
-
 table {
     border-collapse: collapse;
     width: 100%;
@@ -178,16 +168,11 @@ tbody {
     .cardHeader {
         @include flexRowSpaceBtwn;
         margin-bottom: 0.5rem;
-
-        .cardTitle {
-            color: $dark-color-one;
-            font-size: 1.75rem;
-            user-select: none;
-        }
     }
 
     .cardBody {
         min-height: 150px;
+
         .row {
             @include flexRowGap (0.5rem);
 

@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>
-    <div class="container" v-if="store.user">
+    <div class="container dashboard" v-if="store.user">
         <AppSidebar />
 
         <main>
@@ -48,14 +48,4 @@ export default {
 <style lang="scss" scoped>
 @use '../style/variables.scss' as *;
 @use '../style/mixin.scss' as *;
-
-.container {
-    height: 100%;
-    
-    @include flexRowGap (1rem);
-    
-    main {
-        @include mainContent;
-    }
-}
 </style>

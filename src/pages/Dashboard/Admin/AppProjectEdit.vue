@@ -1,10 +1,9 @@
 <script>
 
 // Components
-import AppSidebar from '../../../components/AppSidebar.vue';
-import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
 import AppNotificationPopup from '../../../components/AppNotificationPopup.vue';
 import AppLoading from '../../../components/AppLoading.vue';
+import AppDashboardLayout from '../AppDashboardLayout.vue';
 
 // Utilities
 import { store } from '../../../store';
@@ -15,8 +14,7 @@ axios.defaults.withCredentials = true;
 export default {
     name: 'AppProjectEdit',
     components: {
-        AppSidebar,
-        AppDashboardHeader,
+        AppDashboardLayout,
         AppNotificationPopup,
         AppLoading
     },
@@ -34,12 +32,6 @@ export default {
             types: null,
             teams: null,
             project: null,
-            popup: {
-                title: '',
-                text: '',
-                icon: '',
-                theme: '',
-            }
         }
     },
     methods: {
@@ -58,7 +50,7 @@ export default {
         },
         handleEditProject() {
             // Front End Validation
-            console.log('Validating Edit Project data...');
+            // console.log('Validating Edit Project data...');
             this.validateData();
         },
         validateData() {
@@ -165,20 +157,8 @@ export default {
                 });
             }
 
-            if (this.store.errors.length == 0) this.getCookie();
-            else console.log('Project Creation Failed');
-        },
-        getCookie() {
-            axios.get('http://localhost:8000/sanctum/csrf-cookie')
-                .then((response) => {
-                    console.log('Cookie CSRF', response);
-
-                    this.putData();
-                })
-                .catch((response) => {
-                    console.log('Errore ottenimento Cookie', response);
-                    this.store.errors = response.data;
-                })
+            if (this.store.errors.length == 0) this.putData();
+            else console.log('Project Updating Failed');
         },
         putData() {
             axios.put(`http://localhost:8000/api/projects/${this.project.id}`, {
@@ -190,12 +170,12 @@ export default {
             })
                 .then((response) => {
                     // console.log('Updated Project', response.data);
-                    this.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
+                    this.store.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
                     this.store.popupOpen = true;
                 })
                 .catch((response) => {
                     // Console.log('Error in project updating', response.data);
-                    this.popup = { title: 'Oops there was an error !', text: 'An error occurred while updating your project. Please try again.', icon: 'xmark', theme: 'danger' };
+                    this.store.popup = { title: 'Oops there was an error !', text: 'An error occurred while updating your project. Please try again.', icon: 'xmark', theme: 'danger' };
                     this.store.popupOpen = true;
                 })
         },
@@ -245,88 +225,70 @@ export default {
 </script>
 
 <template>
-    <div class="container" v-if="store.user">
-        <AppSidebar />
+    <AppDashboardLayout :title="'edit project'" :back-to="'/admin/projects'">
 
-        <main>
-            <AppDashboardHeader />
-
-            <div class="pageBack">
-                <router-link :to="'/admin/projects'" class="customLink">
-                    <font-awesome-icon :icon="'fa-solid fa-chevron-left'" class="icon" />
-                    Back
-                </router-link>
-            </div>
-
-            <h1 class="mainTitle">edit project</h1>
-            <div class="form" v-if="project">
-                <form @submit.prevent="handleEditProject()">
-                    <div class="row inline-center">
-                        <div class="group small">
-                            <label for="title">title</label>
-                            <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
-                        </div>
-
-                        <div class="group small">
-                            <label>slug</label>
-                            <p v-if="form.title">{{ calcSlug }}</p>
-                            <p v-else>Type a title to see a slug preview</p>
-                        </div>
+        <div class="form" v-if="project">
+            <form @submit.prevent="handleEditProject()">
+                <div class="row inline-center">
+                    <div class="group small">
+                        <label for="title">title</label>
+                        <input type="text" name="title" placeholder="Project title" v-model="form.title" id="title">
                     </div>
 
-                    <div class="row">
-                        <div class="group">
-                            <label for="description">description</label>
-                            <textarea name="description" id="description" cols="30" rows="10"
-                                placeholder="Add a short description..." v-model="form.description"></textarea>
-                        </div>
+                    <div class="group small">
+                        <label>slug</label>
+                        <p v-if="form.title">{{ calcSlug }}</p>
+                        <p v-else>Type a title to see a slug preview</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="group">
+                        <label for="description">description</label>
+                        <textarea name="description" id="description" cols="30" rows="10"
+                            placeholder="Add a short description..." v-model="form.description"></textarea>
+                    </div>
+                </div>
+
+                <div class="row inline-center triple">
+                    <div class="group small">
+                        <label for="deadline">deadline</label>
+                        <input type="date" name="deadline" id="deadline" v-model="form.deadline">
                     </div>
 
-                    <div class="row inline-center triple">
-                        <div class="group small">
-                            <label for="deadline">deadline</label>
-                            <input type="date" name="deadline" id="deadline" v-model="form.deadline">
-                        </div>
-
-                        <div class="group small">
-                            <label for="type">type</label>
-                            <select name="type_id" id="type" class="showAll" v-model="form.typeId">
-                                <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
-                            </select>
-                        </div>
-
-                        <div class="group small">
-                            <label for="team">team</label>
-                            <select name="team_id" id="team" class="showAll" v-model="form.teamId">
-                                <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
-                            </select>
-                        </div>
+                    <div class="group small">
+                        <label for="type">type</label>
+                        <select name="type_id" id="type" class="showAll" v-model="form.typeId">
+                            <option :value="item.id" v-for="item in this.types">{{ cleanString(item.name) }}</option>
+                        </select>
                     </div>
 
-                    <div class="row">
-                        <div class="group large">
-                            <button class="solid">
-                                <font-awesome-icon icon="fa-solid fa-pen" />
-                                save changes
-                            </button>
-                        </div>
+                    <div class="group small">
+                        <label for="team">team</label>
+                        <select name="team_id" id="team" class="showAll" v-model="form.teamId">
+                            <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
+                        </select>
                     </div>
+                </div>
 
-                </form>
-            </div>
+                <div class="row">
+                    <div class="group large">
+                        <button class="solid">
+                            <font-awesome-icon icon="fa-solid fa-pen" />
+                            save changes
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-            <AppLoading v-else />
+        <AppLoading v-else />
 
-        </main>
-    </div>
-
-    <AppNotificationPopup v-if="store.popupOpen" :text="popup.text" :icon="popup.icon" :theme="popup.theme"
-        :title="popup.title" />
+    </AppDashboardLayout>
 </template>
 
 <style lang="scss" scoped>
 @use '../../../style/variables.scss' as *;
-@use '../../../style/mixin.scss' as *;
 @use '../../../style/form.scss' as *;
 
 .row.inline-center:not(.triple) {
@@ -354,31 +316,6 @@ export default {
 
     .group {
         flex-basis: 15%;
-    }
-}
-
-// .group.large {
-//     @include flexRowGap (1.5rem);
-
-//     >.group.small {
-//         flex-grow: 1;
-//     }
-// }
-
-// select {
-//     text-transform: capitalize;
-//     background-color: red;
-// }
-
-
-
-.container {
-    height: 100%;
-
-    @include flexRowGap (1rem);
-
-    main {
-        @include mainContent;
     }
 }
 </style>

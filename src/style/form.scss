@@ -15,62 +15,66 @@ form .row {
     margin-bottom: 2rem;
 }
 
-    .row {
+.row {
 
-        &.inline-spaced {
-            @include flexRowSpaceBtwn;
-        }
+    &.inline-spaced {
+        @include flexRowSpaceBtwn;
+    }
+
+    &.inline-center {
+        @include flexRowGap(0.5rem);
+    }
+
+    .group {
 
         &.inline-center {
-            @include flexRowGap(0.5rem);
+            @include flexRowGap(0.25rem);
+
+            input {
+                width: fit-content;
+            }
         }
 
-        .group {
-
-            &.inline-center {
-                @include flexRowGap(0.25rem);
-                input {
-                    width: fit-content;
-                }
-            }
-
-            label {
-                text-transform: capitalize;
-                margin-right: 1rem;
-                display: block;
-                white-space: nowrap;
-            }
-
-            input, textarea, select {
-                font-size: 0.95rem;
-                width: 100%;
-                padding: 10px;
-                border-radius: 10px;
-                border: none;
-                @include myHover;
-                @include myOutline;
-                border: 1px solid transparent;
-
-                background: $light-color-three;
-
-                &.invalid {
-                    border: 1px solid $danger-color-dark;
-                }
-            }
-
-            select:not(.showAll):focus {
-                option:first-child {
-                    display: none;
-                }
-            }
-
-            option {
-                text-transform: capitalize
-            }
-
+        label {
+            text-transform: capitalize;
+            margin-right: 1rem;
+            display: block;
+            white-space: nowrap;
         }
-        button {
-            @include customButton;
+
+        input,
+        textarea,
+        select {
+            font-size: 0.95rem;
             width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            @include myHover;
+            @include myOutline;
+            border: 1px solid transparent;
+
+            background: $light-color-three;
+
+            &.invalid {
+                border: 1px solid $danger-color-dark;
+            }
+        }
+
+        select:not(.showAll):focus {
+            option:first-child {
+                display: none;
+            }
+        }
+
+        option {
+            text-transform: capitalize
         }
     }
+
+    button {
+        @include customButton;
+        width: 100%;
+    }
+}
