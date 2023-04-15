@@ -6,6 +6,8 @@ export const store = reactive({
   menuOpen: false,
   overlayOpen: false,
   popupOpen: false,
+  loadingOpen: false,
+  loadingWidth: 0,
   searchQuery: '',
   popup: {
     title: '',

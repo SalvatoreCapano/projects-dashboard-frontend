@@ -12,12 +12,14 @@ export default {
   },
   computed: {
     setWidth() {
-      if (this.store.loadingPerc == 100) {
+      if (this.store.loadingWidth == 100) {
+        const self = this;
         setTimeout(function () {
-          this.store.loadingPerc = 0
-        }, 100)
+          self.store.loadingWidth = 0;
+          self.store.loadingOpen = false;
+        }, 200)
       }
-      return `--loadingPerc: ${this.store.loadingPerc}%`;
+      return `--loadingWidth: ${this.store.loadingWidth}%`;
     }
   }
 }
@@ -35,9 +37,9 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
-  width: var(--loadingPerc);
+  height: 4px;
+  width: var(--loadingWidth);
   background-color: $color-one-dark;
-  transition: width 0.1s;
+  transition: width 0.15s;
 }
 </style>
