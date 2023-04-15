@@ -13,10 +13,10 @@ import AppTeam from './pages/Dashboard/Employee/AppTeam.vue';
 import AppHistory from './pages/Dashboard/Employee/AppHistory.vue';
 
 
-import AppProjectsIndex from './pages/Dashboard/Admin/AppProjectsIndex.vue';
-import AppProjectCreate from './pages/Dashboard/Admin/AppProjectCreate.vue';
-import AppProjectShow from './pages/Dashboard/Admin/AppProjectShow.vue';
-import AppProjectEdit from './pages/Dashboard/Admin/AppProjectEdit.vue';
+import AppProjectsIndex from './pages/Dashboard/Admin/Projects/AppProjectsIndex.vue';
+import AppProjectCreate from './pages/Dashboard/Admin/Projects/AppProjectCreate.vue';
+import AppProjectShow from './pages/Dashboard/Admin/Projects/AppProjectShow.vue';
+import AppProjectEdit from './pages/Dashboard/Admin/Projects/AppProjectEdit.vue';
 // import AppContacts from './pages/AppContacts.vue';
 
 import AppUsersIndex from './pages/Dashboard/Admin/AppUsersIndex.vue';

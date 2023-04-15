@@ -1,10 +1,10 @@
 <script>
 
 // Components
-import AppDashboardLayout from '../AppDashboardLayout.vue';
+import AppDashboardLayout from '../../AppDashboardLayout.vue';
 
 // Utilities
-import { store } from '../../../store';
+import { store } from '../../../../store';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
@@ -39,11 +39,13 @@ export default {
                 })
         },
         handleCreateProject() {
-            // Front End Validation
-            // console.log('Validating Create Project data...');
+            this.store.loadingOpen = true;
+            this.store.loadingWidth = 10;
             this.validateData();
         },
         validateData() {
+            // Front End Validation
+            // console.log('Validating Create Project data...');
             let titleInput = document.getElementById('title');
             let deadlineInput = document.getElementById('deadline');
             let typeInput = document.getElementById('type');
@@ -69,6 +71,7 @@ export default {
                 });
                 titleInput.classList.add('invalid');
             }
+            this.store.loadingWidth = 20;
 
             // Deadline Validation
             const [year, month, day] = deadlineInput.value.split('-');
@@ -106,6 +109,7 @@ export default {
                     deadlineInput.classList.add('invalid');
                 }
             }
+            this.store.loadingWidth = 30;
 
             // Type Validation
             let typeError = false;
@@ -126,6 +130,7 @@ export default {
                     message: 'invalid type value'
                 });
             }
+            this.store.loadingWidth = 40;
 
             // Team Validation
             let teamError = false;
@@ -146,9 +151,13 @@ export default {
                     message: 'invalid team value'
                 });
             }
+            this.store.loadingWidth = 50;
 
             if (this.store.errors.length == 0) this.postData();
-            // else console.log('Project Creation Failed');
+            else {
+                // console.log('Project Creation Failed');
+                this.store.loadingWidth = 100;
+            }
         },
         postData() {
             axios.post('http://localhost:8000/api/projects', {
@@ -159,14 +168,22 @@ export default {
                 team_id: this.form.teamId
             })
                 .then((response) => {
-                    // console.log('Added Project', response.data);
-                    this.store.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
+                    console.log('Added Project', response.data);
+                    if (response.data.success) {
+                        this.store.popup = { title: 'Project added successfully!', text: 'Your project has been added successfully.', icon: 'check', theme: 'success' };
+                    }
+                    else {
+                        this.store.popup = { title: 'Oops there was an error !', text: response.data.message, icon: 'xmark', theme: 'danger' };
+                    }
+                    
                     this.store.popupOpen = true;
+                    this.store.loadingWidth = 100;
                 })
                 .catch((response) => {
-                    // Console.log('Error in adding project', response.data);
+                    console.log('Error in adding project', response);
                     this.store.popup = { title: 'Oops there was an error !', text: 'An error occurred while adding your project. Please try again.', icon: 'xmark', theme: 'danger' };
                     this.store.popupOpen = true;
+                    this.store.loadingWidth = 100;
                 })
         },
         cleanString(string) {
@@ -262,8 +279,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '../../../style/variables.scss' as *;
-@use '../../../style/form.scss' as *;
+@use '../../../../style/variables.scss' as *;
+@use '../../../../style/form.scss' as *;
 
 .row.inline-center:not(.triple) {
     gap: 2rem;

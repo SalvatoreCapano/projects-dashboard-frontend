@@ -1,15 +1,15 @@
 <script>
 
 // Components
-import AppSidebar from '../../../components/AppSidebar.vue';
-import AppDashboardHeader from '../../../components/AppDashboardHeader.vue';
-import AppButton from '../../../components/AppButton.vue';
-import AppLoading from '../../../components/AppLoading.vue';
-import AppDashboardLayout from '../AppDashboardLayout.vue';
+import AppSidebar from '../../../../components/AppSidebar.vue';
+import AppDashboardHeader from '../../../../components/AppDashboardHeader.vue';
+import AppButton from '../../../../components/AppButton.vue';
+import AppLoading from '../../../../components/AppLoading.vue';
+import AppDashboardLayout from '../../AppDashboardLayout.vue';
 
 // Utilities
-import { store } from '../../../store';
-import { router } from '../../../router';
+import { store } from '../../../../store';
+import { router } from '../../../../router';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
@@ -154,8 +154,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '../../../style/variables.scss' as *;
-@use '../../../style/mixin.scss' as *;
+@use '../../../../style/variables.scss' as *;
+@use '../../../../style/mixin.scss' as *;
 
 table {
     width: 100%;

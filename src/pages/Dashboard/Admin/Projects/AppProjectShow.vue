@@ -1,13 +1,13 @@
 <script>
 
 // Components
-import AppButton from '../../../components/AppButton.vue';
-import AppModal from '../../../components/AppModal.vue';
-import AppLoading from '../../../components/AppLoading.vue';
-import AppDashboardLayout from '../AppDashboardLayout.vue';
+import AppButton from '../../../../components/AppButton.vue';
+import AppModal from '../../../../components/AppModal.vue';
+import AppLoading from '../../../../components/AppLoading.vue';
+import AppDashboardLayout from '../../AppDashboardLayout.vue';
 
 // Utilities
-import { store } from '../../../store';
+import { store } from '../../../../store';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
@@ -127,8 +127,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '../../../style/variables.scss' as *;
-@use '../../../style/mixin.scss' as *;
+@use '../../../../style/variables.scss' as *;
+@use '../../../../style/mixin.scss' as *;
 
 .projectData {
     margin-bottom: 1.5rem;

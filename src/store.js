@@ -16,10 +16,11 @@ export const store = reactive({
     theme: '',
   },
   clear() {
-    console.log('Clearing..');
+    // console.log('Clearing..');
     this.errors = [];
     this.menuOpen = false;
     this.overlayOpen = false;
+    this.popupOpen = false;
     this.searchQuery = '';
     this.popup = {
       title: '',

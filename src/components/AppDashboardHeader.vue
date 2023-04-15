@@ -44,7 +44,7 @@ export default {
     handleLogout() {
       axios.post('http://localhost:8000/logout');
       this.store.user = null;
-      console.log('Logged Out')
+      // console.log('Logged Out')
       router.push('/');
     },
     redirectHome() {
@@ -63,17 +63,14 @@ export default {
       else if (this.store.user.role == 'UXD') return 'UX designer';
     },
     getCurrentPage() {
-      return this.$route.name;
+      return this.$route.name.split('-')[0];
     },
     getCurrentPath() {
       let path = this.$route.fullPath;
 
       if (path.charAt(0) == '/') path = path.slice(1);
-
-      // if (path.includes('/')) path = path.replace('/', ' ');
-
       path = path.split('/');
-      console.log ('Path', path);
+      // console.log ('Path', path);
 
       return path;
     }
@@ -92,7 +89,6 @@ export default {
       </div>
 
       <div class="searchbar" v-if="searchbarRoutes.includes($route.name)">
-        <!-- <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery"> -->
         <input type="text" :placeholder="`Search in ${getCurrentPage}`" v-model="store.searchQuery" @keyup="$emit('searchEvent')">
         <button>
           <font-awesome-icon icon="fa-solid fa-magnifying-glass" />

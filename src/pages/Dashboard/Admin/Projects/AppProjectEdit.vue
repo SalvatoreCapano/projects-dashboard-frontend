@@ -1,13 +1,13 @@
 <script>
 
 // Components
-import AppNotificationPopup from '../../../components/AppNotificationPopup.vue';
-import AppLoading from '../../../components/AppLoading.vue';
-import AppDashboardLayout from '../AppDashboardLayout.vue';
+import AppNotificationPopup from '../../../../components/AppNotificationPopup.vue';
+import AppLoading from '../../../../components/AppLoading.vue';
+import AppDashboardLayout from '../../AppDashboardLayout.vue';
 
 // Utilities
-import { store } from '../../../store';
-import { router } from '../../../router';
+import { store } from '../../../../store';
+import { router } from '../../../../router';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
@@ -38,7 +38,7 @@ export default {
         getProject() {
             axios.get(`http://localhost:8000/api/projects/${this.$route.params.slug}`)
                 .then((response) => {
-                    console.log('Project to Edit', response.data.project);
+                    // console.log('Project to Edit', response.data.project);
                     this.project = response.data.project;
 
                     this.form.title = this.project.title;
@@ -49,11 +49,13 @@ export default {
                 })
         },
         handleEditProject() {
-            // Front End Validation
-            // console.log('Validating Edit Project data...');
+            this.store.loadingOpen = true;
+            this.store.loadingWidth = 10;
             this.validateData();
         },
         validateData() {
+            // Front End Validation
+            // console.log('Validating Edit Project data...');
             let titleInput = document.getElementById('title');
             let deadlineInput = document.getElementById('deadline');
             let typeInput = document.getElementById('type');
@@ -79,6 +81,7 @@ export default {
                 });
                 titleInput.classList.add('invalid');
             }
+            this.store.loadingWidth = 20;
 
             // Deadline Validation
             const [year, month, day] = deadlineInput.value.split('-');
@@ -116,6 +119,7 @@ export default {
                     deadlineInput.classList.add('invalid');
                 }
             }
+            this.store.loadingWidth = 30;
 
             // Type Validation
             let typeError = false;
@@ -129,6 +133,7 @@ export default {
                     return true;
                 }
             })
+            this.store.loadingWidth = 40;
 
             if (typeError) {
                 typeInput.classList.add('invalid');
@@ -156,9 +161,13 @@ export default {
                     message: 'invalid team value'
                 });
             }
+            this.store.loadingWidth = 50;
 
             if (this.store.errors.length == 0) this.putData();
-            else console.log('Project Updating Failed');
+            else {
+                // console.log('Project Updating Failed');
+                this.store.loadingWidth = 100;
+            }
         },
         putData() {
             axios.put(`http://localhost:8000/api/projects/${this.project.id}`, {
@@ -169,14 +178,21 @@ export default {
                 team_id: this.form.teamId
             })
                 .then((response) => {
-                    // console.log('Updated Project', response.data);
-                    this.store.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
+                    // console.log('Updated Project', response);
+                    if (response.data.success) {
+                        this.store.popup = { title: 'Project updated successfully!', text: 'Your project has been updated successfully.', icon: 'check', theme: 'success' };
+                    }
+                    else {
+                        this.store.popup = { title: 'Oops there was an error !', text: response.message, icon: 'check', theme: 'success' };
+                    }
                     this.store.popupOpen = true;
+                    this.store.loadingWidth = 100;
                 })
                 .catch((response) => {
-                    // Console.log('Error in project updating', response.data);
+                    console.log('Error in project updating', response);
                     this.store.popup = { title: 'Oops there was an error !', text: 'An error occurred while updating your project. Please try again.', icon: 'xmark', theme: 'danger' };
                     this.store.popupOpen = true;
+                    this.store.loadingWidth = 100;
                 })
         },
         getFormData() {
@@ -196,7 +212,6 @@ export default {
         },
     },
     mounted() {
-
         document.title = 'Projects | Edit';
 
         this.getFormData();
@@ -288,8 +303,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use '../../../style/variables.scss' as *;
-@use '../../../style/form.scss' as *;
+@use '../../../../style/variables.scss' as *;
+@use '../../../../style/form.scss' as *;
 
 .row.inline-center:not(.triple) {
     gap: 2rem;
