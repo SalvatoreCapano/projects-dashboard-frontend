@@ -25,7 +25,8 @@ export default {
                 images: []
             },
             types: null,
-            teams: null
+            teams: null,
+            previewUrls: []
         }
     },
     methods: {
@@ -189,7 +190,11 @@ export default {
         },
         addFiles(fieldName, fileList) {
             this.form.images = fileList;
-            console.log('Files Aggiunti');
+            for (let i = 0; i < fileList.length; i++) {
+                this.previewUrls.push(URL.createObjectURL(fileList[i]));
+            }
+            // console.log('Files Aggiunti');
+            // console.log('URL creati', this.previewUrls);
         },
         postImages(id) {
             // console.log('Images', this.form.images);
@@ -212,6 +217,9 @@ export default {
                 .then((response) => {
                     // console.log("Images sent correctly");
                 })
+        },
+        deleteImage(index) {
+            this.previewUrls.splice(index, 1);
         },
         cleanString(string) {
             string = string.replace('_', ' ');
@@ -294,12 +302,24 @@ export default {
 
                 <div class="group small">
                     <label for="images">images</label>
-                    <label for="images" class="fakeInput">
-                        <font-awesome-icon icon="fa-solid fa-plus" class="icon" />
-                        add images
-                    </label>
-                    <input name="images" id="images" type="file" accept="image/*" multiple
-                        @change="addFiles($event.target.name, $event.target.files)">
+                    <div class="container">
+                        <label for="images" class="fakeInput" :class="previewUrls.length >= 3 ? 'disabled' : ''">
+                            <font-awesome-icon icon="fa-solid fa-plus" class="icon" />
+                            add images
+                        </label>
+                        <input name="images" id="images" type="file" accept="image/*" multiple
+                            @change="addFiles($event.target.name, $event.target.files)" :disabled="previewUrls.length >= 3">
+                        <transition name="fade">
+                            <div class="previews" v-if="previewUrls.length > 0">
+                                <div class="preview" v-for="url, index in previewUrls">
+                                    <img :src="url" alt="Preview">
+                                    <button @click.prevent="deleteImage(index)">
+                                        <font-awesome-icon icon="fa-solid fa-xmark" class="icon" />
+                                    </button>
+                                </div>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
 
@@ -313,15 +333,63 @@ export default {
             </div>
         </form>
     </AppDashboardLayout>
-    <img :src="'http://localhost:8000/storage/public/files/cat.jpg'">
+    <!-- <img :src="'http://localhost:8000/storage/public/files/cat.jpg'"> -->
 </template>
 
 <style lang="scss" scoped>
 @use '../../../../style/variables.scss' as *;
+@use '../../../../style/mixin.scss' as *;
 @use '../../../../style/form.scss' as *;
 
-img {
-    width: 400px;
+.previews {
+    @include flexRowGap(5px);
+    padding: 5px;
+    border-radius: $small-border-radius;
+    background-color: $light-color-three;
+    transition: all 0.1s;
+
+    .preview {
+        width: 36px;
+        height: 36px;
+        border-radius: 4px;
+        border: 1px solid $dark-color-one;
+        position: relative;
+
+        >img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        >button {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: 10;
+
+            background-color: #dc354580;
+            border-radius: 0;
+            opacity: 0;
+            transition: all 0.1s 0.05s;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .icon {
+                margin: 0;
+            }
+        }
+
+        &:hover {
+            >button {
+                opacity: 1;
+            }
+        }
+    }
 }
 
 #images {
@@ -353,6 +421,11 @@ img {
 
     .group {
         flex-basis: 15%;
+
+        .container {
+            @include flexRowGap (1rem);
+            justify-content: flex-start;
+        }
     }
 }
 </style>

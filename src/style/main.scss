@@ -59,6 +59,21 @@ button, input, textarea {
     text-transform: capitalize;
 }
 
+.disabled {
+    position: relative;
+    color: gray;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        // background-color: red;
+    }
+}
+
 .container.dashboard {
     height: 100%;
 
