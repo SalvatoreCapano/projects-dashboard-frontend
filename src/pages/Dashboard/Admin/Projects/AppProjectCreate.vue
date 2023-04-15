@@ -39,7 +39,6 @@ export default {
                 })
         },
         handleCreateProject() {
-            this.store.loadingOpen = true;
             this.store.loadingWidth = 10;
             this.validateData();
         },

@@ -27,8 +27,7 @@ export default {
   },
   methods: {
     getUser() {
-      this.store.loadingOpen = true;
-      this.store.loadingWidth = 40;
+      this.store.loadingWidth = 55;
       axios.get('http://localhost:8000/api/user')
         .then((response) => {
           this.store.loadingWidth = 100;
@@ -38,9 +37,8 @@ export default {
         })
         .catch((response) => {
           this.store.popup = { title: 'Oops there was an error !', text: 'An error occurred while getting user data. Please try again.', icon: 'xmark', theme: 'danger' };
-          this.store.loadingWidth = 0;
+          this.store.loadingWidth = 100;
           this.store.popupOpen = true;
-          this.store.loadingOpen = false;
         })
     }
   },
@@ -66,7 +64,7 @@ export default {
   <div class="wrapper">
 
     <transition name="slide-fade">
-      <AppLoadingBar v-if="store.loadingOpen" />
+      <AppLoadingBar v-if="store.loadingWidth > 0" />
     </transition>
 
     <AppError v-if="store.errors" />

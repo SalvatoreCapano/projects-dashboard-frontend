@@ -49,7 +49,6 @@ export default {
                 })
         },
         handleEditProject() {
-            this.store.loadingOpen = true;
             this.store.loadingWidth = 10;
             this.validateData();
         },

@@ -20,11 +20,12 @@ export default {
     },
     methods: {
         handleLogin() {
-            // Front End Validation
-            console.log('Validating Login data...');
+            this.store.loadingWidth = 10;
             this.validateData();
         },
         validateData() {
+            // Front End Validation
+            console.log('Validating Login data...');
             let emailInput = document.getElementById('email');
             let passwordInput = document.getElementById('password');
 
@@ -42,6 +43,7 @@ export default {
                 });
                 emailInput.classList.add('invalid');
             }
+            this.store.loadingWidth = 15;
 
             // Email Lenght
             if (emailInput.value.length == 0) {
@@ -62,6 +64,7 @@ export default {
                 });
                 emailInput.classList.add('invalid');
             }
+            this.store.loadingWidth = 30;
 
             // Password Lenght
             if (passwordInput.value.length == 0) {
@@ -82,16 +85,20 @@ export default {
                 });
                 passwordInput.classList.add('invalid');
             }
+            this.store.loadingWidth = 40;
 
             if (this.store.errors.length == 0) this.getCookie();
-            else console.log('Login Failed');
+            else {
+                console.log('Login Failed');
+                this.store.loadingWidth = 100;
+            }
         },
         getCookie() {
-
             // Richiesta Cookie CSRF
             axios.get('http://localhost:8000/sanctum/csrf-cookie')
                 .then((response) => {
                     console.log('Cookie CSRF', response);
+                    this.store.loadingWidth = 50;
                     this.postLoginData()
                 })
                 .catch((response) => {
@@ -112,6 +119,7 @@ export default {
                 .catch((response) => {
                     console.log('Errore Login', response.response.data);
                     this.store.errors = response.response.data;
+                    this.store.loadingWidth = 100;
                 })
         }
     },

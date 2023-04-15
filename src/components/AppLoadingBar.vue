@@ -16,7 +16,6 @@ export default {
         const self = this;
         setTimeout(function () {
           self.store.loadingWidth = 0;
-          self.store.loadingOpen = false;
         }, 200)
       }
       return `--loadingWidth: ${this.store.loadingWidth}%`;
