@@ -35,7 +35,7 @@ form .row {
             }
         }
 
-        label {
+        label:not(.fakeInput) {
             text-transform: capitalize;
             margin-right: 1rem;
             display: block;
@@ -44,7 +44,8 @@ form .row {
 
         input,
         textarea,
-        select {
+        select,
+        .fakeInput {
             font-size: 0.95rem;
             width: 100%;
             max-width: 100%;
@@ -59,6 +60,15 @@ form .row {
 
             &.invalid {
                 border: 1px solid $danger-color-dark;
+            }
+        }
+
+        .fakeInput {
+            display: inline-block;
+            width: 150px;
+            text-transform: capitalize;
+            .icon {
+                margin-right: 10px;
             }
         }
 

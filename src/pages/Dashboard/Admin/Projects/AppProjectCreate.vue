@@ -22,6 +22,7 @@ export default {
                 deadline: null,
                 typeId: '',
                 teamId: '',
+                images: []
             },
             types: null,
             teams: null
@@ -170,11 +171,12 @@ export default {
                     console.log('Added Project', response.data);
                     if (response.data.success) {
                         this.store.popup = { title: 'Project added successfully!', text: 'Your project has been added successfully.', icon: 'check', theme: 'success' };
+                        this.postImages(response.data.projectId);
                     }
                     else {
                         this.store.popup = { title: 'Oops there was an error !', text: response.data.message, icon: 'xmark', theme: 'danger' };
                     }
-                    
+
                     this.store.popupOpen = true;
                     this.store.loadingWidth = 100;
                 })
@@ -185,11 +187,37 @@ export default {
                     this.store.loadingWidth = 100;
                 })
         },
+        addFiles(fieldName, fileList) {
+            this.form.images = fileList;
+            console.log('Files Aggiunti');
+        },
+        postImages(id) {
+            // console.log('Images', this.form.images);
+            const images = this.form.images;
+            let config = {
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            const formData = new FormData();
+            formData.append('project_id', id);
+            // console.log('FormData', formData);
+
+            for (let i = 0; i < images.length; i++) {
+                // console.log('Appending', images[i]);
+                formData.append(`image-${i}`, images[i]);
+            }
+
+            axios.post('http://localhost:8000/api/images', formData, config)
+                .then((response) => {
+                    // console.log("Images sent correctly");
+                })
+        },
         cleanString(string) {
             string = string.replace('_', ' ');
             string = string.replace('.', '');
             return string;
-        },
+        }
     },
     computed: {
         calcSlug() {
@@ -220,7 +248,7 @@ export default {
 
 <template>
     <AppDashboardLayout :title="'add project'" :back-to="'/admin/projects'">
-        <form @submit.prevent="handleCreateProject()">
+        <form @submit.prevent="handleCreateProject()" enctype="multipart/form-data">
             <div class="row inline-center">
                 <div class="group small">
                     <label for="title">title</label>
@@ -263,6 +291,16 @@ export default {
                         <option :value="item.id" v-for="item in this.teams">team #{{ item.id }}</option>
                     </select>
                 </div>
+
+                <div class="group small">
+                    <label for="images">images</label>
+                    <label for="images" class="fakeInput">
+                        <font-awesome-icon icon="fa-solid fa-plus" class="icon" />
+                        add images
+                    </label>
+                    <input name="images" id="images" type="file" accept="image/*" multiple
+                        @change="addFiles($event.target.name, $event.target.files)">
+                </div>
             </div>
 
             <div class="row">
@@ -275,11 +313,20 @@ export default {
             </div>
         </form>
     </AppDashboardLayout>
+    <img :src="'http://localhost:8000/storage/public/files/cat.jpg'">
 </template>
 
 <style lang="scss" scoped>
 @use '../../../../style/variables.scss' as *;
 @use '../../../../style/form.scss' as *;
+
+img {
+    width: 400px;
+}
+
+#images {
+    display: none;
+}
 
 .row.inline-center:not(.triple) {
     gap: 2rem;

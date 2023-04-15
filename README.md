@@ -15,3 +15,4 @@ TODOLIST
 - Far comparire i componenti al caricamneto dei dati
 - Aggiungere catch alle richieste api
 - Fix AppProjectsIndex
+- Gestire file compression (pacchetto gia installato)
