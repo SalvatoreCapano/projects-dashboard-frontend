@@ -91,7 +91,7 @@ export default {
         setTimeout(function () {
             store.clear();
         }, 2);
-    }
+    },
 }
 </script>
 

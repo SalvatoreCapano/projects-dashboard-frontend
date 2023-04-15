@@ -29,6 +29,17 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    computed: {
+        calcEvent() {
+            if (this.hasSearch) return 'searchEvent';
+            else return null;
+        }
+    },
+    emits: {
+        searchEvent() {
+            return true;
+        }
     }
 }
 </script>
@@ -38,21 +49,18 @@ export default {
         <AppSidebar />
 
         <main>
-            <AppDashboardHeader @searchEvent="$emit('searchEvent')" v-if="this.hasSearch"/>
-            <AppDashboardHeader v-else/>
+            <AppDashboardHeader @[calcEvent]="$emit('searchEvent')" />
 
-            <AppPageBack :to="this.backTo" v-if="this.backTo"/>
+            <AppPageBack :to="this.backTo" v-if="this.backTo" />
 
             <h1 class="mainTitle" v-if="this.title">{{ this.title }}</h1>
-            
+
             <slot></slot>
         </main>
     </div>
 
-    <AppNotificationPopup v-if="store.popupOpen" :text="store.popup.text" :icon="store.popup.icon" :theme="store.popup.theme"
-        :title="store.popup.title" />
+    <AppNotificationPopup v-if="store.popupOpen" :text="store.popup.text" :icon="store.popup.icon"
+        :theme="store.popup.theme" :title="store.popup.title" />
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
