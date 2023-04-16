@@ -333,7 +333,7 @@ export default {
             </div>
         </form>
     </AppDashboardLayout>
-    <!-- <img :src="'http://localhost:8000/storage/public/files/cat.jpg'"> -->
+    <!-- <img :src="'http://localhost:8000/storage/public/images/image-0-15.jpg'"> -->
 </template>
 
 <style lang="scss" scoped>

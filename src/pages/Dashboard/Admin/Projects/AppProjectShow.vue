@@ -4,6 +4,7 @@
 import AppButton from '../../../../components/AppButton.vue';
 import AppModal from '../../../../components/AppModal.vue';
 import AppLoading from '../../../../components/AppLoading.vue';
+import AppSlider from '../../../../components/AppSlider.vue';
 import AppDashboardLayout from '../../AppDashboardLayout.vue';
 
 // Utilities
@@ -17,12 +18,14 @@ export default {
         AppDashboardLayout,
         AppButton,
         AppModal,
-        AppLoading
+        AppLoading,
+        AppSlider
     },
     data() {
         return {
             store,
             project: null,
+            images: [],
             isModalOpen: false
         }
     },
@@ -32,6 +35,14 @@ export default {
                 .then((response) => {
                     this.project = response.data.project;
                     console.log('Project', response.data);
+                    this.getImages();
+                })
+        },
+        getImages() {
+            axios.get(`http://localhost:8000/api/images/${this.project.id}`)
+                .then((response) => {
+                    this.images = response.data.images;
+                    console.log('Images', response.data);
                 })
         },
         cleanString(string) {
@@ -77,6 +88,15 @@ export default {
     <AppDashboardLayout :title="calcTitle" :backTo="'/admin/projects'">
         <div v-if="project">
             <div class="projectData">
+                <div class="card">
+                    <h3 class="cardTitle">gallery</h3>
+                    <AppSlider :images="this.images"/>
+                </div>
+                <!-- <div class="images" v-if="this.images.length > 0">
+                    <div class="image" v-for="img in this.images">
+                        <img :src="`http://localhost:8000/storage/public/images/${img.url}`" :alt="`Project #${img.project_id}`">
+                    </div>
+                </div>
                 <p>
                     <strong>Slug: </strong>
                     {{ (project.slug) ?? 'Loading Failed' }}
@@ -108,7 +128,7 @@ export default {
                 <p>
                     <strong>Updated At: </strong>
                     {{ (cleanDate(project.updated_at)) ?? 'Loading Failed' }}
-                </p>
+                </p> -->
             </div>
 
             <div class="actions">
@@ -130,6 +150,12 @@ export default {
 @use '../../../../style/variables.scss' as *;
 @use '../../../../style/mixin.scss' as *;
 
+.card {
+    @include card (0.5rem, light);
+    height: 360px;
+    width: 560px;
+}
+
 .projectData {
     margin-bottom: 1.5rem;
 }
@@ -145,17 +171,5 @@ export default {
 .actions {
     @include flexRowGap(1rem);
     justify-content: flex-start;
-}
-
-table {
-    border-collapse: collapse;
-
-    tbody {
-        tr {
-            &:hover {
-                background-color: $light-color-two;
-            }
-        }
-    }
 }
 </style>
