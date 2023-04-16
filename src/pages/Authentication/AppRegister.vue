@@ -17,7 +17,8 @@ export default {
                 last_name: null,
                 email: null,
                 password: null,
-                password_confirmation: null
+                password_confirmation: null,
+                user_image: null
             },
         }
     },
@@ -26,16 +27,24 @@ export default {
             this.postRegisterData();
         },
         postRegisterData() {
-            axios.post('http://localhost:8000/register', {
-                first_name: this.form.first_name,
-                last_name: this.form.last_name,
-                email: this.form.email,
-                password: this.form.password,
-                password_confirmation: this.form.password_confirmation
-            })
+            let config = {
+                header: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+
+            const formData = new FormData();
+
+            for (const item in this.form) {
+                formData.append(`${item}`, this.form[item]);
+            }
+
+            console.log('Form Data', formData);
+
+            axios.post('http://localhost:8000/register', formData
+                , config)
                 .then((responseRegister) => {
-                    console.log('Risposta Register', responseRegister);
-                    // this.getUser();
+                    // console.log('Risposta Register', responseRegister);
                     this.$emit('getUserEvent');
                     router.push('/dashboard');
                 }
@@ -44,6 +53,10 @@ export default {
                     console.log('Errore:', response.response.data);
                     this.store.errors = response.response.data;
                 })
+        },
+        addFile(fieldName, file) {
+            this.form.user_image = file;
+            // console.log('File Aggiunto', this.form.user_image);
         },
     },
     mounted() {
@@ -95,6 +108,14 @@ export default {
                     <label for="password_confirmation">password confirmation</label>
                     <input type="password" id="password_confirmation" name="password_confirmation"
                         placeholder="Confirm your Password" v-model="form.password_confirmation">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="group large">
+                    <label for="user_image">user image</label>
+                    <input name="user_image" id="user_image" type="file" accept="image/*"
+                        @change="addFile($event.target.name, $event.target.files[0])">
                 </div>
             </div>
 

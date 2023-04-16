@@ -30,8 +30,10 @@ export default {
       this.store.loadingWidth = 55;
       axios.get('http://localhost:8000/api/user')
         .then((response) => {
+          console.log('User', response)
           this.store.loadingWidth = 100;
-          this.store.user = response.data;
+          this.store.user = response.data.user;
+          this.store.userDetail = response.data.user_detail;
 
           router.push('/dashboard');
         })

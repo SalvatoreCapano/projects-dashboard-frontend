@@ -97,8 +97,13 @@ export default {
 
       <div class="userControls" @click="toggleMenu()">
         <div class="info">
-          <span class="name">{{ store.user.first_name }} {{ store.user.last_name }}</span>
-          <span class="role">{{ getRole }}</span>
+          <div class="picture" v-if="store.userDetail">
+            <img :src="`http://localhost:8000/storage/public/user_images/${store.userDetail.user_image}`" :alt="`Project #${store.user.first_name}`">
+          </div>
+          <div>
+            <span class="name">{{ store.user.first_name }} {{ store.user.last_name }}</span>
+            <span class="role">{{ getRole }}</span>
+          </div>
         </div>
         <font-awesome-icon icon="fa-solid fa-chevron-down" class="icon" :class="store.menuOpen ? 'rotated' : ''" />
         <transition name="slide-fade">
@@ -199,6 +204,22 @@ header {
   position: relative;
 
   >.info {
+    @include flexRowGap (0.5rem);
+
+    .picture {
+      width: 36px;
+      height: 36px;
+      // background-color: red;
+      border-radius: 12px;
+      overflow: hidden;
+
+      >img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
     .name {
       font-size: 1rem;
       text-transform: capitalize;
