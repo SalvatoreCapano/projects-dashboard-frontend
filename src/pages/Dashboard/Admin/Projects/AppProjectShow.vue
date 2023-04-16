@@ -66,11 +66,25 @@ export default {
                     console.log('Project Deleted');
                     this.$router.push('/admin/projects');
                 })
+        },
+        calcRemainingDays(deadline) {
+            const now = new Date();
+            const deadlineObj = new Date(deadline);
+            const msPerDay = 86400000; // 1000 millisecondi x 60 secondi x 60 minuti x 24 ore
+
+            const result = Math.floor((deadlineObj - now) / msPerDay);
+
+            return Math.abs(result);
         }
     },
     computed: {
         calcTitle() {
             if (this.project) return this.project.title;
+        },
+        calcStatusLine() {
+            if (this.project.status == 'on_hold') return 'width: 0%';
+            else if (this.project.status == 'active') return 'width: 50%';
+            else if (this.project.status == 'completed') return 'width: 100%';
         }
     },
     mounted() {
@@ -88,47 +102,54 @@ export default {
     <AppDashboardLayout :title="calcTitle" :backTo="'/admin/projects'">
         <div v-if="project">
             <div class="projectData">
-                <div class="card">
-                    <h3 class="cardTitle">gallery</h3>
-                    <AppSlider :images="this.images"/>
-                </div>
-                <!-- <div class="images" v-if="this.images.length > 0">
-                    <div class="image" v-for="img in this.images">
-                        <img :src="`http://localhost:8000/storage/public/images/${img.url}`" :alt="`Project #${img.project_id}`">
+                <div class="row">
+                    <div class="card small">
+                        <h3 class="cardTitle">gallery</h3>
+                        <AppSlider :images="this.images" />
+                    </div>
+
+                    <div class="card large">
+                        <h3 class="cardTitle">description</h3>
+                        <p class="description">{{ (project.description) ?? 'Loading Failed' }}</p>
                     </div>
                 </div>
-                <p>
-                    <strong>Slug: </strong>
-                    {{ (project.slug) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Description: </strong>
-                    {{ (project.description) ?? 'Loading Failed' }}
-                </p>
-                <p class="capitalize">
-                    <strong>Status: </strong>
-                    {{ (cleanString(project.status)) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Deadline: </strong>
-                    {{ (project.deadline) ?? 'Loading Failed' }}
-                </p>
-                <p class="capitalize">
-                    <strong>Type: </strong>
-                    {{ (cleanString(project.type.name)) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Team ID: </strong>
-                    {{ (project.team_id) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Created At: </strong>
-                    {{ (cleanDate(project.created_at)) ?? 'Loading Failed' }}
-                </p>
-                <p>
-                    <strong>Updated At: </strong>
-                    {{ (cleanDate(project.updated_at)) ?? 'Loading Failed' }}
-                </p> -->
+                <div class="row">
+                    <div class="card smaller status">
+                        <h3 class="cardTitle">status</h3>
+                        <span class="cardText">{{ (cleanString(project.status)) ?? 'Loading Failed' }}</span>
+                        <div class="line">
+                            <div class="completed" :style="calcStatusLine"></div>
+                        </div>
+                    </div>
+
+                    <div class="card smaller">
+                        <h3 class="cardTitle">type</h3>
+                        <span class="cardText big">{{ (cleanString(project.type.name)) ?? 'Loading Failed' }}</span>
+                    </div>
+
+                    <div class="card smaller">
+                        <h3 class="cardTitle">team</h3>
+                        <span class="cardText big">#{{ (project.team_id) ?? 'Loading Failed' }}</span>
+                    </div>
+
+                    <div class="card smaller">
+                        <h3 class="cardTitle">deadline</h3>
+                        <span class="cardText big">{{ (project.deadline) ?? 'Loading Failed' }}</span>
+                        <span class="cardSubText">{{ calcRemainingDays(project.deadline) }} days left</span>
+                    </div>
+
+                    <div class="card smaller">
+                        <h3 class="cardTitle">created</h3>
+                        <span class="cardText big">{{ (cleanDate(project.created_at)) ?? 'Loading Failed' }}</span>
+                        <span class="cardSubText">{{ calcRemainingDays(project.created_at) }} days ago</span>
+                    </div>
+
+                    <div class="card smaller">
+                        <h3 class="cardTitle">last update</h3>
+                        <span class="cardText big">{{ (cleanDate(project.updated_at)) ?? 'Loading Failed' }}</span>
+                        <span class="cardSubText">{{ calcRemainingDays(project.updated_at) }} days ago</span>
+                    </div>
+                </div>
             </div>
 
             <div class="actions">
@@ -150,22 +171,67 @@ export default {
 @use '../../../../style/variables.scss' as *;
 @use '../../../../style/mixin.scss' as *;
 
-.card {
-    @include card (0.5rem, light);
-    height: 360px;
-    width: 560px;
+.row {
+    @include flexRowGap (1rem);
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    padding: 0 1rem;
+
+    .card {
+        @include card (0.5rem, light);
+
+        &.smaller {
+            width: calc(100% / 6);
+            height: 140px;
+            text-align: center;
+        }
+
+        &.small {
+            width: calc(100% / 3);
+            height: 340px;
+        }
+
+        &.large {
+            width: calc((100% / 3) * 2);
+            height: 340px;
+        }
+
+        .cardTitle {
+            text-transform: capitalize;
+            color: $dark-color-one;
+        }
+
+        .cardText {
+            display: block;
+            text-transform: capitalize;
+            margin-bottom: 1rem;
+
+            &.big {
+                font-size: 2rem;
+            }
+        }
+
+        .cardSubText {
+            color: gray;
+        }
+    }
 }
 
 .projectData {
     margin-bottom: 1.5rem;
 }
 
-.description {
-    text-overflow: ellipsis;
+.line {
+    height: 8px;
+    border-radius: 3px;
+    background-color: $light-color-two;
     overflow: hidden;
-    max-width: 200px;
-    height: 1.2em;
-    white-space: nowrap;
+
+    .completed {
+        height: 100%;
+        background: linear-gradient(45deg, $color-two-dark, $color-two-light);
+    }
 }
 
 .actions {

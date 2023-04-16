@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted() {
-    document.title = 'Home';
+    document.title = 'Welcome';
 
     setTimeout(function () {
       store.clear();

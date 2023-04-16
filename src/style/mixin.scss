@@ -99,6 +99,7 @@
 
 @mixin mainContent {
     flex-grow: 1;
+    max-width: 1630px;
     flex-shrink: 0;
     height: 100%;
     border-radius: $big-border-radius;
